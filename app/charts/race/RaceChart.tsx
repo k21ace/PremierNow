@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import type { Match, TeamTimeline } from "@/types/football";
-import { detectDramaticMoments, detectHeadToHead } from "@/lib/chart-utils";
+import { calcDramaticEvents } from "@/lib/chart-utils";
 import {
   buildChartData,
   type Group,
@@ -51,13 +51,11 @@ export default function RaceChart({
     [group, maxMatchday],
   );
 
-  const dramaticMoments = useMemo(() => {
-    const regular = detectDramaticMoments(activeTimelines);
-    const h2h = detectHeadToHead(timelines, matches);
-    const h2hDays = new Set(h2h.map((m) => m.matchday));
-    return [...regular.filter((m) => !h2hDays.has(m.matchday)), ...h2h].slice(0, 5);
+  const dramaticMoments = useMemo(
+    () => calcDramaticEvents(matches, activeTeamIds, group),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [group, matches]);
+    [group, matches],
+  );
 
   const leaderFinalPoints = activeTimelines[0]?.points.at(-1) ?? 0;
   const safeZoneFinalPoints = safeZoneTeamId

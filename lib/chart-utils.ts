@@ -196,6 +196,190 @@ export function detectDramaticMoments(timelines: TeamTimeline[]): DramaticMoment
 }
 
 /**
+ * タブのグループに応じたドラマチックイベントを検出して返す。
+ *
+ * 検出ルール（グループ別）:
+ * - title:      グループ内1位交代・上位2チームの直接対決・グループ内2位以上順位変動
+ * - cl:         CL圏（7位以内）への入出・グループ内直接対決・グループ内2位以上順位変動
+ * - relegation: 降格圏（18位以下）への入出・グループ内直接対決・グループ内2位以上順位変動
+ *
+ * @returns DramaticMoment[] 最大3件、重篤度の高い順
+ */
+export function calcDramaticEvents(
+  matches: Match[],
+  targetTeamIds: number[],
+  eventType: "title" | "cl" | "relegation",
+): DramaticMoment[] {
+  if (matches.length === 0 || targetTeamIds.length < 2) return [];
+
+  // ── 全チームの節ごと累計勝点を構築 ──────────────────────────
+  const allTeamIds = new Set<number>();
+  const teamTlaMap = new Map<number, string>();
+  const matchesByDay = new Map<number, Match[]>();
+
+  for (const m of matches) {
+    allTeamIds.add(m.homeTeam.id);
+    allTeamIds.add(m.awayTeam.id);
+    teamTlaMap.set(m.homeTeam.id, m.homeTeam.tla);
+    teamTlaMap.set(m.awayTeam.id, m.awayTeam.tla);
+    if (!matchesByDay.has(m.matchday)) matchesByDay.set(m.matchday, []);
+    matchesByDay.get(m.matchday)!.push(m);
+  }
+
+  const maxDay = Math.max(...matches.map((m) => m.matchday));
+
+  // teamId -> 節ごと累計勝点配列（index = day-1）
+  const cumPts = new Map<number, number[]>();
+  for (const teamId of allTeamIds) {
+    let cum = 0;
+    const pts: number[] = [];
+    for (let day = 1; day <= maxDay; day++) {
+      const match = (matchesByDay.get(day) ?? []).find(
+        (m) => m.homeTeam.id === teamId || m.awayTeam.id === teamId,
+      );
+      if (match) {
+        const isHome = match.homeTeam.id === teamId;
+        const home = match.score.fullTime.home ?? 0;
+        const away = match.score.fullTime.away ?? 0;
+        if (home === away) cum += 1;
+        else if ((isHome && home > away) || (!isHome && away > home)) cum += 3;
+      }
+      pts.push(cum);
+    }
+    cumPts.set(teamId, pts);
+  }
+
+  const targetSet = new Set(targetTeamIds);
+  const events: (DramaticMoment & { severity: number })[] = [];
+
+  // ── 節ごとの順位変動・ゾーン変化を検出 ──────────────────────
+  const prevGroupRanks = new Map<number, number>();
+  const prevGlobalRanks = new Map<number, number>();
+  let prevGroupLeaderId: number | null = null;
+
+  for (let day = 1; day <= maxDay; day++) {
+    // 全体順位（降格圏・CL圏判定用）
+    const globalOrder = [...allTeamIds]
+      .map((id) => ({ id, pts: cumPts.get(id)![day - 1] }))
+      .sort((a, b) => b.pts - a.pts);
+    const globalRanks = new Map(globalOrder.map((s, i) => [s.id, i + 1]));
+
+    // グループ内順位
+    const groupOrder = targetTeamIds
+      .map((id) => ({ id, pts: cumPts.get(id)?.[day - 1] ?? 0 }))
+      .sort((a, b) => b.pts - a.pts);
+    const groupRanks = new Map(groupOrder.map((s, i) => [s.id, i + 1]));
+
+    if (day >= 2) {
+      const groupLeaderId = groupOrder[0].id;
+
+      // グループ内首位交代（title のみ）
+      if (eventType === "title" && prevGroupLeaderId !== null && groupLeaderId !== prevGroupLeaderId) {
+        const tla = teamTlaMap.get(groupLeaderId) ?? "?";
+        events.push({ matchday: day, description: `${tla} 首位浮上`, severity: 3 });
+      }
+
+      // グループ内2位以上順位変動
+      for (const id of targetTeamIds) {
+        const prev = prevGroupRanks.get(id) ?? 0;
+        const curr = groupRanks.get(id) ?? 0;
+        if (prev === 0 || curr === 0) continue;
+        const swing = prev - curr; // 正 = 上昇
+        if (Math.abs(swing) >= 2) {
+          const tla = teamTlaMap.get(id) ?? "?";
+          events.push({
+            matchday: day,
+            description: `${tla} ${swing > 0 ? "▲" : "▼"}${Math.abs(swing)}位`,
+            severity: Math.abs(swing),
+          });
+        }
+      }
+
+      // CL圏への入出（cl のみ）
+      if (eventType === "cl") {
+        for (const id of targetTeamIds) {
+          const prev = prevGlobalRanks.get(id) ?? 0;
+          const curr = globalRanks.get(id) ?? 0;
+          if (prev === 0 || curr === 0) continue;
+          const tla = teamTlaMap.get(id) ?? "?";
+          if (prev <= 7 && curr > 7) {
+            events.push({ matchday: day, description: `${tla} CL圏外転落`, severity: 3 });
+          } else if (prev > 7 && curr <= 7) {
+            events.push({ matchday: day, description: `${tla} CL圏内浮上`, severity: 3 });
+          }
+        }
+      }
+
+      // 降格圏への入出（relegation のみ）
+      if (eventType === "relegation") {
+        for (const id of targetTeamIds) {
+          const prev = prevGlobalRanks.get(id) ?? 0;
+          const curr = globalRanks.get(id) ?? 0;
+          if (prev === 0 || curr === 0) continue;
+          const tla = teamTlaMap.get(id) ?? "?";
+          if (prev < 18 && curr >= 18) {
+            events.push({ matchday: day, description: `${tla} 降格圏入り`, severity: 3 });
+          } else if (prev >= 18 && curr < 18) {
+            events.push({ matchday: day, description: `${tla} 降格圏脱出`, severity: 3 });
+          }
+        }
+      }
+    }
+
+    prevGroupLeaderId = groupOrder[0].id;
+    for (const [id, rank] of groupRanks) prevGroupRanks.set(id, rank);
+    for (const [id, rank] of globalRanks) prevGlobalRanks.set(id, rank);
+  }
+
+  // ── グループ内直接対決を検出 ──────────────────────────────────
+  let directMatches = matches.filter(
+    (m) => targetSet.has(m.homeTeam.id) && targetSet.has(m.awayTeam.id),
+  );
+
+  if (eventType === "title") {
+    // title: グループ内最終上位2チーム間のみ
+    const sortedIds = [...targetTeamIds].sort(
+      (a, b) => (cumPts.get(b)?.at(-1) ?? 0) - (cumPts.get(a)?.at(-1) ?? 0),
+    );
+    const top2 = new Set(sortedIds.slice(0, 2));
+    directMatches = directMatches.filter(
+      (m) => top2.has(m.homeTeam.id) && top2.has(m.awayTeam.id),
+    );
+  }
+
+  const directMoments: (DramaticMoment & { severity: number })[] = directMatches
+    .sort((a, b) => a.matchday - b.matchday)
+    .slice(0, 2)
+    .map((m) => {
+      const home = m.score.fullTime.home ?? 0;
+      const away = m.score.fullTime.away ?? 0;
+      const homeTla = teamTlaMap.get(m.homeTeam.id) ?? "?";
+      const awayTla = teamTlaMap.get(m.awayTeam.id) ?? "?";
+      return {
+        matchday: m.matchday,
+        description: `${homeTla} vs ${awayTla} (${home}–${away})`,
+        severity: 4,
+        isHeadToHead: true,
+      };
+    });
+
+  // ── 重複除去・上位3件を返す ───────────────────────────────────
+  const h2hDays = new Set(directMoments.map((m) => m.matchday));
+  const combined = [...directMoments, ...events.filter((m) => !h2hDays.has(m.matchday))];
+
+  const dedupByDay = new Map<number, (typeof combined)[0]>();
+  for (const m of combined) {
+    const existing = dedupByDay.get(m.matchday);
+    if (!existing || existing.severity < m.severity) dedupByDay.set(m.matchday, m);
+  }
+
+  return [...dedupByDay.values()]
+    .sort((a, b) => b.severity - a.severity)
+    .slice(0, 3)
+    .map(({ matchday, description, isHeadToHead }) => ({ matchday, description, isHeadToHead }));
+}
+
+/**
  * 最終順位1位・2位の直接対決を試合データから検出する。
  * - timelines は最終勝点降順ソート済みを前提とする（index 0=1位, index 1=2位）
  * - 返り値は matchday 昇順、最大2件
