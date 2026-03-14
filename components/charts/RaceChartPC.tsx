@@ -102,7 +102,7 @@ function CustomDot({
       <circle cx={cx} cy={cy} r={r} fill="none" stroke="white" strokeWidth={2} />
       <circle cx={cx} cy={cy} r={r + 1} fill="none" stroke={stroke} strokeWidth={1} />
       {annotationText && (
-        <text x={cx + r + 4} y={cy + 4} fontSize={11} fontWeight={600} fill={annotationColor}>
+        <text x={cx + r + 8} y={cy + 4} fontSize={11} fontWeight={600} fill={annotationColor}>
           {annotationText}
         </text>
       )}
@@ -126,7 +126,7 @@ export default function RaceChartPC({
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
-          margin={{ top: 20, right: 120, left: 20, bottom: 20 }}
+          margin={{ top: 20, right: 140, left: 20, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -175,8 +175,8 @@ export default function RaceChartPC({
                   ? `第${moment.matchday}節 ⚔`
                   : `第${moment.matchday}節`,
                 position: "insideTopRight",
-                fontSize: 10,
-                fill: moment.isHeadToHead ? "#f59e0b" : "#7c3aed",
+                fontSize: 11,
+                fill: "#9ca3af",
               }}
             />
           ))}

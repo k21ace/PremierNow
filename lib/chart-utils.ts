@@ -1,5 +1,37 @@
-import type { Match, TeamTimeline } from "@/types/football";
+import type { Match, Standing, TeamTimeline } from "@/types/football";
 import { getTeamColor } from "./team-colors";
+
+// ─── TeamStyle ────────────────────────────────────────────
+
+export interface TeamStyle {
+  teamId: number;
+  teamName: string;
+  shortName: string;
+  crestUrl: string;
+  goalsFor: number;
+  goalsAgainst: number;
+  points: number;
+  played: number;
+  ppg: number;
+}
+
+/**
+ * 順位表データから各チームの攻撃力・守備力スタイルを算出する。
+ * ScatterChart の散布図データとして使用する。
+ */
+export function calcTeamStyles(standings: Standing[]): TeamStyle[] {
+  return standings.map((s) => ({
+    teamId: s.team.id,
+    teamName: s.team.name,
+    shortName: s.team.shortName,
+    crestUrl: s.team.crest,
+    goalsFor: s.goalsFor,
+    goalsAgainst: s.goalsAgainst,
+    points: s.points,
+    played: s.playedGames,
+    ppg: s.playedGames > 0 ? s.points / s.playedGames : 0,
+  }));
+}
 
 const TOTAL_MATCHDAYS = 38;
 

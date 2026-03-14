@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/standings", label: "順位表" },
-  { href: "/matches", label: "試合結果" },
-  { href: "/scorers", label: "得点王" },
-  { href: "/charts/race", label: "分析" },
+  { href: "/standings",   label: "順位表",   activePrefix: "/standings" },
+  { href: "/matches",     label: "試合結果", activePrefix: "/matches" },
+  { href: "/scorers",     label: "得点王",   activePrefix: "/scorers" },
+  { href: "/charts/race", label: "分析",     activePrefix: "/charts" },
 ];
 
 export default function Header() {
@@ -26,10 +26,8 @@ export default function Header() {
       </div>
       {/* 2行目: ナビ */}
       <nav className="flex border-t border-gray-100 max-w-5xl mx-auto">
-        {navLinks.map(({ href, label }) => {
-          const isActive =
-            pathname === href ||
-            (href !== "/" && pathname.startsWith(href));
+        {navLinks.map(({ href, label, activePrefix }) => {
+          const isActive = pathname.startsWith(activePrefix);
           return (
             <Link
               key={href}

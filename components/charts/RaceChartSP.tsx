@@ -76,7 +76,7 @@ export default function RaceChartSP({
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
-          margin={{ top: 8, right: 24, left: 0, bottom: 8 }}
+          margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -94,15 +94,8 @@ export default function RaceChartSP({
           />
           <YAxis
             tick={{ fontSize: 10 }}
-            width={30}
-            label={{
-              value: "勝点",
-              angle: -90,
-              position: "insideLeft",
-              offset: 8,
-              fontSize: 10,
-              fill: "#6b7280",
-            }}
+            width={28}
+            label={{ value: "" }}
           />
           <Tooltip
             content={(props) => (
