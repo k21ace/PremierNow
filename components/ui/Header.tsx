@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/matches",     label: "試合結果", activePrefix: "/matches" },
   { href: "/scorers",     label: "得点王",   activePrefix: "/scorers" },
   { href: "/charts/race", label: "分析",     activePrefix: "/charts" },
+  { href: "/articles",    label: "記事",     activePrefix: "/articles" },
 ];
 
 export default function Header() {

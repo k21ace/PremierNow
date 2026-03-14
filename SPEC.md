@@ -1,6 +1,6 @@
 # PremierInsight 仕様書
 
-> 最終更新: 2026-03-14 — /charts/style 攻撃スタイル分析ページ実装・チャートサブナビ追加
+> 最終更新: 2026-03-15 — ブログ記事機能（MDX）実装・/articles・/articles/[slug] 追加
 
 ## 目次
 
@@ -70,6 +70,11 @@ c:/ws/PremierInsight/
 │   ├── page.tsx                # トップページ（ナビゲーション）
 │   ├── globals.css             # グローバルスタイル（Tailwind ベース）
 │   ├── favicon.ico             # ファビコン
+│   ├── articles/
+│   │   ├── page.tsx            # 記事一覧ページ（実装済み・タグフィルター付き）
+│   │   ├── ArticlesView.tsx    # タグフィルター・記事カード一覧（Client Component）
+│   │   └── [slug]/
+│   │       └── page.tsx        # 記事詳細ページ（実装済み・MDXレンダリング・前後ナビ）
 │   ├── standings/
 │   │   └── page.tsx            # 順位表ページ（実装済み）
 │   ├── matches/
@@ -90,15 +95,22 @@ c:/ws/PremierInsight/
 ├── components/
 │   ├── ui/
 │   │   └── Header.tsx          # 共通ヘッダーナビゲーション（usePathname でアクティブ表示）
+│   ├── mdx/
+│   │   └── MdxComponents.tsx  # MDX用カスタムコンポーネント（h2/h3/p/ul/ol/strong/blockquote/a）
 │   └── charts/
 │       ├── chart-shared.tsx    # チャート共通型・CustomTooltip・buildChartData・getAnnotation
 │       ├── RaceChartPC.tsx     # レースチャート PC版（ResponsiveContainer・500px・全機能）
 │       ├── RaceChartSP.tsx     # レースチャート SP版（ResponsiveContainer・360px・簡略表示）
-│       ├── StyleChartPC.tsx    # スタイル分析散布図 PC版（500px・24px エンブレム・象限ラベル）
+│       ├── StyleChartPC.tsx    # スタイル分析散布図 PC版（500px・24px エンブレム）
 │       └── StyleChartSP.tsx    # スタイル分析散布図 SP版（360px・18px エンブレム）
+│
+├── content/
+│   └── articles/               # MDX 記事ファイル置き場
+│       └── *.mdx               # 各記事（フロントマター付き）
 │
 ├── lib/
 │   ├── football-api.ts         # football-data.org API ラッパー関数群
+│   ├── articles.ts             # 記事取得ユーティリティ（getAllArticles・getArticleBySlug・getFeaturedArticles）
 │   ├── chart-utils.ts          # チャート用データ加工（calcPointsTimeline・calcTeamStyles など）
 │   ├── team-colors.ts          # チームID → チームカラー定義・getTeamColor()
 │   └── utils.ts                # 汎用ユーティリティ（UTC→JST変換など）
@@ -158,7 +170,17 @@ c:/ws/PremierInsight/
 - HTTPステータスが `ok` でない場合は `Error` を throw
 - `fetch` の `next.revalidate` で ISR キャッシュを設定
 
-### 6-1b. チャートユーティリティ（`/lib/chart-utils.ts`）
+### 6-1b. 記事ユーティリティ（`/lib/articles.ts`）
+
+| 関数名 | 処理内容 | 返り値の型 |
+|--------|---------|-----------|
+| `getAllArticles()` | `content/articles/` 以下の全MDXを取得し publishedAt 降順で返す | `ArticleMeta[]` |
+| `getArticleBySlug(slug)` | 指定 slug の MDX を取得してメタ+本文を返す | `Article` |
+| `getFeaturedArticles()` | `featured: true` の記事を最大3件返す | `ArticleMeta[]` |
+
+**ArticleMeta フィールド**: `slug / title / description / publishedAt / matchday? / tags / readingTime / featured?`
+
+### 6-1c. チャートユーティリティ（`/lib/chart-utils.ts`）
 
 | 関数名 | 処理内容 | 返り値の型 |
 |--------|---------|-----------|
@@ -201,6 +223,8 @@ c:/ws/PremierInsight/
 | 順位表 | `/standings` | TOTAL順位表テーブル・順位帯色分け・W/D/Lバッジ・凡例・レスポンシブ対応（スマホ=カードリスト/PC=テーブル）・直近5試合を終了済み試合から自前計算で表示 |
 | 試合結果・日程 | `/matches` | 節切り替えナビ（searchParams）・日付グルーピング・得点者表示・ステータスバッジ |
 | 得点王ランキング | `/scorers` | ランキングテーブル・1〜3位CSSバッジ（金/銀/銅）・イニシャルアバター・クラブエンブレム・レスポンシブ対応（試合/得点+A列をスマホ非表示） |
+| 記事一覧 | `/articles` | 全記事カード一覧・タグフィルター（Client Component）・公開日/読了時間/タグ表示 |
+| 記事詳細 | `/articles/[slug]` | MDXRemote（next-mdx-remote/rsc）でレンダリング・カスタムコンポーネント（MdxComponents）・前後ナビ・動的メタデータ（generateMetadata） |
 | スタイル分析 | `/charts/style` | 全20チームの得点×失点散布図（ScatterChart）・Y軸反転（上＝失点少＝守備強）・平均線で4象限分割・エンブレムDot（PC:24px→30pxホバー/SP:18px）・カスタムTooltip（得点/失点/勝点/平均勝点）・Y軸ラベルはグラフ外div（writing-mode:vertical-rl）で表示・PC/SP別コンポーネント（StyleChartPC/SP） |
 | レースチャート | `/charts/race` | 3タブ切り替え（優勝争い1〜3位/CL圏争い3〜7位/残留争い16〜20位）・グループはgetStandings()公式順位から動的決定・タブはflex-1均等幅・SPは短縮ラベル/PCはフルラベル。**PC版**（RaceChartPC）: ResponsiveContainer 100%×500px・margin right:120・Y軸width:40・終端エンブレム24px・予測点線・ドラマチックReferenceLine（最大5件、直接対決アンバー⚔）・勝点差アノテーション・凡例。**SP版**（RaceChartSP）: ResponsiveContainer 100%×360px・横スクロールなし・終端エンブレム20px・X軸5節おき（ticks固定）・予測/ハイライト/アノテーション/凡例すべて非表示。共通: カスタムTooltip（実績/予測/ドラマ表示）、buildChartData・getAnnotation等はchart-shared.tsxに集約 |
 
@@ -209,7 +233,7 @@ c:/ws/PremierInsight/
 | 機能 | 実装箇所 | 内容 |
 |------|---------|------|
 | Google Analytics 4 | `app/layout.tsx` | `@next/third-parties` を使用。本番環境（`NODE_ENV === "production"`）のみ計測 |
-| 共通ヘッダー | `components/ui/Header.tsx` | 2行構成（1行目: サイト名左寄せ、2行目: ナビ4項目flex-1均等幅）・アクティブ表示はborder-b-2とviolet-600テキスト・overflow-x-hiddenで横スクロール禁止。「分析」は `/charts` プレフィックス全体でアクティブ |
+| 共通ヘッダー | `components/ui/Header.tsx` | 2行構成（1行目: サイト名左寄せ、2行目: ナビ5項目flex-1均等幅）・アクティブ表示はborder-b-2とviolet-600テキスト・overflow-x-hiddenで横スクロール禁止。「分析」は `/charts` プレフィックス全体でアクティブ |
 | チャートサブナビ | `app/charts/layout.tsx` | チャート系ページ（/charts/*）共通のサブナビ。「レースチャート」「スタイル分析」タブ切り替え |
 
 ---
@@ -222,7 +246,7 @@ c:/ws/PremierInsight/
 | ~~試合結果・スケジュール~~ | ~~`/matches`~~ | ~~節ごとのスコア・スケジュール一覧~~ | ✅ 実装済み |
 | ~~得点王ランキング~~ | ~~`/scorers`~~ | ~~得点・アシスト・出場試合数のランキング~~ | ✅ 実装済み |
 | ~~レースチャート~~ | ~~`/charts/race`~~ | ~~節ごとの勝点推移チャート~~ | ✅ 実装済み |
-| 分析記事一覧 | `/articles` | 戦術・データ分析コンテンツ | フェーズ4 |
+| ~~分析記事一覧~~ | ~~`/articles`~~ | ~~戦術・データ分析コンテンツ~~ | ✅ 実装済み |
 | 選手スタッツ | `/players` | 個人成績の詳細表示 | フェーズ5 |
 
 ---
