@@ -1,6 +1,6 @@
 # PremierInsight 仕様書
 
-> 最終更新: 2026-03-14 — /standings・/matches 実装・Header 追加
+> 最終更新: 2026-03-14 — /charts/race グラフをPC/SP別コンポーネントに分割
 
 ## 目次
 
@@ -76,16 +76,26 @@ c:/ws/PremierInsight/
 │   │   ├── page.tsx            # 試合結果・スケジュールページ（実装済み・Server Component）
 │   │   └── MatchesView.tsx     # 節切り替え・試合カード表示（Client Component）
 │   ├── scorers/
-│   │   └── page.tsx            # 得点王ランキングページ（未実装）
+│   │   └── page.tsx            # 得点王ランキングページ（実装済み）
+│   ├── charts/
+│   │   └── race/
+│   │       ├── page.tsx        # レースチャートページ（実装済み・Server Component）
+│   │       └── RaceChart.tsx   # Recharts グラフ・フィルター（Client Component）
 │   └── articles/
 │       └── page.tsx            # 分析記事一覧ページ（未実装）
 │
 ├── components/
-│   └── ui/
-│       └── Header.tsx          # 共通ヘッダーナビゲーション（usePathname でアクティブ表示）
+│   ├── ui/
+│   │   └── Header.tsx          # 共通ヘッダーナビゲーション（usePathname でアクティブ表示）
+│   └── charts/
+│       ├── chart-shared.tsx    # チャート共通型・CustomTooltip・buildChartData・getAnnotation
+│       ├── RaceChartPC.tsx     # レースチャート PC版（ResponsiveContainer・500px・全機能）
+│       └── RaceChartSP.tsx     # レースチャート SP版（ResponsiveContainer・360px・簡略表示）
 │
 ├── lib/
 │   ├── football-api.ts         # football-data.org API ラッパー関数群
+│   ├── chart-utils.ts          # チャート用データ加工（calcPointsTimeline など）
+│   ├── team-colors.ts          # チームID → チームカラー定義・getTeamColor()
 │   └── utils.ts                # 汎用ユーティリティ（UTC→JST変換など）
 │
 ├── types/
@@ -177,13 +187,14 @@ c:/ws/PremierInsight/
 | 順位表 | `/standings` | TOTAL順位表テーブル・順位帯色分け・W/D/Lバッジ・凡例・レスポンシブ対応（スマホ=カードリスト/PC=テーブル）・直近5試合を終了済み試合から自前計算で表示 |
 | 試合結果・日程 | `/matches` | 節切り替えナビ（searchParams）・日付グルーピング・得点者表示・ステータスバッジ |
 | 得点王ランキング | `/scorers` | ランキングテーブル・1〜3位CSSバッジ（金/銀/銅）・イニシャルアバター・クラブエンブレム・レスポンシブ対応（試合/得点+A列をスマホ非表示） |
+| レースチャート | `/charts/race` | 3タブ切り替え（優勝争い1〜3位/CL圏争い3〜7位/残留争い16〜20位）・グループはgetStandings()公式順位から動的決定・タブはflex-1均等幅・SPは短縮ラベル/PCはフルラベル。**PC版**（RaceChartPC）: ResponsiveContainer 100%×500px・margin right:120・Y軸width:40・終端エンブレム24px・予測点線・ドラマチックReferenceLine（最大5件、直接対決アンバー⚔）・勝点差アノテーション・凡例。**SP版**（RaceChartSP）: ResponsiveContainer 100%×360px・横スクロールなし・終端エンブレム20px・X軸5節おき（ticks固定）・予測/ハイライト/アノテーション/凡例すべて非表示。共通: カスタムTooltip（実績/予測/ドラマ表示）、buildChartData・getAnnotation等はchart-shared.tsxに集約 |
 
 ### 6-5. その他
 
 | 機能 | 実装箇所 | 内容 |
 |------|---------|------|
 | Google Analytics 4 | `app/layout.tsx` | `@next/third-parties` を使用。本番環境（`NODE_ENV === "production"`）のみ計測 |
-| 共通ヘッダー | `components/ui/Header.tsx` | サイト名・ナビリンク・アクティブ表示（`usePathname`） |
+| 共通ヘッダー | `components/ui/Header.tsx` | 2行構成（1行目: サイト名左寄せ、2行目: ナビ4項目flex-1均等幅）・アクティブ表示はborder-b-2とviolet-600テキスト・overflow-x-hiddenで横スクロール禁止 |
 
 ---
 
@@ -194,6 +205,7 @@ c:/ws/PremierInsight/
 | ~~順位表~~ | ~~`/standings`~~ | ~~リーグ順位表（勝点・得失点・直近5試合成績）~~ | ✅ 実装済み |
 | ~~試合結果・スケジュール~~ | ~~`/matches`~~ | ~~節ごとのスコア・スケジュール一覧~~ | ✅ 実装済み |
 | ~~得点王ランキング~~ | ~~`/scorers`~~ | ~~得点・アシスト・出場試合数のランキング~~ | ✅ 実装済み |
+| ~~レースチャート~~ | ~~`/charts/race`~~ | ~~節ごとの勝点推移チャート~~ | ✅ 実装済み |
 | 分析記事一覧 | `/articles` | 戦術・データ分析コンテンツ | フェーズ4 |
 | 選手スタッツ | `/players` | 個人成績の詳細表示 | フェーズ5 |
 

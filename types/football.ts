@@ -153,3 +153,23 @@ export interface ScorersResponse {
   season: Season;
   scorers: Scorer[];
 }
+
+// ─── Chart ────────────────────────────────────────────────
+
+/** レースチャート用 チーム勝点推移 */
+export interface TeamTimeline {
+  teamId: number;
+  teamName: string;
+  /** TLA（例: ARS, LIV） */
+  teamShortName: string;
+  /** チームカラー（CSS カラーコード） */
+  color: string;
+  /** エンブレム画像URL */
+  crestUrl: string;
+  /** 節ごとの累計勝点（index 0 = 第1節終了時点） */
+  points: number[];
+  /** 直近5節の平均勝点 */
+  avgPPG: number;
+  /** 現在節から38節までの予測累計勝点（index 0 = 現在節） */
+  predictedPoints: number[];
+}

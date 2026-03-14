@@ -1,0 +1,57 @@
+import type { Metadata } from "next";
+import { getMatches, getStandings } from "@/lib/football-api";
+import { calcPointsTimeline } from "@/lib/chart-utils";
+import RaceChart from "./RaceChart";
+
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "プレミアリーグ 優勝争い・降格争いチャート 2025-26 | PremierInsight",
+  description:
+    "プレミアリーグの節ごとの勝点推移を可視化。優勝争いと降格争いをリアルタイムで追えます。",
+};
+
+export default async function RacePage() {
+  const [finishedData, standingsData] = await Promise.all([
+    getMatches({ status: "FINISHED" }),
+    getStandings(),
+  ]);
+
+  const timelines = calcPointsTimeline(finishedData.matches ?? []);
+
+  // TOTAL 順位表から各グループのチームIDを決定
+  const table =
+    standingsData.standings.find((s) => s.type === "TOTAL")?.table ?? [];
+  const groupTeamIds = {
+    title: table.slice(0, 3).map((s) => s.team.id),
+    cl: table.slice(2, 7).map((s) => s.team.id),
+    relegation: table.slice(15, 20).map((s) => s.team.id),
+  };
+  // 降格争いアノテーション用：17位チームID（降格圏外の境界）
+  const safeZoneTeamId = table[16]?.team.id ?? null;
+
+  const seasonLabel = finishedData.resultSet
+    ? `${finishedData.resultSet.first.slice(0, 4)}–${finishedData.resultSet.last.slice(2, 4)}`
+    : "";
+
+  return (
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-6">
+          優勝争い・降格争いチャート
+          {seasonLabel && (
+            <span className="ml-2 text-sm font-normal text-gray-500">
+              {seasonLabel}
+            </span>
+          )}
+        </h1>
+        <RaceChart
+          timelines={timelines}
+          matches={finishedData.matches ?? []}
+          groupTeamIds={groupTeamIds}
+          safeZoneTeamId={safeZoneTeamId}
+        />
+      </div>
+    </main>
+  );
+}
