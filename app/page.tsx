@@ -1,38 +1,102 @@
 import Link from "next/link";
+import { getFeaturedArticles } from "@/lib/articles";
+import { getMatches } from "@/lib/football-api";
+import { convertToJSTShort } from "@/lib/utils";
 
-const navItems = [
-  { href: "/standings", label: "順位表", description: "プレミアリーグ現在の順位" },
-  { href: "/matches", label: "試合結果", description: "最新の試合スコアと日程" },
-  { href: "/scorers", label: "得点王", description: "トップスコアラーランキング" },
-  { href: "/articles", label: "分析記事", description: "戦術・データ分析コンテンツ" },
-];
+export const revalidate = 1800;
 
-export default function Home() {
+export default async function Home() {
+  const [featuredArticles, matchesData] = await Promise.all([
+    Promise.resolve(getFeaturedArticles()),
+    getMatches({ status: "FINISHED" }),
+  ]);
+
+  const recentMatches = [...(matchesData.matches ?? [])]
+    .sort((a, b) => new Date(b.utcDate).getTime() - new Date(a.utcDate).getTime())
+    .slice(0, 3);
+
   return (
-    <main className="min-h-screen bg-white dark:bg-zinc-950 p-8">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-zinc-900 dark:text-white mb-2">
-          PremierInsight
-        </h1>
-        <p className="text-zinc-500 dark:text-zinc-400 mb-10">
-          プレミアリーグ データ分析サイト
-        </p>
-        <nav className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors"
-            >
-              <h2 className="text-xl font-semibold text-zinc-800 dark:text-zinc-100 mb-1">
-                {item.label}
-              </h2>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                {item.description}
-              </p>
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
+
+        {/* ヒーローエリア */}
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">
+            PremierInsight
+          </h1>
+          <p className="text-sm text-gray-500">
+            プレミアリーグのデータを日本語で分析・可視化するサイト
+          </p>
+        </div>
+
+        {/* ピックアップ記事 */}
+        <section>
+          <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">
+            ピックアップ記事
+          </p>
+          {featuredArticles.length === 0 ? (
+            <p className="text-sm text-gray-400">記事を準備中です。</p>
+          ) : (
+            <div className="space-y-3">
+              {featuredArticles.map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/articles/${article.slug}`}
+                  className="block bg-white border border-gray-200 rounded p-4 hover:border-violet-300 transition-colors cursor-pointer"
+                >
+                  <p className="font-medium text-gray-900 hover:text-violet-600">
+                    {article.title}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">{article.description}</p>
+                  <div className="flex items-center flex-wrap gap-3 mt-2 text-xs text-gray-400">
+                    <span>{article.publishedAt}</span>
+                    <span>{article.readingTime}</span>
+                    {article.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* 最新の試合結果 */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+              最新の試合結果
+            </p>
+            <Link href="/matches" className="text-xs text-violet-600 hover:underline">
+              すべての試合を見る →
             </Link>
-          ))}
-        </nav>
+          </div>
+          {recentMatches.length === 0 ? (
+            <p className="text-sm text-gray-400">試合データがありません。</p>
+          ) : (
+            <div className="bg-white border border-gray-200 rounded shadow-sm divide-y divide-gray-100">
+              {recentMatches.map((match) => (
+                <div key={match.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-gray-900 font-medium truncate">
+                      {match.homeTeam.shortName}
+                    </span>
+                    <span className="font-mono tabular-nums text-gray-900 font-semibold shrink-0">
+                      {match.score.fullTime.home} - {match.score.fullTime.away}
+                    </span>
+                    <span className="text-gray-900 font-medium truncate">
+                      {match.awayTeam.shortName}
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-400 shrink-0 ml-4">
+                    {convertToJSTShort(match.utcDate)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
       </div>
     </main>
   );
