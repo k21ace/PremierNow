@@ -109,7 +109,21 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
   return (
-    <div style={{ height: 360, position: "relative" }}>
+    <div style={{ height: 360, display: "flex", alignItems: "stretch" }}>
+      <div
+        style={{
+          writingMode: "vertical-rl",
+          transform: "rotate(180deg)",
+          fontSize: 10,
+          color: "#6b7280",
+          whiteSpace: "nowrap",
+          display: "flex",
+          alignItems: "center",
+          marginRight: 2,
+        }}
+      >
+        失点（守備力）
+      </div>
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart margin={MARGIN}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -132,15 +146,7 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
             reversed
             domain={[Math.max(0, minGA - 5), maxGA + 5]}
             tick={{ fontSize: 10 }}
-            width={38}
-            label={{
-              value: "失点",
-              angle: -90,
-              position: "insideLeft",
-              dx: -8,
-              fontSize: 10,
-              fill: "#6b7280",
-            }}
+            width={32}
           />
           <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
           <ReferenceLine y={avgGA} stroke="#e5e7eb" strokeDasharray="4 4" />

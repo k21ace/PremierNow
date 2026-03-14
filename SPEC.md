@@ -201,7 +201,7 @@ c:/ws/PremierInsight/
 | 順位表 | `/standings` | TOTAL順位表テーブル・順位帯色分け・W/D/Lバッジ・凡例・レスポンシブ対応（スマホ=カードリスト/PC=テーブル）・直近5試合を終了済み試合から自前計算で表示 |
 | 試合結果・日程 | `/matches` | 節切り替えナビ（searchParams）・日付グルーピング・得点者表示・ステータスバッジ |
 | 得点王ランキング | `/scorers` | ランキングテーブル・1〜3位CSSバッジ（金/銀/銅）・イニシャルアバター・クラブエンブレム・レスポンシブ対応（試合/得点+A列をスマホ非表示） |
-| スタイル分析 | `/charts/style` | 全20チームの得点×失点散布図（ScatterChart）・Y軸反転（上＝失点少＝守備強）・平均線で4象限分割（強豪/攻撃型/守備型/脆弱）・エンブレムDot（PC:24px→30pxホバー/SP:18px）・カスタムTooltip（得点/失点/勝点/平均勝点）・PC版象限ラベル（4隅）・PC/SP別コンポーネント（StyleChartPC/SP） |
+| スタイル分析 | `/charts/style` | 全20チームの得点×失点散布図（ScatterChart）・Y軸反転（上＝失点少＝守備強）・平均線で4象限分割・エンブレムDot（PC:24px→30pxホバー/SP:18px）・カスタムTooltip（得点/失点/勝点/平均勝点）・Y軸ラベルはグラフ外div（writing-mode:vertical-rl）で表示・PC/SP別コンポーネント（StyleChartPC/SP） |
 | レースチャート | `/charts/race` | 3タブ切り替え（優勝争い1〜3位/CL圏争い3〜7位/残留争い16〜20位）・グループはgetStandings()公式順位から動的決定・タブはflex-1均等幅・SPは短縮ラベル/PCはフルラベル。**PC版**（RaceChartPC）: ResponsiveContainer 100%×500px・margin right:120・Y軸width:40・終端エンブレム24px・予測点線・ドラマチックReferenceLine（最大5件、直接対決アンバー⚔）・勝点差アノテーション・凡例。**SP版**（RaceChartSP）: ResponsiveContainer 100%×360px・横スクロールなし・終端エンブレム20px・X軸5節おき（ticks固定）・予測/ハイライト/アノテーション/凡例すべて非表示。共通: カスタムTooltip（実績/予測/ドラマ表示）、buildChartData・getAnnotation等はchart-shared.tsxに集約 |
 
 ### 6-5. その他

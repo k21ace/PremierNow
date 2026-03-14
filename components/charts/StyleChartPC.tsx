@@ -109,7 +109,21 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
   return (
-    <div style={{ height: 500 }}>
+    <div style={{ height: 500, display: "flex", alignItems: "stretch" }}>
+      <div
+        style={{
+          writingMode: "vertical-rl",
+          transform: "rotate(180deg)",
+          fontSize: 11,
+          color: "#6b7280",
+          whiteSpace: "nowrap",
+          display: "flex",
+          alignItems: "center",
+          marginRight: 4,
+        }}
+      >
+        失点（守備力）
+      </div>
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart margin={MARGIN}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -132,15 +146,7 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
             reversed
             domain={[Math.max(0, minGA - 5), maxGA + 5]}
             tick={{ fontSize: 11 }}
-            width={55}
-            label={{
-              value: "失点（守備力）",
-              angle: -90,
-              position: "insideLeft",
-              dx: -10,
-              fontSize: 11,
-              fill: "#6b7280",
-            }}
+            width={40}
           />
           {/* 象限を分ける平均線 */}
           <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
