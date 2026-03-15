@@ -67,9 +67,9 @@ function DiffCell({ diff }: { diff: number }) {
 }
 
 export default function HomeAwayClient({ stats }: Props) {
-  // セクション1 用ソート
-  const homeStrong = [...stats].sort((a, b) => b.homeDiff - a.homeDiff).slice(0, 5);
-  const awayStrong = [...stats].sort((a, b) => a.homeDiff - b.homeDiff).slice(0, 5);
+  // セクション1 用ソート（絶対的なPPGの高さで順位付け）
+  const homeStrong = [...stats].sort((a, b) => b.home.ppg - a.home.ppg).slice(0, 5);
+  const awayStrong = [...stats].sort((a, b) => b.away.ppg - a.away.ppg).slice(0, 5);
 
   // セクション2 棒グラフ（ホーム勝点降順）
   const chartData = [...stats]
@@ -138,7 +138,7 @@ export default function HomeAwayClient({ stats }: Props) {
             <h2 className="text-sm font-semibold text-green-800">
               ホームが強いチーム TOP5
             </h2>
-            <p className="text-xs text-green-600">ホームPPG − アウェイPPG が高い順</p>
+            <p className="text-xs text-green-600">ホームPPGが高い順</p>
           </div>
           <ul>
             {homeStrong.map((s, i) => (
@@ -149,12 +149,14 @@ export default function HomeAwayClient({ stats }: Props) {
                 <span className="text-xs text-gray-400 font-mono tabular-nums w-4">{i + 1}</span>
                 <Image src={s.crestUrl} alt={s.teamName} width={20} height={20} className="object-contain shrink-0" />
                 <span className="text-sm text-gray-900 flex-1 min-w-0 truncate">{s.shortName}</span>
-                <span className="text-xs text-gray-500 font-mono tabular-nums shrink-0">
-                  {s.home.points}pt
-                  <span className="text-gray-300 mx-1">vs</span>
-                  {s.away.points}pt
-                </span>
-                <DiffBadge diff={s.homeDiff} />
+                <div className="text-right shrink-0">
+                  <p className="text-sm font-semibold font-mono tabular-nums text-green-700">
+                    ホーム {s.home.ppg.toFixed(2)} PPG
+                  </p>
+                  <p className="text-xs text-gray-400 font-mono tabular-nums">
+                    アウェイ {s.away.ppg.toFixed(2)} PPG
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
@@ -166,7 +168,7 @@ export default function HomeAwayClient({ stats }: Props) {
             <h2 className="text-sm font-semibold text-blue-800">
               アウェイが強いチーム TOP5
             </h2>
-            <p className="text-xs text-blue-600">アウェイPPG − ホームPPG が高い順</p>
+            <p className="text-xs text-blue-600">アウェイPPGが高い順</p>
           </div>
           <ul>
             {awayStrong.map((s, i) => (
@@ -177,12 +179,14 @@ export default function HomeAwayClient({ stats }: Props) {
                 <span className="text-xs text-gray-400 font-mono tabular-nums w-4">{i + 1}</span>
                 <Image src={s.crestUrl} alt={s.teamName} width={20} height={20} className="object-contain shrink-0" />
                 <span className="text-sm text-gray-900 flex-1 min-w-0 truncate">{s.shortName}</span>
-                <span className="text-xs text-gray-500 font-mono tabular-nums shrink-0">
-                  {s.home.points}pt
-                  <span className="text-gray-300 mx-1">vs</span>
-                  {s.away.points}pt
-                </span>
-                <DiffBadge diff={s.homeDiff} />
+                <div className="text-right shrink-0">
+                  <p className="text-sm font-semibold font-mono tabular-nums text-blue-700">
+                    アウェイ {s.away.ppg.toFixed(2)} PPG
+                  </p>
+                  <p className="text-xs text-gray-400 font-mono tabular-nums">
+                    ホーム {s.home.ppg.toFixed(2)} PPG
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
