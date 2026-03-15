@@ -182,18 +182,18 @@ export default function TeamDetailClient({
               />
               <Line
                 type="monotone"
-                dataKey="得点"
-                stroke="#7c3aed"
-                strokeWidth={2}
-                dot={{ r: 4, fill: "#7c3aed" }}
-                activeDot={{ r: 5 }}
-              />
-              <Line
-                type="monotone"
                 dataKey="失点"
                 stroke="#9ca3af"
                 strokeWidth={2}
                 dot={{ r: 4, fill: "#9ca3af" }}
+                activeDot={{ r: 5 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="得点"
+                stroke="#7c3aed"
+                strokeWidth={2}
+                dot={{ r: 4, fill: "#7c3aed" }}
                 activeDot={{ r: 5 }}
               />
             </LineChart>
