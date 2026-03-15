@@ -76,6 +76,12 @@ c:/ws/PremierInsight/
 │   │       ├── page.tsx             # 選手詳細（Server Component・3シーズン並列取得）
 │   │       └── PlayerDetailClient.tsx # Fotmob風詳細UI・シーズン切り替え（Client Component）
 │   │
+│   ├── teams/
+│   │   ├── page.tsx            # チーム一覧（Server Component・ISR 3600秒）
+│   │   └── [id]/
+│   │       ├── page.tsx             # チーム詳細（Server Component・standings+matches並列取得）
+│   │       └── TeamDetailClient.tsx # トレンドグラフ・試合リスト・ホーム/アウェイ（Client Component）
+│   │
 │   ├── charts/
 │   │   ├── layout.tsx          # チャートサブナビ（Client Component）
 │   │   ├── race/
@@ -92,7 +98,7 @@ c:/ws/PremierInsight/
 │
 ├── components/
 │   ├── ui/
-│   │   └── Header.tsx          # 共通ヘッダー（2行構成・5項目ナビ・Client Component）
+│   │   └── Header.tsx          # 共通ヘッダー（2行構成・6項目ナビ・Client Component）
 │   ├── mdx/
 │   │   └── MdxComponents.tsx   # MDX用カスタムコンポーネント（h2/h3/p/ul/ol など）
 │   ├── JsonLd.tsx              # JSON-LD構造化データ出力コンポーネント
