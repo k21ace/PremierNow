@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,
-    url: "/simulator",
+    url: "/charts/simulator",
     siteName: "PremierInsight",
     images: [
       {
@@ -76,8 +76,14 @@ export default async function SimulatorPage() {
             {
               "@type": "ListItem",
               position: 2,
-              name: "予測",
-              item: "https://premier-insight.vercel.app/simulator",
+              name: "分析",
+              item: "https://premier-insight.vercel.app/charts/race",
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: "順位予測",
+              item: "https://premier-insight.vercel.app/charts/simulator",
             },
           ],
         }}

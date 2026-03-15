@@ -89,13 +89,12 @@ c:/ws/PremierInsight/
 │   │   │   └── RaceChart.tsx   # タブ切り替え・グラフ制御（Client Component）
 │   │   ├── style/
 │   │   │   └── page.tsx        # スタイル分析（Server Component・ISR 3600秒）
-│   │   └── home-away/
-│   │       ├── page.tsx        # H/A比較（Server Component・ISR 3600秒）
-│   │       └── HomeAwayClient.tsx # ランキング・棒グラフ・テーブル（Client Component）
-│   │
-│   ├── simulator/
-│   │   ├── page.tsx            # 順位予測シミュレーター（Server Component・ISR standings:3600秒/matches:1800秒）
-│   │   └── SimulatorClient.tsx # H/D/A予測入力・リアルタイム順位表・サマリー（Client Component）
+│   │   ├── home-away/
+│   │   │   ├── page.tsx        # H/A比較（Server Component・ISR 3600秒）
+│   │   │   └── HomeAwayClient.tsx # ランキング・棒グラフ・テーブル（Client Component）
+│   │   └── simulator/
+│   │       ├── page.tsx        # 順位予測シミュレーター（Server Component・ISR standings:3600秒/matches:1800秒）
+│   │       └── SimulatorClient.tsx # H/D/A予測入力・リアルタイム順位表・サマリー（Client Component）
 │   │
 │   └── articles/
 │       ├── page.tsx            # 記事一覧（Server Component）
@@ -105,7 +104,7 @@ c:/ws/PremierInsight/
 │
 ├── components/
 │   ├── ui/
-│   │   └── Header.tsx          # 共通ヘッダー（2行構成・7項目ナビ・Client Component）
+│   │   └── Header.tsx          # 共通ヘッダー（2行構成・6項目ナビ・Client Component）
 │   ├── mdx/
 │   │   └── MdxComponents.tsx   # MDX用カスタムコンポーネント（h2/h3/p/ul/ol など）
 │   ├── JsonLd.tsx              # JSON-LD構造化データ出力コンポーネント

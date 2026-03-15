@@ -4,11 +4,11 @@
 
 | 項目 | 内容 |
 |------|------|
-| パス | `/simulator` |
-| コンポーネント | `app/simulator/page.tsx`（Server）・`app/simulator/SimulatorClient.tsx`（Client） |
+| パス | `/charts/simulator` |
+| コンポーネント | `app/charts/simulator/page.tsx`（Server）・`app/charts/simulator/SimulatorClient.tsx`（Client） |
 | データソース | `getStandings()`（現在順位）・`getMatches({status:'SCHEDULED'})`（未消化試合） |
 | キャッシュ | standings: 3600秒 / matches: 1800秒 |
-| ナビラベル | **予測**（ヘッダー7項目中6番目） |
+| ナビラベル | **順位予測**（分析サブナビ4番目） |
 
 ---
 
@@ -96,7 +96,7 @@ type TeamSimResult = {
 ## コンポーネント依存関係
 
 ```
-app/simulator/page.tsx (Server)
+app/charts/simulator/page.tsx (Server)
   └── SimulatorClient.tsx (Client)   ← 状態管理・全セクション
   └── lib/simulator-utils.ts         ← SimulatorMatch / TeamSimResult / calcSimulation
   └── lib/football-api.ts#getStandings
