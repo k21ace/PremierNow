@@ -9,6 +9,7 @@
 import type {
   Match,
   MatchesResponse,
+  PersonResponse,
   ScorersResponse,
   StandingsResponse,
 } from "@/types/football";
@@ -174,10 +175,27 @@ export async function getCurrentMatchday(): Promise<number> {
 /**
  * プレミアリーグの得点王ランキングを取得する。
  * ISR キャッシュ: 6時間（21600秒）
+ *
+ * @param season - シーズン開始年（例: 2025 → 2025-26シーズン）。省略時は現在のシーズン。
  */
-export async function getScorers(): Promise<ScorersResponse> {
+export async function getScorers(season?: number): Promise<ScorersResponse> {
+  const params: Record<string, string> = {};
+  if (season !== undefined) {
+    params.season = String(season);
+  }
   return fetchFootball<ScorersResponse>(
     `/competitions/${PL_ID}/scorers`,
     21600,
+    params,
   );
+}
+
+/**
+ * 選手詳細情報を取得する。
+ * ISR キャッシュ: 24時間（86400秒）
+ *
+ * @param id - football-data.org の選手ID
+ */
+export async function getPlayer(id: number): Promise<PersonResponse> {
+  return fetchFootball<PersonResponse>(`/persons/${id}`, 86400);
 }

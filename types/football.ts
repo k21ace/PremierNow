@@ -154,6 +154,27 @@ export interface ScorersResponse {
   scorers: Scorer[];
 }
 
+// ─── Person ───────────────────────────────────────────────
+
+/** GET /persons/{id} レスポンス */
+export interface PersonResponse {
+  id: number;
+  name: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  nationality: string;
+  position: string;
+  shirtNumber: number | null;
+  currentTeam: {
+    id: number;
+    name: string;
+    shortName: string;
+    tla: string;
+    crest: string;
+  } | null;
+}
+
 // ─── Chart ────────────────────────────────────────────────
 
 /** レースチャート用 チーム勝点推移 */

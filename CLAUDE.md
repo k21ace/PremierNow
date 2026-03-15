@@ -1,5 +1,16 @@
 # PremierInsight — Claude への指示
 
+## ナビゲーション一覧
+
+| ラベル | パス |
+|--------|------|
+| 順位表 | /standings |
+| 試合結果 | /matches |
+| Player | /players |
+| チーム | /teams |
+| 分析 | /charts/race |
+| 記事 | /articles |
+
 ## 開発ルール
 
 - 新機能の開発前には必ず `docs/README.md` からドキュメントを参照すること

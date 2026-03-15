@@ -21,8 +21,10 @@
 | `GET /competitions/PL/matches` | `getMatches(options?)` | 試合一覧取得（節・ステータスで絞り込み可） | 1800秒（30分） |
 | `GET /competitions/PL/matches` | `getCurrentMatchday()` | 現在の節番号を取得（`getMatches()`経由） | 1800秒 |
 | `GET /competitions/PL/scorers` | `getScorers()` | 得点王ランキング取得 | 21600秒（6時間） |
+| `GET /persons/{id}` | `getPlayer(id)` | 選手詳細情報取得 | 86400秒（24時間） |
 
 > `getStandingsWithForm()` は standings と matches の2リクエストを `Promise.all` で並列実行する。
+> `getPlayer(id)` は `/persons/{id}` エンドポイントを使用。404の場合はページ側で `notFound()` を呼ぶ。
 
 ---
 
@@ -63,6 +65,18 @@
 | `score.fullTime.home` | `number \| null` | ホームスコア |
 | `score.fullTime.away` | `number \| null` | アウェイスコア |
 | `goals` | `Goal[] \| null` | 得点者一覧 |
+
+### PersonResponse（選手詳細）
+
+| フィールド | 型 | 説明 |
+|-----------|-----|------|
+| `id` | `number` | 選手ID |
+| `name` | `string` | 選手名 |
+| `dateOfBirth` | `string` | 生年月日（ISO 8601形式） |
+| `nationality` | `string` | 国籍 |
+| `position` | `string` | ポジション |
+| `shirtNumber` | `number \| null` | 背番号 |
+| `currentTeam` | `Team \| null` | 現在の所属チーム |
 
 ### Scorer（得点王1エントリー）
 

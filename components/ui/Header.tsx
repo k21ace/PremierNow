@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 const navLinks = [
   { href: "/standings",   label: "順位表",   activePrefix: "/standings" },
   { href: "/matches",     label: "試合結果", activePrefix: "/matches" },
-  { href: "/scorers",     label: "得点王",   activePrefix: "/scorers" },
+  { href: "/players",     label: "Player",   activePrefix: "/players" },
+  { href: "/teams",       label: "チーム",   activePrefix: "/teams" },
   { href: "/charts/race", label: "分析",     activePrefix: "/charts" },
   { href: "/articles",    label: "記事",     activePrefix: "/articles" },
 ];

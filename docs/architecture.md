@@ -69,6 +69,13 @@ c:/ws/PremierInsight/
 │   ├── scorers/
 │   │   └── page.tsx            # 得点王ランキング（Server Component・ISR 21600秒）
 │   │
+│   ├── players/
+│   │   ├── page.tsx            # 選手スタッツ一覧（Server Component・ISR 21600秒）
+│   │   ├── PlayersView.tsx     # シーズン切り替え・チームフィルター・ソート・テーブル（Client Component）
+│   │   └── [id]/
+│   │       ├── page.tsx             # 選手詳細（Server Component・3シーズン並列取得）
+│   │       └── PlayerDetailClient.tsx # Fotmob風詳細UI・シーズン切り替え（Client Component）
+│   │
 │   ├── charts/
 │   │   ├── layout.tsx          # チャートサブナビ（Client Component）
 │   │   ├── race/
@@ -97,8 +104,12 @@ c:/ws/PremierInsight/
 │       └── StyleChartSP.tsx    # スタイル分析散布図 SP版（360px）
 │
 ├── lib/
-│   ├── football-api.ts         # football-data.org API ラッパー関数群
+│   ├── football-api.ts         # football-data.org API ラッパー関数群（getPlayer追加）
 │   ├── articles.ts             # 記事取得ユーティリティ（MDXファイル操作）
+│   ├── mock/
+│   │   ├── player-sns.ts       # 選手SNSアカウント モックデータ（PlayerSNS型）
+│   │   ├── player-stats.ts     # 選手詳細スタッツ モックデータ（PlayerDetailStats型）
+│   │   └── player-career.ts    # 選手キャリア履歴 モックデータ（PlayerCareer型）
 │   ├── chart-utils.ts          # チャート用データ加工関数群
 │   ├── team-colors.ts          # チームID → チームカラー定義
 │   └── utils.ts                # 汎用ユーティリティ（UTC→JST変換など）
