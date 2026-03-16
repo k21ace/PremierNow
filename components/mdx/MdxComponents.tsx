@@ -86,6 +86,9 @@ type ScorePredictionProps = {
 };
 
 function ScorePrediction({ home, away, homeScore, awayScore, reason }: ScorePredictionProps) {
+  // MDX から string として渡される場合があるため Number() で正規化
+  const hs = Number(homeScore);
+  const as = Number(awayScore);
   return (
     <div className="bg-violet-600 text-white rounded p-6 text-center my-6">
       <p className="text-sm text-violet-200 mb-2">スコア予想</p>
@@ -93,7 +96,7 @@ function ScorePrediction({ home, away, homeScore, awayScore, reason }: ScorePred
         {home} <span className="text-violet-300">vs</span> {away}
       </p>
       <p className="text-4xl font-bold font-mono tabular-nums my-3">
-        {homeScore} - {awayScore}
+        {hs} - {as}
       </p>
       <p className="text-sm text-violet-100 mt-3 leading-relaxed">{reason}</p>
     </div>
