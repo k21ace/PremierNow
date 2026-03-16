@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "premier-insight.vercel.app"
+        }
+      ],
+      "destination": "https://premiernow.jp/$1",
+      "permanent": true
+    }
+  ]
+}
