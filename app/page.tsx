@@ -54,7 +54,7 @@ export default async function Home() {
   const upcomingMatches = upcomingRaw.filter((m) => !recentIds.has(m.id));
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,9 +87,9 @@ export default async function Home() {
                 <Link
                   key={article.slug}
                   href={`/articles/${article.slug}`}
-                  className="block bg-white border border-gray-200 rounded p-3 hover:border-violet-300 transition-colors cursor-pointer"
+                  className="block bg-white border border-gray-200 rounded p-3 hover:border-pn-blue transition-colors cursor-pointer"
                 >
-                  <p className="font-medium text-gray-900 hover:text-violet-600">
+                  <p className="font-medium text-gray-900 hover:text-pn-blue">
                     {article.title}
                   </p>
                   <p className="text-sm text-gray-500 mt-1">{article.description}</p>
@@ -112,7 +112,7 @@ export default async function Home() {
             <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
               ピックアップクイズ
             </p>
-            <Link href="/articles/quiz" className="text-xs text-violet-600 hover:underline">
+            <Link href="/articles/quiz" className="text-xs text-pn-blue hover:underline">
               すべて見る →
             </Link>
           </div>
@@ -121,10 +121,10 @@ export default async function Home() {
               <Link
                 key={quiz.slug}
                 href={`/articles/quiz/${quiz.slug}`}
-                className="block bg-white border border-gray-200 rounded p-3 hover:border-violet-300 transition-colors"
+                className="block bg-white border border-gray-200 rounded p-3 hover:border-pn-blue transition-colors"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-medium bg-violet-100 text-violet-700 px-2 py-0.5 rounded">
+                  <span className="text-xs font-medium bg-pn-blue-light text-pn-navy px-2 py-0.5 rounded">
                     クイズ
                   </span>
                   <span className="text-xs text-gray-400">全{quiz.questions.length}問</span>
@@ -135,7 +135,7 @@ export default async function Home() {
                 <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                   {quiz.description}
                 </p>
-                <p className="text-xs text-violet-600 mt-2 font-medium">挑戦する →</p>
+                <p className="text-xs text-pn-blue mt-2 font-medium">挑戦する →</p>
               </Link>
             ))}
           </div>
@@ -150,7 +150,7 @@ export default async function Home() {
               <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
                 次の試合
               </p>
-              <Link href="/matches" className="text-xs text-violet-600 hover:underline">
+              <Link href="/matches" className="text-xs text-pn-blue hover:underline">
                 すべて見る →
               </Link>
             </div>
@@ -199,7 +199,7 @@ export default async function Home() {
               <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
                 直近の結果
               </p>
-              <Link href="/matches" className="text-xs text-violet-600 hover:underline">
+              <Link href="/matches" className="text-xs text-pn-blue hover:underline">
                 すべて見る →
               </Link>
             </div>

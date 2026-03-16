@@ -50,7 +50,7 @@ export default async function StylePage() {
     : "";
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <div className="max-w-5xl mx-auto px-4 py-6">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-1">
           攻撃スタイル分析

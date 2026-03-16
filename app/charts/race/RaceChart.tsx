@@ -82,7 +82,7 @@ export default function RaceChart({
             onClick={() => setGroup(key)}
             className={`flex-1 py-1.5 text-sm rounded border transition-colors ${
               group === key
-                ? "bg-violet-600 text-white border-violet-600"
+                ? "bg-pn-navy text-white border-pn-navy"
                 : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
             }`}
           >

@@ -65,7 +65,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   const nextArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -144,7 +144,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* 記事一覧へ */}
         <div className="mt-4 text-center">
-          <Link href="/articles" className="text-sm text-violet-600 hover:underline">
+          <Link href="/articles" className="text-sm text-pn-blue hover:underline">
             ← 記事一覧へ戻る
           </Link>
         </div>

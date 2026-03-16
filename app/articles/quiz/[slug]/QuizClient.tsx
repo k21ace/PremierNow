@@ -85,7 +85,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
       <div className="space-y-6">
         {/* スコア */}
         <div className="bg-white border border-gray-200 rounded p-6 text-center shadow-sm">
-          <p className="text-4xl font-bold font-mono tabular-nums text-violet-600 mb-2">
+          <p className="text-4xl font-bold font-mono tabular-nums text-pn-blue mb-2">
             {score} / {total}問 正解！
           </p>
           <ScoreMessage score={score} total={total} />
@@ -94,7 +94,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
             {Array.from({ length: total }).map((_, i) => (
               <span
                 key={i}
-                className={`text-2xl ${i < score ? "text-violet-500" : "text-gray-200"}`}
+                className={`text-2xl ${i < score ? "text-pn-blue" : "text-gray-200"}`}
               >
                 ★
               </span>
@@ -166,7 +166,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
           <div className="flex gap-3">
             <button
               onClick={handleReset}
-              className="flex-1 text-sm border border-violet-600 text-violet-600 rounded px-4 py-2 hover:bg-violet-50 transition-colors"
+              className="flex-1 text-sm border border-pn-navy text-pn-blue rounded px-4 py-2 hover:bg-pn-blue-light transition-colors"
             >
               もう一度挑戦
             </button>
@@ -199,7 +199,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
         </div>
         <div className="w-full bg-gray-100 rounded-full h-1.5">
           <div
-            className="bg-violet-600 h-1.5 rounded-full transition-all duration-300"
+            className="bg-pn-navy h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -208,7 +208,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
       {/* 問題カード */}
       <div className="bg-white border border-gray-200 rounded p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs bg-violet-50 text-violet-700 border border-violet-200 px-2 py-0.5 rounded">
+          <span className="text-xs bg-pn-blue-light text-pn-navy border border-pn-blue-light px-2 py-0.5 rounded">
             {question.type === "choice" ? "4択" : "記述式"}
           </span>
           <span className="text-xs text-gray-400">Q{currentQuestion + 1}</span>
@@ -227,7 +227,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
             let cls =
               "w-full text-left text-sm px-4 py-3 rounded border transition-colors";
             if (!isAnswered) {
-              cls += " bg-white border-gray-200 hover:border-violet-400 hover:bg-violet-50";
+              cls += " bg-white border-gray-200 hover:border-pn-blue hover:bg-pn-blue-light";
             } else if (isCorrect) {
               cls += " bg-green-50 border-green-500 text-green-800";
             } else if (isSelected) {
@@ -267,14 +267,14 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
                 ? answers[answers.length - 1]?.correct
                   ? "bg-green-50 border-green-500"
                   : "bg-red-50 border-red-500"
-                : "border-gray-200 focus:border-violet-400"
+                : "border-gray-200 focus:border-pn-blue"
             }`}
           />
           {!isAnswered && (
             <button
               onClick={handleTextSubmit}
               disabled={textInput.trim() === ""}
-              className="w-full text-sm bg-violet-600 text-white rounded px-4 py-3 hover:bg-violet-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="w-full text-sm bg-pn-navy text-white rounded px-4 py-3 hover:bg-pn-navy-dark disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               回答する
             </button>
@@ -316,7 +316,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
       {isAnswered && (
         <button
           onClick={handleNext}
-          className="w-full text-sm bg-violet-600 text-white rounded px-4 py-3 hover:bg-violet-700 transition-colors"
+          className="w-full text-sm bg-pn-navy text-white rounded px-4 py-3 hover:bg-pn-navy-dark transition-colors"
         >
           {currentQuestion + 1 >= total ? "結果を見る" : "次の問題へ →"}
         </button>

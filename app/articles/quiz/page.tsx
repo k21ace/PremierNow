@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function QuizListPage() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <div className="max-w-3xl mx-auto px-4 py-6">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-6">
           PLクイズ
@@ -51,7 +51,7 @@ export default function QuizListPage() {
                       {quiz.description}
                     </p>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs bg-violet-50 text-violet-700 border border-violet-200 px-2 py-0.5 rounded">
+                      <span className="text-xs bg-pn-blue-light text-pn-navy border border-pn-blue-light px-2 py-0.5 rounded">
                         全{quiz.questions.length}問
                       </span>
                       <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
@@ -69,7 +69,7 @@ export default function QuizListPage() {
                   </div>
                   <Link
                     href={`/articles/quiz/${quiz.slug}`}
-                    className="shrink-0 text-sm bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition-colors"
+                    className="shrink-0 text-sm bg-pn-navy text-white px-4 py-2 rounded hover:bg-pn-navy-dark transition-colors"
                   >
                     挑戦する →
                   </Link>
@@ -81,7 +81,7 @@ export default function QuizListPage() {
         <div className="mt-6">
           <Link
             href="/articles"
-            className="text-sm text-violet-600 hover:underline"
+            className="text-sm text-pn-blue hover:underline"
           >
             ← 記事一覧に戻る
           </Link>

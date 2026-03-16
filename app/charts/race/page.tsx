@@ -58,7 +58,7 @@ export default async function RacePage() {
   const safeZoneTeamId = table[16]?.team.id ?? null;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <div className="max-w-5xl mx-auto px-4 py-6">
         <RaceChart
           timelines={timelines}

@@ -34,7 +34,7 @@ export default async function QuizDetailPage({ params }: Props) {
   if (!quiz) notFound();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="mb-4">
           <Link

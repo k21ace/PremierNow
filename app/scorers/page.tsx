@@ -78,7 +78,7 @@ function ScorerRow({ scorer, rank }: { scorer: Scorer; rank: number }) {
       {/* 選手名（イニシャルアバター + 氏名） */}
       <td className="px-3 py-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-semibold shrink-0 select-none">
+          <div className="w-8 h-8 rounded-full bg-pn-blue-light text-pn-navy flex items-center justify-center text-xs font-semibold shrink-0 select-none">
             {getInitials(player.name)}
           </div>
           <span className="text-sm font-medium text-gray-900 leading-tight">
@@ -130,7 +130,7 @@ export default async function ScorersPage() {
   const data = await getScorers();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <JsonLd
         data={{
           "@context": "https://schema.org",

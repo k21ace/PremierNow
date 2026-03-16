@@ -25,7 +25,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
             onClick={() => setActiveTag(null)}
             className={`px-3 py-1 text-xs rounded border transition-colors ${
               activeTag === null
-                ? "bg-violet-600 text-white border-violet-600"
+                ? "bg-pn-navy text-white border-pn-navy"
                 : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"
             }`}
           >
@@ -37,7 +37,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
               onClick={() => setActiveTag(tag === activeTag ? null : tag)}
               className={`px-3 py-1 text-xs rounded border transition-colors ${
                 activeTag === tag
-                  ? "bg-violet-600 text-white border-violet-600"
+                  ? "bg-pn-navy text-white border-pn-navy"
                   : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"
               }`}
             >
@@ -58,7 +58,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
               className="bg-white border border-gray-200 rounded shadow-sm p-4"
             >
               <Link href={`/articles/${article.slug}`} className="group">
-                <h2 className="font-medium text-gray-900 group-hover:text-violet-600 transition-colors mb-1">
+                <h2 className="font-medium text-gray-900 group-hover:text-pn-blue transition-colors mb-1">
                   {article.title}
                 </h2>
               </Link>
@@ -85,7 +85,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
               <div className="mt-3">
                 <Link
                   href={`/articles/${article.slug}`}
-                  className="text-xs text-violet-600 hover:underline"
+                  className="text-xs text-pn-blue hover:underline"
                 >
                   続きを読む →
                 </Link>

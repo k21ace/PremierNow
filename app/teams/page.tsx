@@ -49,7 +49,7 @@ export default async function TeamsPage() {
   const table = data.standings.find((s) => s.type === "TOTAL")?.table ?? [];
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -82,7 +82,7 @@ export default async function TeamsPage() {
           {table.map(({ position, team, points, won, draw, lost }) => (
             <Link key={team.id} href={`/teams/${team.id}`}>
               <div
-                className={`bg-white border border-gray-200 rounded shadow-sm p-4 flex flex-col items-center gap-2 hover:border-violet-300 hover:shadow transition-all ${getZoneColor(position)}`}
+                className={`bg-white border border-gray-200 rounded shadow-sm p-4 flex flex-col items-center gap-2 hover:border-pn-blue hover:shadow transition-all ${getZoneColor(position)}`}
               >
                 <Image
                   src={team.crest}

@@ -37,7 +37,7 @@ type HighlightProps = {
 const highlightStyles = {
   info: "bg-blue-50 border-l-4 border-blue-500 text-blue-900",
   warning: "bg-orange-50 border-l-4 border-orange-500 text-orange-900",
-  tip: "bg-violet-50 border-l-4 border-violet-500 text-violet-900",
+  tip: "bg-pn-blue-light border-l-4 border-pn-navy text-pn-navy",
 };
 
 function Highlight({ type, children }: HighlightProps) {
@@ -90,15 +90,15 @@ function ScorePrediction({ home, away, homeScore, awayScore, reason }: ScorePred
   const hs = Number(homeScore);
   const as = Number(awayScore);
   return (
-    <div className="bg-violet-600 text-white rounded p-6 text-center my-6">
-      <p className="text-sm text-violet-200 mb-2">スコア予想</p>
+    <div className="bg-pn-navy text-white rounded p-6 text-center my-6">
+      <p className="text-sm text-pn-muted mb-2">スコア予想</p>
       <p className="text-lg font-medium mb-1">
-        {home} <span className="text-violet-300">vs</span> {away}
+        {home} <span className="text-pn-muted">vs</span> {away}
       </p>
       <p className="text-4xl font-bold font-mono tabular-nums my-3">
         {hs} - {as}
       </p>
-      <p className="text-sm text-violet-100 mt-3 leading-relaxed">{reason}</p>
+      <p className="text-sm text-pn-muted mt-3 leading-relaxed">{reason}</p>
     </div>
   );
 }
@@ -167,14 +167,14 @@ const mdxComponents: MDXComponents = {
   ),
   // その他
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-violet-300 pl-4 text-gray-600 italic my-4">
+    <blockquote className="border-l-4 border-pn-blue pl-4 text-gray-600 italic my-4">
       {children}
     </blockquote>
   ),
   a: ({ href, children }) => (
     <Link
       href={href ?? "#"}
-      className="text-violet-600 hover:underline"
+      className="text-pn-blue hover:underline"
       target={href?.startsWith("http") ? "_blank" : undefined}
       rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
     >

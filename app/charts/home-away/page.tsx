@@ -44,7 +44,7 @@ export default async function HomeAwayPage() {
   const stats = calcHomeAwayStats(home, away);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <JsonLd
         data={{
           "@context": "https://schema.org",

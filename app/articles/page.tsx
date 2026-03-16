@@ -38,23 +38,23 @@ export default function ArticlesPage() {
   const allTags = Array.from(new Set(articles.flatMap((a) => a.tags)));
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-pn-bg">
       <div className="max-w-3xl mx-auto px-4 py-6">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-6">
           分析記事
         </h1>
 
         {/* クイズ導線バナー */}
-        <div className="bg-violet-50 border border-violet-200 rounded p-4 mb-6 flex items-center justify-between">
+        <div className="bg-pn-blue-light border border-pn-blue-light rounded p-4 mb-6 flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-violet-900">クイズで腕試し！</p>
-            <p className="text-xs text-violet-700 mt-1">
+            <p className="text-sm font-medium text-pn-navy">クイズで腕試し！</p>
+            <p className="text-xs text-pn-navy mt-1">
               プレミアリーグクイズに挑戦してみよう
             </p>
           </div>
           <Link
             href="/articles/quiz"
-            className="text-sm text-violet-600 font-medium hover:underline shrink-0"
+            className="text-sm text-pn-blue font-medium hover:underline shrink-0"
           >
             挑戦する →
           </Link>

@@ -44,7 +44,7 @@ export function getAnnotation(
     const gap = leaderFinalPoints - finalPoints;
     return {
       text: gap === 0 ? "首位" : `-${gap}pt`,
-      color: gap === 0 ? "#7c3aed" : "#ef4444",
+      color: gap === 0 ? "#00a8e8" : "#ef4444",
     };
   } else if (group === "cl") {
     const gap = leaderFinalPoints - finalPoints;
@@ -107,7 +107,7 @@ export function CustomTooltip({
   return (
     <div className="bg-white border border-gray-200 rounded shadow-sm p-3 text-xs min-w-[140px]">
       {drama && (
-        <p className="text-violet-600 font-medium mb-1.5 text-[11px]">
+        <p className="text-pn-blue font-medium mb-1.5 text-[11px]">
           {drama.isHeadToHead ? "⚔" : "⚡"} {drama.description}
         </p>
       )}

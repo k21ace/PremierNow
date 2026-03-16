@@ -107,7 +107,7 @@ export default function PlayerDetailClient({
     <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
       {/* パンくず */}
       <nav className="text-sm text-gray-500">
-        <Link href="/players" className="hover:text-violet-600 transition-colors">
+        <Link href="/players" className="hover:text-pn-blue transition-colors">
           Player
         </Link>
         <span className="mx-1.5">›</span>
@@ -118,7 +118,7 @@ export default function PlayerDetailClient({
       <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-6">
         <div className="flex items-start gap-5">
           {/* イニシャルアバター */}
-          <div className="w-20 h-20 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-2xl font-bold shrink-0 select-none">
+          <div className="w-20 h-20 rounded-full bg-pn-blue-light text-pn-navy flex items-center justify-center text-2xl font-bold shrink-0 select-none">
             {getInitials(player.name)}
           </div>
 
@@ -184,7 +184,7 @@ export default function PlayerDetailClient({
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(Number(e.target.value))}
-            className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-violet-300"
+            className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue"
           >
             {SEASONS.map((s) => (
               <option key={s.year} value={s.year}>
@@ -233,7 +233,7 @@ export default function PlayerDetailClient({
                   <p className="text-xs text-gray-400 mt-0.5">枠内</p>
                 </div>
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-violet-600">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-pn-blue">
                     {detailStats.shotAccuracy}%
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">精度</p>
@@ -248,7 +248,7 @@ export default function PlayerDetailClient({
               </p>
               <div className="grid grid-cols-2 gap-2 text-center">
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-violet-600">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-pn-blue">
                     {detailStats.passAccuracy}%
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">パス精度</p>
@@ -332,13 +332,13 @@ export default function PlayerDetailClient({
                   <tr
                     key={s.year}
                     className={`border-b border-gray-100 ${
-                      s.year === selectedSeason ? "bg-violet-50" : "hover:bg-gray-50"
+                      s.year === selectedSeason ? "bg-pn-blue-light" : "hover:bg-gray-50"
                     } transition-colors`}
                   >
                     <td className="px-4 py-3 font-medium text-gray-900">
                       {s.label}
                       {s.year === selectedSeason && (
-                        <span className="ml-2 text-xs text-violet-600 font-normal">
+                        <span className="ml-2 text-xs text-pn-blue font-normal">
                           選択中
                         </span>
                       )}
@@ -401,7 +401,7 @@ export default function PlayerDetailClient({
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-xs text-violet-600 hover:text-violet-800 font-medium transition-colors whitespace-nowrap"
+                  className="flex items-center gap-1 text-xs text-pn-blue hover:text-pn-navy font-medium transition-colors whitespace-nowrap"
                 >
                   プロフィールを見る
                   <ExternalLink className="w-3 h-3" />
@@ -428,7 +428,7 @@ export default function PlayerDetailClient({
               >
                 {/* タイムライン線 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-2 h-2 rounded-full bg-violet-400 mt-5 shrink-0 z-10" />
+                  <div className="w-2 h-2 rounded-full bg-pn-blue mt-5 shrink-0 z-10" />
                   {i < career.career.length - 1 && (
                     <div className="w-px flex-1 bg-gray-200 mt-1" />
                   )}

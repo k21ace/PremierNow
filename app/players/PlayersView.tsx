@@ -103,7 +103,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
           value={selectedSeason}
           onChange={(e) => handleSeasonChange(Number(e.target.value))}
           disabled={isLoading}
-          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-violet-300 disabled:opacity-50"
+          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue disabled:opacity-50"
         >
           {SEASONS.map((s) => (
             <option key={s.year} value={s.year}>
@@ -117,7 +117,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           disabled={isLoading}
-          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-violet-300 disabled:opacity-50"
+          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue disabled:opacity-50"
         >
           <option value="all">全チーム</option>
           {teams.map((t) => (
@@ -136,7 +136,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
               disabled={isLoading}
               className={`px-3 py-1.5 text-xs transition-colors disabled:opacity-50 ${
                 sortKey === key
-                  ? "bg-violet-600 text-white font-medium"
+                  ? "bg-pn-navy text-white font-medium"
                   : "bg-white text-gray-500 hover:bg-gray-50"
               }`}
             >
@@ -202,12 +202,12 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                     <td className="px-3 py-3">
                       <Link
                         href={`/players/${player.id}`}
-                        className="flex items-center gap-2.5 hover:text-violet-600 transition-colors group"
+                        className="flex items-center gap-2.5 hover:text-pn-blue transition-colors group"
                       >
-                        <div className="w-8 h-8 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-semibold shrink-0 select-none">
+                        <div className="w-8 h-8 rounded-full bg-pn-blue-light text-pn-navy flex items-center justify-center text-xs font-semibold shrink-0 select-none">
                           {getInitials(player.name)}
                         </div>
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-violet-600 leading-tight whitespace-nowrap transition-colors">
+                        <span className="text-sm font-medium text-gray-900 group-hover:text-pn-blue leading-tight whitespace-nowrap transition-colors">
                           {player.name}
                         </span>
                       </Link>
@@ -264,7 +264,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             title={s.handle}
-                            className="text-gray-400 hover:text-violet-600 transition-colors"
+                            className="text-gray-400 hover:text-pn-blue transition-colors"
                           >
                             <SNSIcon platform={s.platform} />
                           </a>

@@ -99,7 +99,7 @@ export default function HomeAwayClient({ stats }: Props) {
         <p className="font-semibold text-gray-900 mb-2">{s.teamName}</p>
         <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
           <div>
-            <p className="text-violet-600 font-medium mb-1">ホーム</p>
+            <p className="text-pn-blue font-medium mb-1">ホーム</p>
             <p className="text-gray-600">{s.home.played}試合 {s.home.won}勝{s.home.drawn}分{s.home.lost}負</p>
             <p className="text-gray-600">得{s.home.goalsFor} 失{s.home.goalsAgainst}</p>
             <p className="font-semibold text-gray-800">{s.home.points}pt (PPG {s.home.ppg.toFixed(2)})</p>
@@ -118,7 +118,7 @@ export default function HomeAwayClient({ stats }: Props) {
   const customLegend = () => (
     <div style={{ display: "flex", gap: 16, justifyContent: "center", fontSize: 12 }}>
       <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <span style={{ background: "#7c3aed", width: 12, height: 12, display: "inline-block", marginRight: 4 }} />
+        <span style={{ background: "#00a8e8", width: 12, height: 12, display: "inline-block", marginRight: 4 }} />
         ホーム
       </span>
       <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -221,8 +221,8 @@ export default function HomeAwayClient({ stats }: Props) {
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend content={customLegend} />
-              <Bar dataKey="ホーム" fill="#7c3aed" barSize={14} radius={[0, 2, 2, 0]}>
-                <LabelList dataKey="ホーム" position="right" style={{ fontSize: 10, fill: "#7c3aed" }} />
+              <Bar dataKey="ホーム" fill="#00a8e8" barSize={14} radius={[0, 2, 2, 0]}>
+                <LabelList dataKey="ホーム" position="right" style={{ fontSize: 10, fill: "#00a8e8" }} />
               </Bar>
               <Bar dataKey="アウェイ" fill="#d1d5db" barSize={14} radius={[0, 2, 2, 0]}>
                 <LabelList dataKey="アウェイ" position="right" style={{ fontSize: 10, fill: "#9ca3af" }} />
@@ -255,8 +255,8 @@ export default function HomeAwayClient({ stats }: Props) {
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend content={customLegend} />
-              <Bar dataKey="ホーム" fill="#7c3aed" barSize={12} radius={[0, 2, 2, 0]}>
-                <LabelList dataKey="ホーム" position="right" style={{ fontSize: 9, fill: "#7c3aed" }} />
+              <Bar dataKey="ホーム" fill="#00a8e8" barSize={12} radius={[0, 2, 2, 0]}>
+                <LabelList dataKey="ホーム" position="right" style={{ fontSize: 9, fill: "#00a8e8" }} />
               </Bar>
               <Bar dataKey="アウェイ" fill="#d1d5db" barSize={12} radius={[0, 2, 2, 0]}>
                 <LabelList dataKey="アウェイ" position="right" style={{ fontSize: 9, fill: "#9ca3af" }} />

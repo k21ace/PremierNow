@@ -34,8 +34,11 @@
 
   /* PremierNow ブランドカラー */
   --color-pn-navy:       #2d0a4e;
+  --color-pn-navy-dark:  #1e0636;
   --color-pn-blue:       #00a8e8;
-  --color-pn-navy-light: #7a8fc0;
+  --color-pn-blue-light: #e6f6fd;
+  --color-pn-muted:      #7a8fc0;
+  --color-pn-bg:         #f5f7fb;
 }
 
 body {

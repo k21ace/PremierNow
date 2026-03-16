@@ -237,7 +237,7 @@ export default function SimulatorClient({
                     key={r.teamId}
                     className={`border-b border-gray-100 last:border-0 transition-colors ${
                       hasPredictions && r.positionChange !== 0
-                        ? "bg-violet-50/30"
+                        ? "bg-pn-blue-light/30"
                         : "hover:bg-gray-50"
                     } ${getZoneBorder(r.predictedPosition)}`}
                   >
