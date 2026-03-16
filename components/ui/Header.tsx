@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "@/components/Logo";
 
 const navLinks = [
   { href: "/articles",    label: "記事",     activePrefix: "/articles" },
@@ -16,29 +17,35 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-white border-b border-gray-200 overflow-x-hidden">
-      {/* 1行目: サイト名 */}
-      <div className="max-w-5xl mx-auto px-4 pt-3 pb-1">
-        <Link
-          href="/"
-          className="font-bold text-violet-600 text-base tracking-tight"
-        >
-          PremierNow
+    <header className="overflow-x-hidden" style={{ backgroundColor: "#2d0a4e" }}>
+      {/* 1行目: ロゴ */}
+      <div className="max-w-5xl mx-auto px-4 pt-2 pb-1">
+        <Link href="/" aria-label="PremierNow ホームへ">
+          <Logo />
         </Link>
       </div>
       {/* 2行目: ナビ */}
-      <nav className="flex border-t border-gray-100 max-w-5xl mx-auto">
+      <nav
+        className="flex max-w-5xl mx-auto"
+        style={{ borderTop: "1px solid #3a2a6a" }}
+      >
         {navLinks.map(({ href, label, activePrefix }) => {
           const isActive = pathname.startsWith(activePrefix);
           return (
             <Link
               key={href}
               href={href}
-              className={`flex-1 text-center py-2 text-xs transition-colors ${
-                isActive
-                  ? "text-violet-600 font-medium border-b-2 border-violet-600"
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+              className={`flex-1 text-center py-2 text-xs transition-colors font-medium ${
+                isActive ? "" : "hover:text-white"
               }`}
+              style={
+                isActive
+                  ? {
+                      color: "#00a8e8",
+                      borderBottom: "2px solid #00a8e8",
+                    }
+                  : { color: "#8899cc" }
+              }
             >
               {label}
             </Link>

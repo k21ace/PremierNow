@@ -15,7 +15,7 @@
   --color-text-secondary: #6b7280; /* text-gray-500 */
 
   /* アクセント */
-  --color-accent:    #7c3aed; /* text-violet-600 */
+  --color-accent:    #00a8e8; /* pn-blue */
 
   /* W/D/L バッジ */
   --color-win:  #16a34a; /* bg-green-600 */
@@ -31,6 +31,11 @@
 @theme inline {
   --font-sans: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* PremierNow ブランドカラー */
+  --color-pn-navy:       #2d0a4e;
+  --color-pn-blue:       #00a8e8;
+  --color-pn-navy-light: #7a8fc0;
 }
 
 body {
