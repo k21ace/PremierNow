@@ -36,16 +36,10 @@ export default function Header() {
               key={href}
               href={href}
               className={`flex-1 text-center py-2 text-xs transition-colors font-medium ${
-                isActive ? "" : "hover:text-white"
-              }`}
-              style={
                 isActive
-                  ? {
-                      color: "#00a8e8",
-                      borderBottom: "2px solid #00a8e8",
-                    }
-                  : { color: "#8899cc" }
-              }
+                  ? "text-white border-b-2 border-[#00a8e8]"
+                  : "text-[#7a8fc0] hover:text-white"
+              }`}
             >
               {label}
             </Link>

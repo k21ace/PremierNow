@@ -67,13 +67,6 @@ export default async function Home() {
       />
       <div className="max-w-3xl mx-auto px-4 py-4 space-y-4">
 
-        {/* ヒーローエリア */}
-        <div className="py-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-            PremierNow
-          </h1>
-        </div>
-
         {/* ピックアップ記事 */}
         <section>
           <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
