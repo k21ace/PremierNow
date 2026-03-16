@@ -23,7 +23,7 @@ export default function Header() {
           href="/"
           className="font-bold text-violet-600 text-base tracking-tight"
         >
-          PremierInsight
+          PremierNow
         </Link>
       </div>
       {/* 2行目: ナビ */}

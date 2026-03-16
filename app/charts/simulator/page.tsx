@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/JsonLd";
 import SimulatorClient from "./SimulatorClient";
 
 const OG_TITLE =
-  "プレミアリーグ 順位予測シミュレーター 2025-26 | PremierInsight";
+  "プレミアリーグ 順位予測シミュレーター 2025-26 | PremierNow";
 const OG_DESC =
   "残り試合の結果を予測して最終順位をシミュレーション。あなたの予測でプレミアリーグの順位はどう変わる？";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/charts/simulator",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("順位予測シミュレーター 2025-26")}`,

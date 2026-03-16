@@ -6,7 +6,7 @@ import RaceChart from "./RaceChart";
 export const revalidate = 3600;
 
 const OG_TITLE =
-  "プレミアリーグ 優勝争い・降格争いチャート 2025-26 | PremierInsight";
+  "プレミアリーグ 優勝争い・降格争いチャート 2025-26 | PremierNow";
 const OG_DESC =
   "節ごとの勝点推移を可視化。優勝争いと降格争いをリアルタイムで追えます。";
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/charts/race",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 優勝争い・降格争いチャート 2025-26")}`,

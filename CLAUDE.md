@@ -1,4 +1,4 @@
-# PremierInsight — Claude への指示
+# PremierNow — Claude への指示
 
 ## ナビゲーション一覧
 

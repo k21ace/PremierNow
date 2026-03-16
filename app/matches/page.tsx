@@ -3,7 +3,7 @@ import { getMatches, getCurrentMatchday } from "@/lib/football-api";
 import MatchesView from "./MatchesView";
 import { JsonLd } from "@/components/JsonLd";
 
-const OG_TITLE = "プレミアリーグ 試合結果・日程 2025-26 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 試合結果・日程 2025-26 | PremierNow";
 const OG_DESC =
   "プレミアリーグの最新試合結果と今後の日程。得点者・スコアをリアルタイムで確認。";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/matches",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 試合結果・日程 2025-26")}`,

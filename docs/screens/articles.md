@@ -102,7 +102,7 @@ APIは使用しない。ファイルシステムから直接取得。
 
 | 項目 | 値 |
 |------|-----|
-| `title` | `"プレミアリーグ 分析記事一覧 | PremierInsight"` |
+| `title` | `"プレミアリーグ 分析記事一覧 | PremierNow"` |
 | `description` | `"プレミアリーグの試合分析・データ解説記事。毎節更新。"` |
 | OGP画像 | `/api/og?title=プレミアリーグ+分析記事一覧`（動的生成） |
 | Twitter Card | `summary_large_image` |
@@ -112,7 +112,7 @@ APIは使用しない。ファイルシステムから直接取得。
 
 | 項目 | 値 |
 |------|-----|
-| `title` | `"${article.title} | PremierInsight"`（`generateMetadata` で動的生成） |
+| `title` | `"${article.title} | PremierNow"`（`generateMetadata` で動的生成） |
 | `description` | `article.description`（フロントマターから） |
 | OGP画像 | `/api/og?title=${encodeURIComponent(article.title)}`（動的生成） |
 | Twitter Card | `summary_large_image` |

@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/JsonLd";
 
 export const revalidate = 1800;
 
-const OG_TITLE = "PremierInsight - プレミアリーグ データ分析";
+const OG_TITLE = "PremierNow - プレミアリーグ データ分析";
 const OG_DESC =
   "プレミアリーグの順位表・試合結果・得点王・データ分析を日本語で。毎節更新。";
 
@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
-        url: `/api/og?title=${encodeURIComponent("PremierInsight")}`,
+        url: `/api/og?title=${encodeURIComponent("PremierNow")}`,
         width: 1200,
         height: 630,
       },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: OG_TITLE,
     description: OG_DESC,
-    images: [`/api/og?title=${encodeURIComponent("PremierInsight")}`],
+    images: [`/api/og?title=${encodeURIComponent("PremierNow")}`],
   },
 };
 
@@ -59,7 +59,7 @@ export default async function Home() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "PremierInsight",
+          name: "PremierNow",
           url: "https://premier-insight.vercel.app",
           description: "プレミアリーグのデータ分析サイト",
           inLanguage: "ja",
@@ -70,7 +70,7 @@ export default async function Home() {
         {/* ヒーローエリア */}
         <div className="py-2">
           <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-            PremierInsight
+            PremierNow
           </h1>
         </div>
 

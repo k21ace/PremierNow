@@ -6,7 +6,7 @@ import StyleChartSP from "@/components/charts/StyleChartSP";
 
 export const revalidate = 3600;
 
-const OG_TITLE = "プレミアリーグ 攻撃スタイル分析 2025-26 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 攻撃スタイル分析 2025-26 | PremierNow";
 const OG_DESC =
   "全20チームの得点力・守備力を散布図で可視化。チームの戦術傾向が一目でわかります。";
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/charts/style",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 攻撃スタイル分析 2025-26")}`,

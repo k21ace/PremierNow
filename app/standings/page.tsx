@@ -4,7 +4,7 @@ import { getStandingsWithForm } from "@/lib/football-api";
 import type { Standing } from "@/types/football";
 import { JsonLd } from "@/components/JsonLd";
 
-const OG_TITLE = "プレミアリーグ 順位表 2025-26 最新 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 順位表 2025-26 最新 | PremierNow";
 const OG_DESC =
   "プレミアリーグの最新順位表。勝点・得失点差・直近5試合の結果をリアルタイムで確認。";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/standings",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 順位表 2025-26")}`,

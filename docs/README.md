@@ -1,12 +1,12 @@
-# PremierInsight ドキュメント
+# PremierNow ドキュメント
 
-プレミアリーグのデータを日本語で分析・可視化するサイト「PremierInsight」の技術ドキュメントです。
+プレミアリーグのデータを日本語で分析・可視化するサイト「PremierNow」の技術ドキュメントです。
 
 ## プロジェクト概要
 
 | 項目 | 内容 |
 |------|------|
-| サイト名 | PremierInsight |
+| サイト名 | PremierNow |
 | コンセプト | プレミアリーグのデータを日本語で分析・可視化するサイト |
 | ターゲット | プレミアリーグを深く楽しみたい日本人 |
 | 本番URL | https://premier-insight.vercel.app/ |
@@ -46,7 +46,7 @@
 ```bash
 # 1. リポジトリをクローン
 git clone <repository-url>
-cd PremierInsight
+cd PremierNow
 
 # 2. 依存パッケージをインストール
 npm install

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getStandings } from "@/lib/football-api";
 import { JsonLd } from "@/components/JsonLd";
 
-const OG_TITLE = "プレミアリーグ チーム一覧 2025-26 | PremierInsight";
+const OG_TITLE = "プレミアリーグ チーム一覧 2025-26 | PremierNow";
 const OG_DESC =
   "プレミアリーグ全20クラブの順位・勝点・スタッツ一覧。各チームの詳細成績を確認。";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/teams",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ チーム一覧 2025-26")}`,

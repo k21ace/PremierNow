@@ -15,13 +15,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const quiz = getQuizBySlug(slug);
   if (!quiz) return {};
   return {
-    title: `${quiz.title} | PremierInsight`,
+    title: `${quiz.title} | PremierNow`,
     description: quiz.description,
     openGraph: {
-      title: `${quiz.title} | PremierInsight`,
+      title: `${quiz.title} | PremierNow`,
       description: quiz.description,
       url: `/articles/quiz/${slug}`,
-      siteName: "PremierInsight",
+      siteName: "PremierNow",
       locale: "ja_JP",
       type: "website",
     },

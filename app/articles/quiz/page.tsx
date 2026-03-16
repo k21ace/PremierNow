@@ -3,13 +3,13 @@ import Link from "next/link";
 import { quizzes } from "@/lib/quiz-data";
 
 export const metadata: Metadata = {
-  title: "プレミアリーグ クイズ | PremierInsight",
+  title: "プレミアリーグ クイズ | PremierNow",
   description: "PLの知識を試すクイズ。4択と記述式の混合クイズに挑戦！",
   openGraph: {
-    title: "プレミアリーグ クイズ | PremierInsight",
+    title: "プレミアリーグ クイズ | PremierNow",
     description: "PLの知識を試すクイズ。4択と記述式の混合クイズに挑戦！",
     url: "/articles/quiz",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     locale: "ja_JP",
     type: "website",
   },

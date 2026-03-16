@@ -87,7 +87,7 @@ interface MatchSummary {
 - 列: 試合数・勝・分・負・得点・失点・得失点差・勝点
 
 ### generateMetadata
-- title: `{チーム名} 成績・スタッツ 2025-26 | PremierInsight`
+- title: `{チーム名} 成績・スタッツ 2025-26 | PremierNow`
 - OGP画像: `/api/og?title=...` で動的生成
 
 ---

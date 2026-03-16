@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
     const article = getArticleBySlug(slug);
-    const title = `${article.title} | PremierInsight`;
+    const title = `${article.title} | PremierNow`;
     const ogImage = `/api/og?title=${encodeURIComponent(article.title)}`;
     return {
       title,
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title,
         description: article.description,
         url: `/articles/${slug}`,
-        siteName: "PremierInsight",
+        siteName: "PremierNow",
         images: [{ url: ogImage, width: 1200, height: 630 }],
         locale: "ja_JP",
         type: "article",
@@ -75,7 +75,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           datePublished: article.publishedAt,
           publisher: {
             "@type": "Organization",
-            name: "PremierInsight",
+            name: "PremierNow",
           },
         }}
       />

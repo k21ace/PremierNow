@@ -5,7 +5,7 @@ import type { PlayerSNS } from "@/lib/mock/player-sns";
 import { JsonLd } from "@/components/JsonLd";
 import PlayersView from "./PlayersView";
 
-const OG_TITLE = "プレミアリーグ 選手スタッツ一覧 2025-26 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 選手スタッツ一覧 2025-26 | PremierNow";
 const OG_DESC =
   "プレミアリーグ全選手の得点・アシスト・出場時間ランキング。";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/players",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 選手スタッツ一覧 2025-26")}`,

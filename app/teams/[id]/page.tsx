@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const standing = table.find((s) => s.team.id === teamId);
     if (!standing) return {};
 
-    const title = `${standing.team.name} 成績・スタッツ 2025-26 | PremierInsight`;
+    const title = `${standing.team.name} 成績・スタッツ 2025-26 | PremierNow`;
     const description = `${standing.team.name}のプレミアリーグ成績。順位・勝点・得失点・直近試合結果を確認。`;
     return {
       title,
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title,
         description,
         url: `/teams/${id}`,
-        siteName: "PremierInsight",
+        siteName: "PremierNow",
         images: [
           {
             url: `/api/og?title=${encodeURIComponent(standing.team.name + " 成績 2025-26")}`,

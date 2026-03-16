@@ -7,7 +7,7 @@ import HomeAwayClient from "./HomeAwayClient";
 export const revalidate = 3600;
 
 const OG_TITLE =
-  "プレミアリーグ ホーム vs アウェイ 成績比較 2025-26 | PremierInsight";
+  "プレミアリーグ ホーム vs アウェイ 成績比較 2025-26 | PremierNow";
 const OG_DESC =
   "プレミアリーグ全チームのホームとアウェイの成績を比較。ホームに強いチーム・アウェイに強いチームの傾向が一目でわかります。";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/charts/home-away",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("ホーム vs アウェイ 成績比較 2025-26")}`,

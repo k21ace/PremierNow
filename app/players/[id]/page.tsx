@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const player = await getPlayer(playerId);
-    const title = `${player.name} スタッツ 2025-26 | PremierInsight`;
+    const title = `${player.name} スタッツ 2025-26 | PremierNow`;
     const description = `${player.name}（${player.currentTeam?.shortName ?? ""}）の得点・アシスト・シュート・パスなど詳細スタッツ。`;
     return {
       title,
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title,
         description,
         url: `/players/${id}`,
-        siteName: "PremierInsight",
+        siteName: "PremierNow",
         images: [
           {
             url: `/api/og?title=${encodeURIComponent(player.name + " スタッツ 2025-26")}`,

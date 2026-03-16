@@ -73,7 +73,7 @@
 
 | 項目 | 値 |
 |------|-----|
-| `title` | `"プレミアリーグ 攻撃スタイル分析 2025-26 | PremierInsight"` |
+| `title` | `"プレミアリーグ 攻撃スタイル分析 2025-26 | PremierNow"` |
 | `description` | `"全20チームの得点力・守備力を散布図で可視化。チームの戦術傾向が一目でわかります。"` |
 | OGP画像 | `/api/og?title=プレミアリーグ+攻撃スタイル分析+2025-26`（動的生成） |
 | Twitter Card | `summary_large_image` |

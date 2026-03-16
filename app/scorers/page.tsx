@@ -4,7 +4,7 @@ import { getScorers } from "@/lib/football-api";
 import type { Scorer } from "@/types/football";
 import { JsonLd } from "@/components/JsonLd";
 
-const OG_TITLE = "プレミアリーグ 得点王ランキング 2025-26 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 得点王ランキング 2025-26 | PremierNow";
 const OG_DESC =
   "プレミアリーグの得点王・アシストランキング。最新のゴール数をランキングで確認。";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/scorers",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 得点王ランキング 2025-26")}`,

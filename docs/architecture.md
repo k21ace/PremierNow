@@ -47,7 +47,7 @@ football-data.org API v4
 ## ディレクトリ構成
 
 ```
-c:/ws/PremierInsight/
+c:/ws/PremierNow/
 │
 ├── app/                        # Next.js App Router ルートディレクトリ
 │   ├── layout.tsx              # ルートレイアウト（フォント・GA4・Headerを配置）

@@ -5,7 +5,7 @@ export const runtime = "edge";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title") ?? "PremierInsight";
+  const title = searchParams.get("title") ?? "PremierNow";
 
   return new ImageResponse(
     (
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
             fontWeight: 700,
           }}
         >
-          PremierInsight
+          PremierNow
         </div>
 
         {/* タイトル（中央） */}

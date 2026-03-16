@@ -81,7 +81,7 @@
 
 | 項目 | 値 |
 |------|-----|
-| `title` | `"プレミアリーグ 試合結果・日程 2025-26 | PremierInsight"` |
+| `title` | `"プレミアリーグ 試合結果・日程 2025-26 | PremierNow"` |
 | `description` | `"プレミアリーグの最新試合結果と今後の日程。得点者・スコアをリアルタイムで確認できます。"` |
 | OGP画像 | `/api/og?title=プレミアリーグ+試合結果・日程+2025-26`（動的生成） |
 | Twitter Card | `summary_large_image` |

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getAllArticles } from "@/lib/articles";
 import ArticlesView from "./ArticlesView";
 
-const OG_TITLE = "プレミアリーグ 分析記事一覧 | PremierInsight";
+const OG_TITLE = "プレミアリーグ 分析記事一覧 | PremierNow";
 const OG_DESC =
   "プレミアリーグの試合分析・データ解説記事。毎節更新。";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESC,
     url: "/articles",
-    siteName: "PremierInsight",
+    siteName: "PremierNow",
     images: [
       {
         url: `/api/og?title=${encodeURIComponent("プレミアリーグ 分析記事一覧")}`,

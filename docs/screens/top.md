@@ -74,9 +74,9 @@ Server Component のため `useState` なし。インタラクティブな要素
 
 | 項目 | 値 |
 |------|-----|
-| `title` | `"PremierInsight - プレミアリーグ データ分析"` |
+| `title` | `"PremierNow - プレミアリーグ データ分析"` |
 | `description` | `"プレミアリーグの順位表・試合結果・得点王・データ分析を日本語で。毎節更新。"` |
-| OGP画像 | `/api/og?title=PremierInsight+...`（動的生成・1200×630） |
+| OGP画像 | `/api/og?title=PremierNow+...`（動的生成・1200×630） |
 | Twitter Card | `summary_large_image` |
 | JSON-LD | `WebSite` スキーマ（`name`, `url`, `description`, `inLanguage`） |
 | sitemap.xml | `next-sitemap` でビルド後自動生成 |
