@@ -15,6 +15,7 @@ PremierNow の全画面サマリーです。各画面の詳細は個別ファイ
 | [レースチャート](charts-race.md) | `/charts/race` | `app/charts/race/page.tsx` | 勝点推移折れ線グラフ。優勝争い・CL圏争い・残留争いの3タブ切り替え |
 | [スタイル分析](charts-style.md) | `/charts/style` | `app/charts/style/page.tsx` | 全20チームの得点×失点散布図。Y軸反転（下ほど失点多い） |
 | [H/A比較](charts-home-away.md) | `/charts/home-away` | `app/charts/home-away/page.tsx` | ホーム・アウェイ別成績比較。ランキング・横棒グラフ・詳細テーブル |
+| [xG分析](charts-xg.md) | `/charts/xg` | `app/charts/xg/page.tsx` | チーム・選手別 xG（期待得点）vs 実得点の比較。決定力分析（Understat データ）|
 | [順位予測シミュレーター](simulator.md) | `/charts/simulator` | `app/charts/simulator/page.tsx` | 残り試合の結果をH/D/Aで予測し、最終順位をリアルタイムシミュレーション |
 | [記事一覧](articles.md) | `/articles` | `app/articles/page.tsx` | MDX記事一覧。タグフィルター付き・クイズ導線バナー |
 | [記事詳細](articles.md) | `/articles/[slug]` | `app/articles/[slug]/page.tsx` | MDX記事本文。前後ナビ・動的メタデータ |
@@ -37,7 +38,10 @@ Header（全ページ共通）
 
 チャートサブナビ（/charts/* 配下）
 ├── レースチャート → /charts/race
-└── スタイル分析   → /charts/style
+├── スタイル分析   → /charts/style
+├── H/A比較        → /charts/home-away
+├── xG分析         → /charts/xg
+└── 順位予測       → /charts/simulator
 ```
 
 ---
@@ -57,6 +61,7 @@ Header（全ページ共通）
 | レースチャート | ISR | 3600秒 |
 | スタイル分析 | ISR | 3600秒 |
 | H/A比較 | ISR | 3600秒 |
+| xG分析 | ISR | 86400秒（Understat） |
 | 順位予測シミュレーター | ISR | standings: 3600秒 / matches: 1800秒 |
 | 記事一覧 | Static（ファイルシステム） | — |
 | 記事詳細 | ISR（generateStaticParams） | 3600秒 |

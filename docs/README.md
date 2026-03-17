@@ -30,6 +30,7 @@
 | [screens/players.md](screens/players.md) | 選手スタッツ一覧・選手詳細 |
 | [screens/charts-race.md](screens/charts-race.md) | レースチャート |
 | [screens/charts-style.md](screens/charts-style.md) | スタイル分析（散布図） |
+| [screens/charts-xg.md](screens/charts-xg.md) | xG分析（Understat データ） |
 | [screens/articles.md](screens/articles.md) | 記事一覧・記事詳細 |
 
 ---

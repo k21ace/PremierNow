@@ -41,20 +41,3 @@ export function convertToJSTMedium(utcDate: string): string {
     minute: "2-digit",
   });
 }
-
-/**
- * UTC形式の日時文字列を JST の短い表示文字列（月/日 HH:mm）に変換する。
- *
- * @param utcDate - ISO 8601 形式の UTC 日時
- * @returns JST の短い日時文字列（例: "8/16 23:00"）
- */
-export function convertToJSTShort(utcDate: string): string {
-  const date = new Date(utcDate);
-  return date.toLocaleString("ja-JP", {
-    timeZone: "Asia/Tokyo",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
