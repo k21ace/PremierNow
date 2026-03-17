@@ -94,7 +94,7 @@ interface StyleChartSPProps {
   teamStyles: TeamStyle[];
 }
 
-const MARGIN = { top: 16, right: 16, left: 40, bottom: 32 };
+const MARGIN = { top: 20, right: 40, bottom: 40, left: 40 };
 
 export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
   if (teamStyles.length === 0) return null;
@@ -107,22 +107,11 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
   return (
-    <div style={{ display: "flex", alignItems: "stretch" }}>
-      <div
-        style={{
-          writingMode: "vertical-rl",
-          transform: "rotate(180deg)",
-          fontSize: 10,
-          color: "#6b7280",
-          whiteSpace: "nowrap",
-          display: "flex",
-          alignItems: "center",
-          marginRight: 2,
-        }}
-      >
-        失点（守備力）
-      </div>
-      <ResponsiveContainer width="100%" aspect={1.2}>
+    <div>
+      <p className="text-xs text-gray-500 mb-2">
+        ※ 縦軸は上に行くほど失点が少ない（守備が良い）
+      </p>
+      <ResponsiveContainer width="100%" height={360}>
         <ScatterChart margin={MARGIN}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -145,6 +134,14 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
             domain={['dataMin - 3', 'dataMax + 3']}
             tick={{ fontSize: 10 }}
             width={32}
+            label={{
+              value: "失点",
+              angle: -90,
+              position: "insideLeft",
+              offset: 10,
+              fontSize: 10,
+              fill: "#6b7280",
+            }}
           />
           <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
           <ReferenceLine y={avgGA} stroke="#e5e7eb" strokeDasharray="4 4" />

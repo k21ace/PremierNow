@@ -107,63 +107,62 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
   return (
-    <div style={{ height: 500, display: "flex", alignItems: "stretch" }}>
-      <div
-        style={{
-          writingMode: "vertical-rl",
-          transform: "rotate(180deg)",
-          fontSize: 11,
-          color: "#6b7280",
-          whiteSpace: "nowrap",
-          display: "flex",
-          alignItems: "center",
-          marginRight: 4,
-        }}
-      >
-        失点（守備力）
+    <div>
+      <p className="text-xs text-gray-500 mb-2">
+        ※ 縦軸は上に行くほど失点が少ない（守備が良い）
+      </p>
+      <div style={{ height: 500 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <ScatterChart margin={MARGIN}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis
+              type="number"
+              dataKey="goalsFor"
+              domain={[Math.max(0, minGF - 5), maxGF + 5]}
+              tick={{ fontSize: 11 }}
+              label={{
+                value: "得点（攻撃力）",
+                position: "insideBottomRight",
+                offset: -4,
+                fontSize: 11,
+                fill: "#6b7280",
+              }}
+            />
+            <YAxis
+              type="number"
+              dataKey="goalsAgainst"
+              reversed
+              domain={['dataMin - 3', 'dataMax + 3']}
+              tick={{ fontSize: 11 }}
+              width={40}
+              label={{
+                value: "失点",
+                angle: -90,
+                position: "insideLeft",
+                offset: 10,
+                fontSize: 11,
+                fill: "#6b7280",
+              }}
+            />
+            {/* 象限を分ける平均線 */}
+            <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
+            <ReferenceLine y={avgGA} stroke="#e5e7eb" strokeDasharray="4 4" />
+            <Tooltip
+              content={(props) => (
+                <CustomTooltip
+                  active={props.active}
+                  payload={props.payload as unknown as { payload: TeamStyle }[]}
+                />
+              )}
+              cursor={{ strokeDasharray: "3 3" }}
+            />
+            <Scatter
+              data={teamStyles}
+              shape={(props: CrestDotProps) => <CrestDot {...props} />}
+            />
+          </ScatterChart>
+        </ResponsiveContainer>
       </div>
-      <ResponsiveContainer width="100%" height="100%">
-        <ScatterChart margin={MARGIN}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis
-            type="number"
-            dataKey="goalsFor"
-            domain={[Math.max(0, minGF - 5), maxGF + 5]}
-            tick={{ fontSize: 11 }}
-            label={{
-              value: "得点（攻撃力）",
-              position: "insideBottomRight",
-              offset: -4,
-              fontSize: 11,
-              fill: "#6b7280",
-            }}
-          />
-          <YAxis
-            type="number"
-            dataKey="goalsAgainst"
-            reversed
-            domain={['dataMin - 3', 'dataMax + 3']}
-            tick={{ fontSize: 11 }}
-            width={40}
-          />
-          {/* 象限を分ける平均線 */}
-          <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
-          <ReferenceLine y={avgGA} stroke="#e5e7eb" strokeDasharray="4 4" />
-          <Tooltip
-            content={(props) => (
-              <CustomTooltip
-                active={props.active}
-                payload={props.payload as unknown as { payload: TeamStyle }[]}
-              />
-            )}
-            cursor={{ strokeDasharray: "3 3" }}
-          />
-          <Scatter
-            data={teamStyles}
-            shape={(props: CrestDotProps) => <CrestDot {...props} />}
-          />
-        </ScatterChart>
-      </ResponsiveContainer>
     </div>
   );
 }

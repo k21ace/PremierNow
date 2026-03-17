@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -8,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
 import {
@@ -18,39 +18,48 @@ import {
 
 const SP_TICKS = [1, 5, 10, 15, 20, 25, 30, 35, 38];
 
-// ─── End Dot（ライン末端にエンブレム）──────────────────
+// ─── Custom Legend ────────────────────────────────────────
 
-interface EndDotProps {
-  cx?: number;
-  cy?: number;
-  index?: number;
-  actualMaxMatchday: number;
-  crestUrl: string;
-  stroke: string;
-  yOffset: number;
+interface LegendEntry {
+  value?: string;
+  color?: string;
 }
 
-function EndDot({ cx, cy, index, actualMaxMatchday, crestUrl, stroke, yOffset }: EndDotProps) {
-  if (index !== actualMaxMatchday - 1 || cx === undefined || cy === undefined) {
-    return <g />;
-  }
-  const adjustedCy = cy + yOffset;
+function SpLegend({ payload }: { payload?: LegendEntry[] }) {
   return (
-    <g>
-      <line
-        x1={cx} y1={cy}
-        x2={cx + 8} y2={adjustedCy}
-        stroke={stroke}
-        strokeWidth={1}
-      />
-      <image
-        href={crestUrl}
-        x={cx + 10}
-        y={adjustedCy - 10}
-        width={20}
-        height={20}
-      />
-    </g>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "8px 16px",
+        justifyContent: "center",
+        padding: "12px 0 0",
+      }}
+    >
+      {(payload ?? []).map((entry, i) => (
+        <span
+          key={i}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            fontSize: 11,
+            color: "#555",
+          }}
+        >
+          <span
+            style={{
+              display: "inline-block",
+              width: 24,
+              height: 3,
+              background: entry.color,
+              borderRadius: 2,
+            }}
+          />
+          {entry.value}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -59,34 +68,14 @@ function EndDot({ cx, cy, index, actualMaxMatchday, crestUrl, stroke, yOffset }:
 export default function RaceChartSP({
   chartData,
   activeTimelines,
-  maxMatchday,
   dramaticMoments,
 }: ChartPanelProps) {
-  // 最終勝点が同じチームのエンブレムy座標をずらす
-  const teamOffsets = useMemo(() => {
-    const finals = activeTimelines.map((tl) => tl.points.at(-1) ?? 0);
-    const grouped: Record<number, number[]> = {};
-    finals.forEach((pts, i) => {
-      if (!grouped[pts]) grouped[pts] = [];
-      grouped[pts].push(i);
-    });
-    const offsets: Record<number, number> = {};
-    Object.values(grouped).forEach((indices) => {
-      indices.forEach((idx, j) => {
-        offsets[idx] = indices.length > 1
-          ? (j - (indices.length - 1) / 2) * 14
-          : 0;
-      });
-    });
-    return offsets;
-  }, [activeTimelines]);
-
   return (
-    <div style={{ height: 360 }}>
+    <div style={{ height: 420 }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
-          margin={{ top: 20, right: 60, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -115,24 +104,24 @@ export default function RaceChartSP({
               />
             )}
           />
+          <Legend
+            verticalAlign="bottom"
+            height={60}
+            content={(props) => (
+              <SpLegend payload={props.payload as LegendEntry[]} />
+            )}
+          />
 
-          {/* 実績ライン（末端エンブレム） */}
-          {activeTimelines.map((tl, teamIdx) => (
+          {/* 実績ライン */}
+          {activeTimelines.map((tl) => (
             <Line
               key={tl.teamId}
               type="monotone"
               dataKey={tl.teamShortName}
+              name={tl.teamShortName}
               stroke={tl.color}
               strokeWidth={2}
-              dot={(props: { cx?: number; cy?: number; index?: number }) => (
-                <EndDot
-                  {...props}
-                  actualMaxMatchday={maxMatchday}
-                  crestUrl={tl.crestUrl}
-                  stroke={tl.color}
-                  yOffset={teamOffsets[teamIdx] ?? 0}
-                />
-              )}
+              dot={false}
               activeDot={{ r: 4, fill: tl.color }}
             />
           ))}
