@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getMatch } from "@/lib/football-api";
-import type { Booking, Goal, MatchDetail, Substitution } from "@/types/football";
+import { getMatch, getMatches } from "@/lib/football-api";
+import type { Booking, Goal, Match, MatchDetail, Substitution } from "@/types/football";
 
 // ─── 日時フォーマット ─────────────────────────────────────────
 
@@ -33,7 +33,56 @@ function formatDateShort(utcDate: string): string {
   return `${month}${day}（${weekday}）${time}`;
 }
 
-// ─── タイムラインイベント ──────────────────────────────────────
+function formatGD(n: number): string {
+  return n > 0 ? `+${n}` : String(n);
+}
+
+// ─── 試合サマリー自動生成 ──────────────────────────────────────
+
+function generateMatchSummary(match: Match): string[] {
+  const points: string[] = [];
+  const h = match.score.fullTime.home ?? 0;
+  const a = match.score.fullTime.away ?? 0;
+  const hh = match.score.halfTime?.home ?? 0;
+  const ha = match.score.halfTime?.away ?? 0;
+
+  // 勝敗
+  if (h > a) {
+    points.push(`${match.homeTeam.shortName}がホームで勝利`);
+  } else if (a > h) {
+    points.push(`${match.awayTeam.shortName}がアウェイで勝利`);
+  } else {
+    points.push(`両チームが勝点1ずつを分け合うドロー`);
+  }
+
+  // 前後半の流れ
+  if (hh > ha && h === a) {
+    points.push(`${match.homeTeam.shortName}が前半リードも後半に追いつかれる`);
+  } else if (ha > hh && h === a) {
+    points.push(`${match.awayTeam.shortName}が前半リードも後半に追いつかれる`);
+  } else if (hh === 0 && ha === 0 && (h > 0 || a > 0)) {
+    points.push(`スコアレスの前半から後半に動く展開`);
+  } else if (hh > 0 || ha > 0) {
+    points.push(`前半スコア ${hh}-${ha} から後半に${h + a - hh - ha}得点が生まれる`);
+  }
+
+  // クリーンシート
+  if (h === 0) {
+    points.push(`${match.awayTeam.shortName}がクリーンシートを達成`);
+  } else if (a === 0) {
+    points.push(`${match.homeTeam.shortName}がクリーンシートを達成`);
+  }
+
+  // 大差
+  if (Math.abs(h - a) >= 3) {
+    const winner = h > a ? match.homeTeam.shortName : match.awayTeam.shortName;
+    points.push(`${winner}が${Math.abs(h - a)}点差の大勝`);
+  }
+
+  return points;
+}
+
+// ─── タイムラインイベント（有料プラン用・現在は非表示） ──────────
 
 type EventType = "goal" | "own_goal" | "penalty" | "yellow" | "red" | "yellow_red" | "sub";
 
@@ -43,56 +92,33 @@ interface TimelineEvent {
   side: "home" | "away";
   playerName: string;
   assistName?: string;
-  playerInName?: string; // 交代: 入る選手
+  playerInName?: string;
 }
 
 function buildTimeline(match: MatchDetail): TimelineEvent[] {
   const { homeTeam } = match;
   const events: TimelineEvent[] = [];
 
-  // 得点イベント
   for (const g of match.goals ?? []) {
     const side = g.team.id === homeTeam.id ? "home" : "away";
     const type: EventType =
       g.type === "OWN" ? "own_goal" : g.type === "PENALTY" ? "penalty" : "goal";
-    events.push({
-      minute: g.minute ?? 0,
-      type,
-      side,
-      playerName: g.scorer.name,
-      assistName: g.assist?.name,
-    });
+    events.push({ minute: g.minute ?? 0, type, side, playerName: g.scorer.name, assistName: g.assist?.name });
   }
 
-  // カードイベント
   for (const b of match.bookings ?? []) {
     const side = b.team.id === homeTeam.id ? "home" : "away";
-    const type: EventType =
-      b.card === "RED" ? "red" : b.card === "YELLOW_RED" ? "yellow_red" : "yellow";
-    events.push({
-      minute: b.minute ?? 0,
-      type,
-      side,
-      playerName: b.player.name,
-    });
+    const type: EventType = b.card === "RED" ? "red" : b.card === "YELLOW_RED" ? "yellow_red" : "yellow";
+    events.push({ minute: b.minute ?? 0, type, side, playerName: b.player.name });
   }
 
-  // 交代イベント
   for (const s of match.substitutions ?? []) {
     const side = s.team.id === homeTeam.id ? "home" : "away";
-    events.push({
-      minute: s.minute ?? 0,
-      type: "sub",
-      side,
-      playerName: s.playerOut.name,
-      playerInName: s.playerIn.name,
-    });
+    events.push({ minute: s.minute ?? 0, type: "sub", side, playerName: s.playerOut.name, playerInName: s.playerIn.name });
   }
 
   return events.sort((a, b) => a.minute - b.minute);
 }
-
-// ─── イベントアイコン ─────────────────────────────────────────
 
 function EventIcon({ type }: { type: EventType }) {
   switch (type) {
@@ -179,12 +205,10 @@ export default async function MatchDetailPage({
   const homeScore = score.fullTime.home ?? 0;
   const awayScore = score.fullTime.away ?? 0;
 
-  // 勝利チームのスコアを濃紺で強調、敗者はグレー、引き分けは両方グレー
   const homeScoreClass = homeScore > awayScore ? "text-[#2d0a4e]" : homeScore < awayScore ? "text-gray-400" : "text-gray-700";
   const awayScoreClass = awayScore > homeScore ? "text-[#2d0a4e]" : awayScore < homeScore ? "text-gray-400" : "text-gray-700";
 
   const timeline = buildTimeline(match);
-
   const homeGoals = goalsForTeam(match.goals, homeTeam.id, awayTeam.id);
   const awayGoals = goalsForTeam(match.goals, awayTeam.id, homeTeam.id);
 
@@ -196,6 +220,31 @@ export default async function MatchDetailPage({
   const awaySubs = countSubs(match.substitutions, awayTeam.id);
 
   const mainReferee = (match.referees ?? []).find((r) => r.type === "REFEREE") ?? match.referees?.[0];
+
+  // 試合サマリーと同節試合を並列取得
+  const summary = (isFinished || isLive) ? generateMatchSummary(match) : [];
+  const sameMatchdayData = await getMatches({ matchday }).catch(() => null);
+  const sameMatchdayGames = sameMatchdayData?.matches ?? [];
+
+  // スタッツ行（カード・交代はデータがある時のみ表示）
+  const homePts = homeScore > awayScore ? 3 : homeScore === awayScore ? 1 : 0;
+  const awayPts = awayScore > homeScore ? 3 : awayScore === homeScore ? 1 : 0;
+
+  type StatsRow = { label: string; home: string | number; away: string | number };
+  const statsRows: StatsRow[] = [
+    { label: "⚽ 得点", home: homeScore, away: awayScore },
+    { label: "前半スコア", home: score.halfTime.home ?? 0, away: score.halfTime.away ?? 0 },
+    { label: "後半スコア", home: homeScore - (score.halfTime.home ?? 0), away: awayScore - (score.halfTime.away ?? 0) },
+    { label: "獲得勝点", home: homePts, away: awayPts },
+    { label: "得失点差", home: formatGD(homeScore - awayScore), away: formatGD(awayScore - homeScore) },
+    ...(match.bookings != null ? [
+      { label: "🟨 イエローカード", home: homeYellow, away: awayYellow },
+      { label: "🟥 レッドカード", home: homeRed, away: awayRed },
+    ] : []),
+    ...(match.substitutions != null ? [
+      { label: "🔄 交代", home: homeSubs, away: awaySubs },
+    ] : []),
+  ];
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -216,38 +265,23 @@ export default async function MatchDetailPage({
             {formatMatchTime(utcDate)} JST
           </p>
 
-          {/* エンブレム + スコア */}
           <div className="flex items-center justify-center gap-6">
             {/* ホーム */}
             <div className="flex flex-col items-center gap-2 w-28">
-              <Image
-                src={homeTeam.crest}
-                alt={homeTeam.name}
-                width={56}
-                height={56}
-                className="object-contain"
-              />
-              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">
-                {homeTeam.shortName}
-              </span>
+              <Image src={homeTeam.crest} alt={homeTeam.name} width={56} height={56} className="object-contain" />
+              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">{homeTeam.shortName}</span>
             </div>
 
             {/* スコア */}
             <div className="text-center min-w-[100px]">
               {isFinished || isLive ? (
                 <div className="flex items-center justify-center gap-2">
-                  <span className={`text-5xl font-bold font-mono tabular-nums ${homeScoreClass}`}>
-                    {homeScore}
-                  </span>
+                  <span className={`text-5xl font-bold font-mono tabular-nums ${homeScoreClass}`}>{homeScore}</span>
                   <span className="text-3xl font-light text-gray-400">–</span>
-                  <span className={`text-5xl font-bold font-mono tabular-nums ${awayScoreClass}`}>
-                    {awayScore}
-                  </span>
+                  <span className={`text-5xl font-bold font-mono tabular-nums ${awayScoreClass}`}>{awayScore}</span>
                 </div>
               ) : (
-                <p className="text-lg font-semibold text-gray-600">
-                  {formatDateShort(utcDate)}
-                </p>
+                <p className="text-lg font-semibold text-gray-600">{formatDateShort(utcDate)}</p>
               )}
               {(isFinished || isLive) && (
                 <p className="text-xs text-gray-400 mt-1 font-mono tabular-nums">
@@ -258,72 +292,92 @@ export default async function MatchDetailPage({
 
             {/* アウェイ */}
             <div className="flex flex-col items-center gap-2 w-28">
-              <Image
-                src={awayTeam.crest}
-                alt={awayTeam.name}
-                width={56}
-                height={56}
-                className="object-contain"
-              />
-              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">
-                {awayTeam.shortName}
-              </span>
+              <Image src={awayTeam.crest} alt={awayTeam.name} width={56} height={56} className="object-contain" />
+              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">{awayTeam.shortName}</span>
             </div>
           </div>
 
-          {/* 会場 */}
           {match.venue && (
-            <p className="text-center text-xs text-gray-400 mt-4">
-              会場: {match.venue}
-            </p>
+            <p className="text-center text-xs text-gray-400 mt-4">会場: {match.venue}</p>
           )}
         </section>
 
-        {/* ─── セクション2: タイムライン ─── */}
+        {/* ─── セクション2: 試合サマリー ─── */}
         <section className="bg-white border border-gray-200 rounded shadow-sm p-4">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">タイムライン</h2>
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">試合サマリー</h2>
+
           {isScheduled ? (
-            <p className="text-sm text-gray-400 text-center py-4">
-              試合前のため詳細データはありません
-            </p>
-          ) : match.goals == null ? (
-            <div className="bg-gray-50 rounded p-4 text-sm text-gray-500 text-center">
-              <p>詳細イベントデータは準備中です。</p>
-              <p className="text-xs mt-1">得点者・カード情報は今後追加予定です。</p>
-            </div>
-          ) : timeline.length > 0 ? (
-            <div className="space-y-1">
-              {timeline.map((ev, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs">
-                  {/* ホーム側 */}
-                  <div className="flex-1 flex items-center justify-end gap-1 text-right min-w-0">
-                    {ev.side === "home" && (
-                      <>
-                        <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
-                        <EventIcon type={ev.type} />
-                      </>
-                    )}
-                  </div>
-                  {/* 分数 */}
-                  <div className="w-10 shrink-0 text-center font-mono tabular-nums text-gray-400">
-                    {ev.minute}&apos;
-                  </div>
-                  {/* アウェイ側 */}
-                  <div className="flex-1 flex items-center justify-start gap-1 text-left min-w-0">
-                    {ev.side === "away" && (
-                      <>
-                        <EventIcon type={ev.type} />
-                        <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
-                      </>
-                    )}
+            <p className="text-sm text-gray-400 text-center py-4">試合前のため詳細データはありません</p>
+          ) : (
+            <>
+              {/* ① 自動生成テキスト */}
+              {summary.length > 0 && (
+                <ul className="space-y-2 mb-4">
+                  {summary.map((point, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                      <span className="text-[#00a8e8] mt-0.5 shrink-0">▶</span>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* タイムライン（有料プランで取得できた場合のみ） */}
+              {match.goals != null && timeline.length > 0 && (
+                <div className="border-t border-gray-100 pt-3 mt-3 space-y-1">
+                  <p className="text-xs font-medium text-gray-500 mb-2">得点・カード・交代</p>
+                  {timeline.map((ev, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs">
+                      <div className="flex-1 flex items-center justify-end gap-1 text-right min-w-0">
+                        {ev.side === "home" && (
+                          <>
+                            <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
+                            <EventIcon type={ev.type} />
+                          </>
+                        )}
+                      </div>
+                      <div className="w-10 shrink-0 text-center font-mono tabular-nums text-gray-400">
+                        {ev.minute}&apos;
+                      </div>
+                      <div className="flex-1 flex items-center justify-start gap-1 text-left min-w-0">
+                        {ev.side === "away" && (
+                          <>
+                            <EventIcon type={ev.type} />
+                            <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* ② 同節の他の試合結果 */}
+              {sameMatchdayGames.length > 1 && (
+                <div className="border-t border-gray-100 pt-3 mt-3">
+                  <p className="text-xs font-medium text-gray-500 mb-2">
+                    第<span className="font-mono tabular-nums">{matchday}</span>節 他の試合
+                  </p>
+                  <div className="space-y-1">
+                    {sameMatchdayGames
+                      .filter((m) => m.id !== match.id)
+                      .map((m) => (
+                        <Link href={`/matches/${m.id}`} key={m.id}>
+                          <div className="flex items-center justify-between text-xs py-1.5 px-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-colors">
+                            <span className="text-gray-600 w-24 truncate text-right">{m.homeTeam.shortName}</span>
+                            <span className="font-mono font-bold text-gray-900 mx-2 shrink-0">
+                              {m.status === "FINISHED"
+                                ? `${m.score.fullTime.home} - ${m.score.fullTime.away}`
+                                : "vs"}
+                            </span>
+                            <span className="text-gray-600 w-24 truncate">{m.awayTeam.shortName}</span>
+                          </div>
+                        </Link>
+                      ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-gray-400 text-center py-4">
-              イベントデータがありません
-            </p>
+              )}
+            </>
           )}
         </section>
 
@@ -333,34 +387,11 @@ export default async function MatchDetailPage({
             <h2 className="text-sm font-semibold text-gray-700 mb-3">スタッツ</h2>
             <table className="w-full text-xs">
               <tbody className="divide-y divide-gray-100">
-                {[
-                  {
-                    label: "⚽ 得点",
-                    home: homeScore ?? 0,
-                    away: awayScore ?? 0,
-                  },
-                  {
-                    label: "前半",
-                    home: score.halfTime.home ?? 0,
-                    away: score.halfTime.away ?? 0,
-                  },
-                  {
-                    label: "後半",
-                    home: (homeScore ?? 0) - (score.halfTime.home ?? 0),
-                    away: (awayScore ?? 0) - (score.halfTime.away ?? 0),
-                  },
-                  { label: "🟨 イエローカード", home: homeYellow, away: awayYellow },
-                  { label: "🟥 レッドカード", home: homeRed, away: awayRed },
-                  { label: "🔄 交代", home: homeSubs, away: awaySubs },
-                ].map(({ label, home, away }) => (
+                {statsRows.map(({ label, home, away }) => (
                   <tr key={label}>
-                    <td className="py-1.5 text-right font-mono tabular-nums text-gray-900 w-16 pr-2">
-                      {home}
-                    </td>
+                    <td className="py-1.5 text-right font-mono tabular-nums text-gray-900 w-16 pr-2">{home}</td>
                     <td className="py-1.5 text-center text-gray-500 px-2">{label}</td>
-                    <td className="py-1.5 text-left font-mono tabular-nums text-gray-900 w-16 pl-2">
-                      {away}
-                    </td>
+                    <td className="py-1.5 text-left font-mono tabular-nums text-gray-900 w-16 pl-2">{away}</td>
                   </tr>
                 ))}
               </tbody>
