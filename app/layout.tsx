@@ -50,6 +50,13 @@ export default function RootLayout({
       >
         <Header />
         {children}
+        <footer className="border-t border-gray-200 bg-white mt-8">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex justify-center">
+            <a href="/privacy" className="text-xs text-gray-400 hover:text-gray-600">
+              プライバシーポリシー
+            </a>
+          </div>
+        </footer>
         {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         )}

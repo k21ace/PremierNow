@@ -17,49 +17,25 @@ import {
 
 const SP_TICKS = [1, 5, 10, 15, 20, 25, 30, 35, 38];
 
-// ─── Custom Dot（20px エンブレム・ラベルなし）────────────
+// ─── End Dot（ライン末端にチーム名テキスト）────────────
 
-interface CustomDotProps {
+interface EndDotProps {
   cx?: number;
   cy?: number;
   index?: number;
   actualMaxMatchday: number;
-  crestUrl: string;
   teamName: string;
   stroke: string;
 }
 
-function CustomDot({
-  cx,
-  cy,
-  index,
-  actualMaxMatchday,
-  crestUrl,
-  teamName,
-  stroke,
-}: CustomDotProps) {
+function EndDot({ cx, cy, index, actualMaxMatchday, teamName, stroke }: EndDotProps) {
   if (index !== actualMaxMatchday - 1 || cx === undefined || cy === undefined) {
     return <g />;
   }
-  const clipId = `crest-sp-${teamName}`;
   return (
-    <g>
-      <defs>
-        <clipPath id={clipId}>
-          <circle cx={cx} cy={cy} r={10} />
-        </clipPath>
-      </defs>
-      <image
-        x={cx - 10}
-        y={cy - 10}
-        width={20}
-        height={20}
-        href={crestUrl}
-        clipPath={`url(#${clipId})`}
-      />
-      <circle cx={cx} cy={cy} r={10} fill="none" stroke="white" strokeWidth={2} />
-      <circle cx={cx} cy={cy} r={11} fill="none" stroke={stroke} strokeWidth={1} />
-    </g>
+    <text x={cx + 4} y={cy + 4} fontSize={9} fontWeight={600} fill={stroke}>
+      {teamName}
+    </text>
   );
 }
 
@@ -76,7 +52,7 @@ export default function RaceChartSP({
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
-          margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+          margin={{ top: 10, right: 55, left: 0, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -106,7 +82,7 @@ export default function RaceChartSP({
             )}
           />
 
-          {/* 実績ラインのみ（予測・ハイライトなし） */}
+          {/* 実績ライン（末端チーム名ラベル） */}
           {activeTimelines.map((tl) => (
             <Line
               key={tl.teamId}
@@ -115,15 +91,14 @@ export default function RaceChartSP({
               stroke={tl.color}
               strokeWidth={2}
               dot={(props: { cx?: number; cy?: number; index?: number }) => (
-                <CustomDot
+                <EndDot
                   {...props}
                   actualMaxMatchday={maxMatchday}
-                  crestUrl={tl.crestUrl}
                   teamName={tl.teamShortName}
                   stroke={tl.color}
                 />
               )}
-              activeDot={{ r: 4 }}
+              activeDot={{ r: 4, fill: tl.color }}
             />
           ))}
         </LineChart>
