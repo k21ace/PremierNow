@@ -46,34 +46,62 @@ export type TeamXgStats = {
   npxG: number;
 };
 
-// ─── HTML Parser ──────────────────────────────────────────
+// ─── Session ──────────────────────────────────────────────
 
-function extractJson(html: string, varName: string): string {
-  const regex = new RegExp(`${varName}\\s*=\\s*JSON\\.parse\\('(.*?)'\\)`);
-  const match = html.match(regex);
-  if (!match) throw new Error(`${varName} not found in Understat HTML`);
-  return decodeURIComponent(match[1].replace(/\\x([0-9A-Fa-f]{2})/g, "%$1"));
-}
-
-async function fetchUnderstatHtml(season: number): Promise<string> {
+/** HTML を取得し Set-Cookie ヘッダーから PHPSESSID を返す */
+async function getSessionCookie(season: number): Promise<string> {
   const res = await fetch(`https://understat.com/league/EPL/${season}`, {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
       "Accept-Language": "en-US,en;q=0.9",
     },
-    next: { revalidate: 86400 },
   });
-  if (!res.ok) throw new Error(`Understat fetch failed: ${res.status}`);
-  return res.text();
+  if (!res.ok) throw new Error(`Understat session fetch failed: ${res.status}`);
+  // "PHPSESSID=xxx; ..., UID=xxx; ..." から全cookie文字列を組み立てる
+  const raw = res.headers.getSetCookie?.() ?? [];
+  if (raw.length) {
+    return raw.map((c) => c.split(";")[0]).join("; ");
+  }
+  // Node 18 では getSetCookie() がない場合は get() にフォールバック
+  return res.headers.get("set-cookie")?.split(",").map((c) => c.trim().split(";")[0]).join("; ") ?? "";
+}
+
+// ─── Base fetcher (session → API) ─────────────────────────
+
+async function fetchLeagueData(
+  season: number,
+): Promise<{ teams: Record<string, UnderstatTeam>; players: UnderstatPlayer[] }> {
+  const cookie = await getSessionCookie(season);
+
+  const headers: Record<string, string> = {
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Referer": `https://understat.com/league/EPL/${season}`,
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+  };
+  if (cookie) headers["Cookie"] = cookie;
+
+  const res = await fetch(
+    `https://understat.com/getLeagueData/EPL/${season}`,
+    { headers },
+  );
+  if (!res.ok) throw new Error(`getLeagueData failed: ${res.status}`);
+
+  const json = (await res.json()) as {
+    teams: Record<string, UnderstatTeam>;
+    players: UnderstatPlayer[];
+  };
+  return json;
 }
 
 // ─── Cached Fetchers ──────────────────────────────────────
 
 export const getUnderstatTeams = unstable_cache(
   async (season: number = 2025): Promise<Record<string, UnderstatTeam>> => {
-    const html = await fetchUnderstatHtml(season);
-    return JSON.parse(extractJson(html, "teamsData"));
+    const data = await fetchLeagueData(season);
+    return data.teams;
   },
   ["understat-teams"],
   { revalidate: 86400 },
@@ -81,8 +109,8 @@ export const getUnderstatTeams = unstable_cache(
 
 export const getUnderstatPlayers = unstable_cache(
   async (season: number = 2025): Promise<UnderstatPlayer[]> => {
-    const html = await fetchUnderstatHtml(season);
-    return JSON.parse(extractJson(html, "playersData"));
+    const data = await fetchLeagueData(season);
+    return data.players;
   },
   ["understat-players"],
   { revalidate: 86400 },
@@ -107,7 +135,10 @@ export function calcTeamXgStats(
         missed,
         xGDiff: Math.round((scored - xG) * 10) / 10,
         xGADiff: Math.round((xGA - missed) * 10) / 10,
-        npxG: Math.round(team.history.reduce((s, m) => s + m.npxG, 0) * 10) / 10,
+        npxG:
+          Math.round(
+            team.history.reduce((s, m) => s + m.npxG, 0) * 10,
+          ) / 10,
       };
     })
     .sort((a, b) => b.xG - a.xG);
