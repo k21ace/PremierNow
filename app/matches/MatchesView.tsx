@@ -92,9 +92,9 @@ function MatchCard({ match }: { match: Match }) {
   const linkLabel = isFinished ? "レポートを見る →" : "プレビューを見る →";
 
   return (
-    <div className="bg-white border border-gray-200 rounded shadow-sm p-4">
+    <div className="bg-white border border-gray-200 rounded px-3 py-2 hover:border-[#00a8e8] transition-colors">
       {/* 時刻 + ステータス */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-1.5">
         <span className="text-xs font-mono tabular-nums text-gray-500">
           {formatTime(utcDate)}
         </span>
@@ -102,10 +102,10 @@ function MatchCard({ match }: { match: Match }) {
       </div>
 
       {/* ホーム ─ スコア ─ アウェイ */}
-      <div className="grid grid-cols-3 items-center gap-1">
+      <div className="grid grid-cols-3 items-center gap-1 w-full">
         {/* ホーム（右寄せ） */}
-        <div className="flex items-center justify-end gap-1.5 min-w-0">
-          <span className="text-sm font-medium text-gray-900 truncate">
+        <div className="flex items-center justify-end gap-1.5 w-full min-w-0">
+          <span className="text-sm font-medium text-gray-900 leading-tight truncate">
             {homeTeam.shortName}
           </span>
           <Image
@@ -118,7 +118,7 @@ function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* スコア（常に中央） */}
-        <div className="text-center">
+        <div className="text-center flex-shrink-0 px-1">
           {isFinished || isLive ? (
             <span className="font-mono font-bold text-gray-900 text-sm tabular-nums">
               {score.fullTime.home ?? "—"}
@@ -131,7 +131,7 @@ function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* アウェイ（左寄せ） */}
-        <div className="flex items-center justify-start gap-1.5 min-w-0">
+        <div className="flex items-center justify-start gap-1.5 w-full min-w-0">
           <Image
             src={awayTeam.crest}
             alt={awayTeam.name}
@@ -139,7 +139,7 @@ function MatchCard({ match }: { match: Match }) {
             height={20}
             className="object-contain flex-shrink-0"
           />
-          <span className="text-sm font-medium text-gray-900 truncate">
+          <span className="text-sm font-medium text-gray-900 leading-tight truncate">
             {awayTeam.shortName}
           </span>
         </div>
@@ -147,13 +147,13 @@ function MatchCard({ match }: { match: Match }) {
 
       {/* 得点者（試合終了時のみ） */}
       {isFinished && (homeGoals.length > 0 || awayGoals.length > 0) && (
-        <div className="mt-3 flex gap-2 text-xs text-gray-400">
+        <div className="mt-1.5 flex gap-2 text-xs text-gray-400">
           <div className="flex-1 text-right space-y-0.5">
             {homeGoals.map((g, i) => (
               <p key={i}>{goalLabel(g)}</p>
             ))}
           </div>
-          <div className="w-20 shrink-0" />
+          <div className="w-16 shrink-0" />
           <div className="flex-1 text-left space-y-0.5">
             {awayGoals.map((g, i) => (
               <p key={i}>{goalLabel(g)}</p>
@@ -163,7 +163,7 @@ function MatchCard({ match }: { match: Match }) {
       )}
 
       {/* 詳細リンク */}
-      <div className="mt-3 text-right">
+      <div className="mt-1 text-right">
         <Link
           href={`/matches/${match.id}`}
           className="text-xs text-violet-600 hover:text-violet-800 transition-colors"
@@ -219,13 +219,13 @@ export default function MatchesView({ matches, matchday }: MatchesViewProps) {
       )}
 
       {/* 日付ごとにグルーピング */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {grouped.map(([dateKey, dayMatches]) => (
           <section key={dateKey}>
             <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 pb-1 border-b border-gray-200">
               {formatDateHeader(dayMatches[0].utcDate)}
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {dayMatches.map((match) => (
                 <MatchCard key={match.id} match={match} />
               ))}

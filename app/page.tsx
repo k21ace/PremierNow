@@ -270,8 +270,8 @@ export default async function Home() {
                         第{match.matchday}節
                       </span>
                     </div>
-                    <div className="grid grid-cols-3 items-center gap-1">
-                      <div className="flex items-center justify-end gap-1.5 min-w-0">
+                    <div className="grid grid-cols-3 items-center gap-1 w-full">
+                      <div className="flex items-center justify-end gap-1.5 w-full min-w-0">
                         <span className="text-sm font-medium text-gray-900 truncate">
                           {match.homeTeam.shortName}
                         </span>
@@ -279,10 +279,10 @@ export default async function Home() {
                           <img src={match.homeTeam.crest} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
                         )}
                       </div>
-                      <div className="text-center">
+                      <div className="text-center flex-shrink-0 px-1">
                         <span className="text-xs text-gray-400 font-medium">vs</span>
                       </div>
-                      <div className="flex items-center justify-start gap-1.5 min-w-0">
+                      <div className="flex items-center justify-start gap-1.5 w-full min-w-0">
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
                         )}
@@ -321,8 +321,8 @@ export default async function Home() {
                         第{match.matchday}節
                       </span>
                     </div>
-                    <div className="grid grid-cols-3 items-center gap-1">
-                      <div className="flex items-center justify-end gap-1.5 min-w-0">
+                    <div className="grid grid-cols-3 items-center gap-1 w-full">
+                      <div className="flex items-center justify-end gap-1.5 w-full min-w-0">
                         <span className="text-sm font-medium text-gray-900 truncate">
                           {match.homeTeam.shortName}
                         </span>
@@ -330,14 +330,14 @@ export default async function Home() {
                           <img src={match.homeTeam.crest} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
                         )}
                       </div>
-                      <div className="text-center">
+                      <div className="text-center flex-shrink-0 px-1">
                         <span className="font-mono font-bold text-gray-900 text-sm">
                           {match.score.fullTime.home}
                           <span className="mx-1 text-gray-400">-</span>
                           {match.score.fullTime.away}
                         </span>
                       </div>
-                      <div className="flex items-center justify-start gap-1.5 min-w-0">
+                      <div className="flex items-center justify-start gap-1.5 w-full min-w-0">
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
                         )}
