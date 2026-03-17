@@ -103,13 +103,11 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
   const gaValues = teamStyles.map((t) => t.goalsAgainst);
   const minGF = Math.min(...gfValues);
   const maxGF = Math.max(...gfValues);
-  const minGA = Math.min(...gaValues);
-  const maxGA = Math.max(...gaValues);
   const avgGF = Math.round(gfValues.reduce((a, b) => a + b, 0) / gfValues.length);
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
   return (
-    <div style={{ height: 360, display: "flex", alignItems: "stretch" }}>
+    <div style={{ display: "flex", alignItems: "stretch" }}>
       <div
         style={{
           writingMode: "vertical-rl",
@@ -124,7 +122,7 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
       >
         失点（守備力）
       </div>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" aspect={1.2}>
         <ScatterChart margin={MARGIN}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
@@ -144,7 +142,7 @@ export default function StyleChartSP({ teamStyles }: StyleChartSPProps) {
             type="number"
             dataKey="goalsAgainst"
             reversed
-            domain={[Math.max(0, minGA - 5), maxGA + 5]}
+            domain={['dataMin - 3', 'dataMax + 3']}
             tick={{ fontSize: 10 }}
             width={32}
           />

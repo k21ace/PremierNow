@@ -103,8 +103,6 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
   const gaValues = teamStyles.map((t) => t.goalsAgainst);
   const minGF = Math.min(...gfValues);
   const maxGF = Math.max(...gfValues);
-  const minGA = Math.min(...gaValues);
-  const maxGA = Math.max(...gaValues);
   const avgGF = Math.round(gfValues.reduce((a, b) => a + b, 0) / gfValues.length);
   const avgGA = Math.round(gaValues.reduce((a, b) => a + b, 0) / gaValues.length);
 
@@ -144,7 +142,7 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
             type="number"
             dataKey="goalsAgainst"
             reversed
-            domain={[Math.max(0, minGA - 5), maxGA + 5]}
+            domain={['dataMin - 3', 'dataMax + 3']}
             tick={{ fontSize: 11 }}
             width={40}
           />

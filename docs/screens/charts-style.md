@@ -24,8 +24,8 @@
 | コンポーネント名 | ファイルパス | 役割 |
 |----------------|------------|------|
 | `StylePage` | `app/charts/style/page.tsx` | Server Component。データ取得・PC/SP切り替え |
-| `StyleChartPC` | `components/charts/StyleChartPC.tsx` | ScatterChart PC版（500px・大きいDot） |
-| `StyleChartSP` | `components/charts/StyleChartSP.tsx` | ScatterChart SP版（360px・小さいDot） |
+| `StyleChartPC` | `components/charts/StyleChartPC.tsx` | ScatterChart PC版（500px・大きいDot）。YAxis domain を `dataMin-3〜dataMax+3` に自動調整 |
+| `StyleChartSP` | `components/charts/StyleChartSP.tsx` | ScatterChart SP版（aspect={1.2}・小さいDot）。YAxis domain を `dataMin-3〜dataMax+3` に自動調整 |
 | `ChartsLayout` | `app/charts/layout.tsx` | チャートサブナビ（レースチャート/スタイル分析） |
 
 ---
