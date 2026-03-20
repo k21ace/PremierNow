@@ -89,7 +89,7 @@ export default function PrivacyPage() {
             </p>
             <p className="mt-1">
               <a
-                href="https://x.com/PremierNow"
+                href="https://x.com/PremierNow_"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#00a8e8] hover:underline"
