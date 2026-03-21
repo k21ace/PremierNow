@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { Match } from "@/types/football";
 import { getTeamShortNameJa } from "@/lib/translations";
 
@@ -69,44 +70,54 @@ function MatchCard({ match }: { match: Match }) {
   const { homeTeam, awayTeam, score, status } = match;
   const isFinished = status === "FINISHED";
   const isLive = status === "IN_PLAY" || status === "LIVE" || status === "PAUSED";
+  const router = useRouter();
 
   return (
-    <Link href={`/matches/${match.id}`}>
-      <div className="flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-[#00a8e8] dark:hover:border-[#00a8e8] transition-colors gap-2">
-        {/* ホーム（固定幅・右寄せ） */}
-        <div className="flex items-center justify-end gap-1 w-[90px] flex-shrink-0">
-          <div className="text-right leading-tight">
-            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
-              {getTeamShortNameJa(homeTeam.id) ?? homeTeam.shortName}
-            </span>
-            <span className="text-[10px] text-gray-400 truncate block">{homeTeam.shortName}</span>
-          </div>
-          <Image src={homeTeam.crest} alt={homeTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
+    <div
+      onClick={() => router.push(`/matches/${match.id}`)}
+      className="flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-[#00a8e8] dark:hover:border-[#00a8e8] transition-colors gap-2 cursor-pointer"
+    >
+      {/* ホーム（固定幅・右寄せ） */}
+      <Link
+        href={`/teams/${homeTeam.id}`}
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center justify-end gap-1 w-[90px] flex-shrink-0 hover:opacity-75 transition-opacity"
+      >
+        <div className="text-right leading-tight">
+          <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
+            {getTeamShortNameJa(homeTeam.id) ?? homeTeam.shortName}
+          </span>
+          <span className="text-[10px] text-gray-400 truncate block">{homeTeam.shortName}</span>
         </div>
+        <Image src={homeTeam.crest} alt={homeTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
+      </Link>
 
-        {/* スコア（固定幅・中央） */}
-        <div className="w-[44px] text-center flex-shrink-0">
-          {isFinished || isLive ? (
-            <span className="font-mono font-bold text-sm text-gray-900 dark:text-gray-100 tabular-nums">
-              {score.fullTime.home ?? "—"}-{score.fullTime.away ?? "—"}
-            </span>
-          ) : (
-            <span className="text-xs text-gray-400">vs</span>
-          )}
-        </div>
-
-        {/* アウェイ（固定幅・左寄せ） */}
-        <div className="flex items-center justify-start gap-1 w-[90px] flex-shrink-0">
-          <Image src={awayTeam.crest} alt={awayTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
-          <div className="leading-tight">
-            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
-              {getTeamShortNameJa(awayTeam.id) ?? awayTeam.shortName}
-            </span>
-            <span className="text-[10px] text-gray-400 truncate block">{awayTeam.shortName}</span>
-          </div>
-        </div>
+      {/* スコア（固定幅・中央） */}
+      <div className="w-[44px] text-center flex-shrink-0">
+        {isFinished || isLive ? (
+          <span className="font-mono font-bold text-sm text-gray-900 dark:text-gray-100 tabular-nums">
+            {score.fullTime.home ?? "—"}-{score.fullTime.away ?? "—"}
+          </span>
+        ) : (
+          <span className="text-xs text-gray-400">vs</span>
+        )}
       </div>
-    </Link>
+
+      {/* アウェイ（固定幅・左寄せ） */}
+      <Link
+        href={`/teams/${awayTeam.id}`}
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center justify-start gap-1 w-[90px] flex-shrink-0 hover:opacity-75 transition-opacity"
+      >
+        <Image src={awayTeam.crest} alt={awayTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
+        <div className="leading-tight">
+          <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
+            {getTeamShortNameJa(awayTeam.id) ?? awayTeam.shortName}
+          </span>
+          <span className="text-[10px] text-gray-400 truncate block">{awayTeam.shortName}</span>
+        </div>
+      </Link>
+    </div>
   );
 }
 

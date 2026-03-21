@@ -258,25 +258,25 @@ export default async function Home() {
                       </span>
                     </div>
                     <div className="flex items-center justify-center gap-0 w-full">
-                      <div className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0">
+                      <Link href={`/teams/${match.homeTeam.id}`} className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0 hover:opacity-75 transition-opacity">
                         <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate text-right">
                           {match.homeTeam.shortName}
                         </span>
                         {match.homeTeam.crest && (
                           <img src={match.homeTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
-                      </div>
+                      </Link>
                       <div className="w-[56px] text-center flex-shrink-0">
                         <span className="text-xs text-gray-400">vs</span>
                       </div>
-                      <div className="flex items-center justify-start gap-1.5 w-[120px] flex-shrink-0">
+                      <Link href={`/teams/${match.awayTeam.id}`} className="flex items-center justify-start gap-1.5 w-[120px] flex-shrink-0 hover:opacity-75 transition-opacity">
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
                         <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
                           {match.awayTeam.shortName}
                         </span>
-                      </div>
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -299,7 +299,7 @@ export default async function Home() {
             ) : (
               <div className="space-y-2">
                 {recentMatches.map((match) => (
-                  <Link key={match.id} href={`/matches/${match.id}`} className="block bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+                  <div key={match.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-gray-500 dark:text-gray-400">
                         {convertToJSTMedium(match.utcDate)}
@@ -309,29 +309,29 @@ export default async function Home() {
                       </span>
                     </div>
                     <div className="flex items-center justify-center gap-0 w-full">
-                      <div className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0">
+                      <Link href={`/teams/${match.homeTeam.id}`} className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0 hover:opacity-75 transition-opacity">
                         <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate text-right">
                           {match.homeTeam.shortName}
                         </span>
                         {match.homeTeam.crest && (
                           <img src={match.homeTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
-                      </div>
-                      <div className="w-[56px] text-center flex-shrink-0">
+                      </Link>
+                      <Link href={`/matches/${match.id}`} className="w-[56px] text-center flex-shrink-0 hover:opacity-75 transition-opacity">
                         <span className="font-mono font-bold text-sm text-gray-900 dark:text-gray-100">
                           {match.score.fullTime.home} - {match.score.fullTime.away}
                         </span>
-                      </div>
-                      <div className="flex items-center justify-start gap-1.5 w-[120px] flex-shrink-0">
+                      </Link>
+                      <Link href={`/teams/${match.awayTeam.id}`} className="flex items-center justify-start gap-1.5 w-[120px] flex-shrink-0 hover:opacity-75 transition-opacity">
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
                         <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
                           {match.awayTeam.shortName}
                         </span>
-                      </div>
+                      </Link>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}

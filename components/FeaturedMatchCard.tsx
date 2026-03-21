@@ -248,7 +248,7 @@ export default function FeaturedMatchCard({
         {/* チーム対決ヘッダー */}
         <div className="flex items-center justify-center gap-3 mb-5">
           {/* ホーム */}
-          <div className="flex flex-col items-center gap-1 w-[100px]">
+          <Link href={`/teams/${homeTeam.id}`} className="flex flex-col items-center gap-1 w-[100px] hover:opacity-75 transition-opacity">
             <img
               src={homeTeam.crest}
               alt={homeTeam.shortName}
@@ -257,12 +257,12 @@ export default function FeaturedMatchCard({
             <span className="text-xs font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">
               {homeTeam.shortName}
             </span>
-          </div>
+          </Link>
 
           <div className="text-sm font-bold text-gray-400">vs</div>
 
           {/* アウェイ */}
-          <div className="flex flex-col items-center gap-1 w-[100px]">
+          <Link href={`/teams/${awayTeam.id}`} className="flex flex-col items-center gap-1 w-[100px] hover:opacity-75 transition-opacity">
             <img
               src={awayTeam.crest}
               alt={awayTeam.shortName}
@@ -271,7 +271,7 @@ export default function FeaturedMatchCard({
             <span className="text-xs font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">
               {awayTeam.shortName}
             </span>
-          </div>
+          </Link>
         </div>
 
         {/* ── スコア予想 ── */}

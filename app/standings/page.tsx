@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { getStandingsWithForm } from "@/lib/football-api";
 import type { Standing } from "@/types/football";
 import { JsonLd } from "@/components/JsonLd";
@@ -28,7 +29,7 @@ function StandingRow({ standing }: { standing: Standing }) {
       </td>
       {/* クラブ */}
       <td className="px-3 py-2.5">
-        <div className="flex items-center gap-2">
+        <Link href={`/teams/${team.id}`} className="flex items-center gap-2 hover:opacity-75 transition-opacity">
           <Image
             src={team.crest}
             alt={team.name}
@@ -40,7 +41,7 @@ function StandingRow({ standing }: { standing: Standing }) {
             <span className="text-xs text-gray-400 block">{getTeamNameJa(team.id) ?? team.name}</span>
             <span className="text-sm font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{team.name}</span>
           </div>
-        </div>
+        </Link>
       </td>
       {/* 試合数 */}
       <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
@@ -95,17 +96,19 @@ function StandingCard({ standing }: { standing: Standing }) {
           <span className="w-6 text-center text-sm font-mono tabular-nums text-gray-500 dark:text-gray-400">
             {position}
           </span>
-          <Image
-            src={team.crest}
-            alt={team.name}
-            width={24}
-            height={24}
-            className="object-contain shrink-0"
-          />
-          <div className="leading-tight">
-            <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id) ?? team.shortName}</span>
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{team.shortName}</span>
-          </div>
+          <Link href={`/teams/${team.id}`} className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+            <Image
+              src={team.crest}
+              alt={team.name}
+              width={24}
+              height={24}
+              className="object-contain shrink-0"
+            />
+            <div className="leading-tight">
+              <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id) ?? team.shortName}</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{team.shortName}</span>
+            </div>
+          </Link>
         </div>
         <span className="text-lg font-bold font-mono tabular-nums text-gray-900 dark:text-gray-100">
           {points}
