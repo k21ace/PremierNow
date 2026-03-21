@@ -1,22 +1,21 @@
-# レースチャート
+# 分析ページ（統合）
 
 ## 1. 画面概要
 
 | 項目 | 内容 |
 |------|------|
-| 画面名 | レースチャート |
+| 画面名 | 分析 |
 | URL | `/charts/race` |
 | `page.tsx` | `app/charts/race/page.tsx` |
-| 関連コンポーネント | `app/charts/race/RaceChart.tsx`、`components/charts/RaceChartPC.tsx`、`components/charts/RaceChartSP.tsx` |
-| 目的 | 節ごとの勝点推移を折れ線グラフで可視化し、優勝争い・CL圏争い・残留争いの3グループで分析する |
+| 関連コンポーネント | `RaceChart`、`XgClient`、`StyleChartPC`、`StyleChartSP`、`HomeAwayClient`、`SimulatorClient` |
+| 目的 | レースチャート・xG分析・スタイル分析・H/A比較・順位予測を1ページに縦並びで表示する |
 
-ユーザーができること:
-- 3タブ（優勝争い上位3チーム / CL圏争い3〜7位 / 残留争い16〜20位）を切り替えて各グループを確認
-- 各チームの節ごと累計勝点推移をエンブレムDotで視認（PC版）
-- 予測勝点（直近5節avgPPGから38節まで外挿）を点線で確認（PC版）
-- キーモーメント（首位交代・直接対決・ゾーン変化）をReferenceLine縦線で確認（PC版）
-- チームエンブレムにホバーしてTooltipで詳細を確認（PC版）
-- SP版では実績ラインの末端にエンブレムを表示（同勝点チームはy座標をずらして重なりを回避）
+ユーザーができること（セクション順）:
+1. **レースチャート** — 3タブ（優勝争い / CL圏 / 残留争い）で勝点推移を確認
+2. **xG分析** — 全チーム・選手の期待得点ランキングを確認
+3. **スタイル分析** — 得点力・守備力の散布図でチーム戦術傾向を確認
+4. **H/A比較** — ホームとアウェイの成績差を確認
+5. **順位予測** — 残り試合の結果を予測して最終順位をシミュレーション
 
 ---
 
@@ -24,11 +23,16 @@
 
 | コンポーネント名 | ファイルパス | 役割 |
 |----------------|------------|------|
-| `RacePage` | `app/charts/race/page.tsx` | Server Component。データ取得・グループ定義 |
-| `RaceChart` | `app/charts/race/RaceChart.tsx` | Client Component。タブ切り替え・データ絞り込み |
-| `RaceChartPC` | `components/charts/RaceChartPC.tsx` | Recharts グラフ PC版（500px・全機能） |
-| `RaceChartSP` | `components/charts/RaceChartSP.tsx` | Recharts グラフ SP版（360px・簡略） |
-| `ChartsLayout` | `app/charts/layout.tsx` | チャートサブナビ（レースチャート/スタイル分析） |
+| `AnalysisPage` | `app/charts/race/page.tsx` | Server Component。全セクションのデータ取得・組み立て |
+| `RaceChart` | `app/charts/race/RaceChart.tsx` | Client Component。タブ切り替え・勝点推移グラフ |
+| `RaceChartPC` | `components/charts/RaceChartPC.tsx` | Recharts グラフ PC版 |
+| `RaceChartSP` | `components/charts/RaceChartSP.tsx` | Recharts グラフ SP版 |
+| `XgClient` | `app/charts/xg/XgClient.tsx` | Client Component。xG分析グラフ |
+| `StyleChartPC` | `components/charts/StyleChartPC.tsx` | スタイル分析散布図 PC版 |
+| `StyleChartSP` | `components/charts/StyleChartSP.tsx` | スタイル分析散布図 SP版 |
+| `HomeAwayClient` | `app/charts/home-away/HomeAwayClient.tsx` | Client Component。H/A比較チャート・テーブル |
+| `SimulatorClient` | `app/charts/simulator/SimulatorClient.tsx` | Client Component。順位予測シミュレーター |
+| `ChartsLayout` | `app/charts/layout.tsx` | 子要素をそのまま描画（ナビなし） |
 
 ---
 
@@ -37,9 +41,13 @@
 | 関数名 | エンドポイント | revalidate | 用途 |
 |--------|--------------|-----------|------|
 | `getMatches({ status: "FINISHED" })` | `GET /competitions/PL/matches?status=FINISHED` | 3600秒 | 終了済み試合から勝点推移を計算 |
-| `getStandings()` | `GET /competitions/PL/standings` | 3600秒 | 公式順位表からグループ（タブ）のチームIDを決定 |
+| `getStandings()` | `GET /competitions/PL/standings` | 3600秒 | 順位表・スタイル分析・シミュレーター用 |
+| `getHomeAwayStandings()` | `GET /competitions/PL/standings` (HOME/AWAY) | 3600秒 | H/A比較用 |
+| `getMatches({ status: "SCHEDULED" })` | `GET /competitions/PL/matches?status=SCHEDULED` | 3600秒 | 順位予測シミュレーター用 |
+| `getUnderstatTeams(2025)` | Understat スクレイピング | — | xG分析（失敗しても他セクションに影響しない） |
+| `getUnderstatPlayers(2025)` | Understat スクレイピング | — | xG選手ランキング |
 
-`Promise.all` で並列フェッチ。
+主要4フェッチは `Promise.all` で並列取得。xGは別途 try/catch で取得。
 
 ---
 

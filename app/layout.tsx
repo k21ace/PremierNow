@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Noto_Sans_JP, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/ui/Header";
+import NavigationProgress from "@/components/ui/NavigationProgress";
 import "./globals.css";
 
 const inter = Inter({
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${notoSansJP.variable} ${geistMono.variable} antialiased`}
       >
+        <NavigationProgress />
         <Header />
         {children}
         <footer className="border-t border-gray-200 bg-white mt-8">
