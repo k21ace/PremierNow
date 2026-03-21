@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Match } from "@/types/football";
+import { getTeamShortNameJa } from "@/lib/translations";
 
 const MAX_MATCHDAY = 38;
 
@@ -53,9 +54,12 @@ function MatchCard({ match }: { match: Match }) {
       <div className="flex items-center bg-white border border-gray-100 rounded px-3 py-2 hover:border-[#00a8e8] transition-colors gap-2">
         {/* ホーム（固定幅・右寄せ） */}
         <div className="flex items-center justify-end gap-1 w-[90px] flex-shrink-0">
-          <span className="text-xs font-medium text-gray-900 truncate">
-            {homeTeam.shortName}
-          </span>
+          <div className="text-right leading-tight">
+            <span className="text-xs font-medium text-gray-900 truncate block">
+              {getTeamShortNameJa(homeTeam.id) ?? homeTeam.shortName}
+            </span>
+            <span className="text-[10px] text-gray-400 truncate block">{homeTeam.shortName}</span>
+          </div>
           <Image src={homeTeam.crest} alt={homeTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
         </div>
 
@@ -73,9 +77,12 @@ function MatchCard({ match }: { match: Match }) {
         {/* アウェイ（固定幅・左寄せ） */}
         <div className="flex items-center justify-start gap-1 w-[90px] flex-shrink-0">
           <Image src={awayTeam.crest} alt={awayTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
-          <span className="text-xs font-medium text-gray-900 truncate">
-            {awayTeam.shortName}
-          </span>
+          <div className="leading-tight">
+            <span className="text-xs font-medium text-gray-900 truncate block">
+              {getTeamShortNameJa(awayTeam.id) ?? awayTeam.shortName}
+            </span>
+            <span className="text-[10px] text-gray-400 truncate block">{awayTeam.shortName}</span>
+          </div>
         </div>
 
         {/* 右端：ステータス＋リンク */}

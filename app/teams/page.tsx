@@ -4,6 +4,7 @@ import { getStandings } from "@/lib/football-api";
 import { JsonLd } from "@/components/JsonLd";
 import { createMetadata } from "@/lib/metadata";
 import { getZoneBorder } from "@/lib/styling";
+import { getTeamShortNameJa } from "@/lib/translations";
 
 export const metadata = createMetadata(
   "プレミアリーグ チーム一覧 2025-26 | PremierNow",
@@ -59,9 +60,12 @@ export default async function TeamsPage() {
                   height={48}
                   className="object-contain"
                 />
-                <span className="text-xs font-medium text-center text-gray-900 leading-tight">
-                  {team.shortName}
-                </span>
+                <div className="text-center leading-tight">
+                  {getTeamShortNameJa(team.id) && (
+                    <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id)}</span>
+                  )}
+                  <span className="text-xs font-medium text-gray-900">{team.shortName}</span>
+                </div>
                 <div className="flex flex-col items-center gap-0.5">
                   <span className="text-xs text-gray-400">{position}位</span>
                   <span className="font-mono tabular-nums font-bold text-gray-900 text-sm">

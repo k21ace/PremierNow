@@ -9,6 +9,7 @@ import { SEASONS, DEFAULT_SEASON } from "@/lib/seasons";
 import { getInitials } from "@/lib/formatting";
 import { getRankBadgeClass } from "@/lib/styling";
 import { SNSIcon } from "@/components/ui/SNSIcon";
+import { getPlayerNameJa, getTeamShortNameJa } from "@/lib/translations";
 
 type SortKey = "goals" | "assists" | "goalsPlusAssists";
 
@@ -184,9 +185,14 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                         <div className="w-8 h-8 rounded-full bg-pn-blue-light text-pn-navy flex items-center justify-center text-xs font-semibold shrink-0 select-none">
                           {getInitials(player.name)}
                         </div>
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-pn-blue leading-tight whitespace-nowrap transition-colors">
-                          {player.name}
-                        </span>
+                        <div className="leading-tight">
+                          {getPlayerNameJa(player.name) && (
+                            <span className="text-xs text-gray-400 block">{getPlayerNameJa(player.name)}</span>
+                          )}
+                          <span className="text-sm font-medium text-gray-900 group-hover:text-pn-blue whitespace-nowrap transition-colors">
+                            {player.name}
+                          </span>
+                        </div>
                       </Link>
                     </td>
 
@@ -200,9 +206,12 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                           height={20}
                           className="object-contain shrink-0"
                         />
-                        <span className="text-sm text-gray-700 whitespace-nowrap">
-                          {team.shortName}
-                        </span>
+                        <div className="leading-tight">
+                          {getTeamShortNameJa(team.id) && (
+                            <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id)}</span>
+                          )}
+                          <span className="text-sm text-gray-700 whitespace-nowrap">{team.shortName}</span>
+                        </div>
                       </div>
                     </td>
 

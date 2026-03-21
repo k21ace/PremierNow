@@ -13,6 +13,7 @@ import { SEASONS, DEFAULT_SEASON } from "@/lib/seasons";
 import { getFlagEmoji } from "@/lib/nationality-flag";
 import { getInitials } from "@/lib/formatting";
 import { SNSIcon } from "@/components/ui/SNSIcon";
+import { getPlayerNameJa, getTeamNameJa, getTeamShortNameJa } from "@/lib/translations";
 
 // ─── ユーティリティ ──────────────────────────────────────
 
@@ -95,7 +96,9 @@ export default function PlayerDetailClient({
           Player
         </Link>
         <span className="mx-1.5">›</span>
-        <span className="text-gray-900">{player.name}</span>
+        <span className="text-gray-900">
+          {getPlayerNameJa(player.name) ?? player.name}
+        </span>
       </nav>
 
       {/* ─── セクション1: ヘッダー ─────────────────────── */}
@@ -109,8 +112,11 @@ export default function PlayerDetailClient({
           {/* 選手情報 */}
           <div className="flex-1 min-w-0">
             <h1 className="text-3xl font-bold text-gray-900 leading-tight">
-              {player.name}
+              {getPlayerNameJa(player.name) ?? player.name}
             </h1>
+            {getPlayerNameJa(player.name) && (
+              <p className="text-base text-gray-400 mt-0.5">{player.name}</p>
+            )}
 
             {/* 国籍 */}
             {player.nationality && (
@@ -130,9 +136,12 @@ export default function PlayerDetailClient({
                   height={22}
                   className="object-contain shrink-0"
                 />
-                <span className="text-sm font-medium text-gray-800">
-                  {player.currentTeam.name}
-                </span>
+                <div className="leading-tight">
+                  {getTeamNameJa(player.currentTeam.id) && (
+                    <span className="text-xs text-gray-400 block">{getTeamNameJa(player.currentTeam.id)}</span>
+                  )}
+                  <span className="text-sm font-medium text-gray-800">{player.currentTeam.name}</span>
+                </div>
               </div>
             ) : (
               <p className="text-sm text-gray-400 mt-2">所属チーム不明</p>
@@ -337,7 +346,12 @@ export default function PlayerDetailClient({
                             height={18}
                             className="object-contain shrink-0"
                           />
-                          <span className="text-gray-700">{entry.team.shortName}</span>
+                          <div className="leading-tight">
+                            {getTeamShortNameJa(entry.team.id) && (
+                              <span className="text-xs text-gray-400 block">{getTeamShortNameJa(entry.team.id)}</span>
+                            )}
+                            <span className="text-gray-700">{entry.team.shortName}</span>
+                          </div>
                         </div>
                       ) : (
                         <span className="text-gray-400">—</span>

@@ -6,6 +6,7 @@ import { createMetadata } from "@/lib/metadata";
 import { getZoneBorder } from "@/lib/styling";
 import { formatGD } from "@/lib/formatting";
 import { FormBadges } from "@/components/ui/ResultBadge";
+import { getTeamNameJa, getTeamShortNameJa } from "@/lib/translations";
 
 export const metadata = createMetadata(
   "プレミアリーグ 順位表 2025-26 最新 | PremierNow",
@@ -35,9 +36,10 @@ function StandingRow({ standing }: { standing: Standing }) {
             height={20}
             className="object-contain shrink-0"
           />
-          <span className="text-sm font-medium text-gray-900 whitespace-nowrap">
-            {team.name}
-          </span>
+          <div className="leading-tight">
+            <span className="text-xs text-gray-400 block">{getTeamNameJa(team.id) ?? team.name}</span>
+            <span className="text-sm font-medium text-gray-900 whitespace-nowrap">{team.name}</span>
+          </div>
         </div>
       </td>
       {/* 試合数 */}
@@ -100,9 +102,10 @@ function StandingCard({ standing }: { standing: Standing }) {
             height={24}
             className="object-contain shrink-0"
           />
-          <span className="text-sm font-medium text-gray-900">
-            {team.shortName}
-          </span>
+          <div className="leading-tight">
+            <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id) ?? team.shortName}</span>
+            <span className="text-sm font-medium text-gray-900">{team.shortName}</span>
+          </div>
         </div>
         <span className="text-lg font-bold font-mono tabular-nums text-gray-900">
           {points}

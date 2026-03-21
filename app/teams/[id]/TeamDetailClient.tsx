@@ -14,6 +14,7 @@ import {
 import type { Standing } from "@/types/football";
 import { ResultBadge } from "@/components/ui/ResultBadge";
 import { formatGD } from "@/lib/formatting";
+import { getTeamNameJa, getTeamShortNameJa } from "@/lib/translations";
 
 export interface MatchSummary {
   id: number;
@@ -94,7 +95,12 @@ export default function TeamDetailClient({
             className="object-contain shrink-0"
           />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{team.name}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {getTeamNameJa(team.id) ?? team.name}
+            </h1>
+            {getTeamNameJa(team.id) && (
+              <p className="text-sm text-gray-400">{team.name}</p>
+            )}
             <p className="text-sm text-gray-500">{team.tla}</p>
           </div>
         </div>
@@ -225,9 +231,14 @@ export default function TeamDetailClient({
                   height={20}
                   className="object-contain shrink-0"
                 />
-                <span className="text-sm text-gray-900 flex-1 min-w-0 truncate">
-                  {m.opponentShortName}
-                </span>
+                <div className="flex-1 min-w-0 leading-tight">
+                  <span className="text-sm text-gray-900 truncate block">
+                    {getTeamShortNameJa(m.opponentId) ?? m.opponentShortName}
+                  </span>
+                  {getTeamShortNameJa(m.opponentId) && (
+                    <span className="text-xs text-gray-400 truncate block">{m.opponentShortName}</span>
+                  )}
+                </div>
                 <span className="font-mono tabular-nums text-sm font-semibold text-gray-900 shrink-0">
                   {m.scored}
                   <span className="text-gray-400 mx-1">–</span>
