@@ -117,34 +117,83 @@ export const FEATURED_MATCH_CONFIG: FeaturedMatchStaticConfig = {
   previewArticleSlug: "matchpreview-matchday31-brighton-liverpool",
   homeInjuries: [
     {
-      playerName: "ジョアン・ペドロ",
-      reason: "大腿部の負傷",
+      playerName: "三苫 薫",
+      reason: "足首の負傷",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // João Pedro
+      playerId: undefined, // Kaoru Mitoma
     },
     {
-      playerName: "ジャック・ヒンシェルウッド",
+      playerName: "アダム・ウェブスター",
       reason: "膝の負傷",
       status: "injury",
-      returnDate: "未定",
-      playerId: undefined, // Jack Hinshelwood
+      returnDate: "4月上旬",
+      playerId: undefined, // Adam Webster
+    },
+    {
+      playerName: "ステファノス・ツィマス",
+      reason: "十字靭帯の負傷",
+      status: "injury",
+      returnDate: "8月上旬",
+      playerId: undefined, // Stefanos Tzimas
     },
   ],
   awayInjuries: [
     {
-      playerName: "アリスター・マカリスター",
-      reason: "腹部の負傷",
+      playerName: "ジョー・ゴメス",
+      reason: "軽い外傷",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // Alexis Mac Allister
+      playerId: undefined, // Joe Gomez
+    },
+    {
+      playerName: "アリソン・ベッカー",
+      reason: "筋肉損傷",
+      status: "injury",
+      returnDate: "4月上旬",
+      playerId: undefined, // Alisson Becker
     },
     {
       playerName: "コナー・ブラッドリー",
-      reason: "膝蓋骨の負傷",
+      reason: "膝の負傷",
+      status: "injury",
+      returnDate: "今季復帰なし",
+      playerId: undefined, // Conor Bradley
+    },
+    {
+      playerName: "ジョバンニ・レオーニ",
+      reason: "十字靭帯の負傷",
+      status: "injury",
+      returnDate: "8月上旬",
+      playerId: undefined, // Giovanni Leoni
+    },
+    {
+      playerName: "ステファン・バイチェティッチ",
+      reason: "ハムストリング損傷",
+      status: "injury",
+      returnDate: "5月上旬",
+      playerId: undefined, // Stefan Bajcetic
+    },
+    {
+      playerName: "遠藤 航",
+      reason: "足首の骨折",
+      status: "injury",
+      returnDate: "5月上旬",
+      playerId: undefined, // Wataru Endo
+    },
+    {
+      playerName: "アレクサンダー・イサク",
+      reason: "脚の骨折",
       status: "injury",
       returnDate: "4月中旬",
-      playerId: undefined, // Conor Bradley
+      playerId: undefined, // Alexander Isak
+    },
+    {
+      playerName: "モハメド・サラー",
+      reason: "筋肉損傷",
+      status: "injury",
+      returnDate: "4月下旬",
+      playerId: undefined, // Mohamed Salah
     },
   ],
   scorePrediction: {
