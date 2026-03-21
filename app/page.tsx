@@ -33,14 +33,14 @@ export default async function Home() {
   const [featuredArticles, matchesData, upcomingRaw, featuredMatchDetail, homeTransferred, awayTransferred] =
     await Promise.all([
       Promise.resolve(getFeaturedArticles()),
-      getMatches({ status: "FINISHED" }),
-      getUpcomingMatches(3),
+      getMatches({ status: "FINISHED" }).catch(() => ({ matches: [] as import("@/types/football").Match[] })),
+      getUpcomingMatches(3).catch(() => [] as import("@/types/football").Match[]),
       getFeaturedMatchDetail(
         FEATURED_MATCH_CONFIG.homeTeamId,
         FEATURED_MATCH_CONFIG.awayTeamId,
-      ),
-      getTransferredPlayerIds(homePlayerIds, FEATURED_MATCH_CONFIG.homeTeamId),
-      getTransferredPlayerIds(awayPlayerIds, FEATURED_MATCH_CONFIG.awayTeamId),
+      ).catch(() => null),
+      getTransferredPlayerIds(homePlayerIds, FEATURED_MATCH_CONFIG.homeTeamId).catch(() => new Set<number>()),
+      getTransferredPlayerIds(awayPlayerIds, FEATURED_MATCH_CONFIG.awayTeamId).catch(() => new Set<number>()),
     ]);
 
   // 移籍済み選手を除外した負傷者リスト
