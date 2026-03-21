@@ -394,12 +394,12 @@ export async function getTeamInfo(id: number): Promise<TeamInfo> {
 
 /**
  * 試合詳細情報を取得する（得点・カード・交代・審判を含む）。
- * ISR キャッシュ: 5分（300秒）
  *
  * @param id - football-data.org の試合ID
+ * @param revalidate - ISR キャッシュ秒数（デフォルト 300秒）
  */
-export async function getMatch(id: number): Promise<MatchDetail> {
-  const data = await fetchFootball<MatchDetail>(`/matches/${id}`, 300);
+export async function getMatch(id: number, revalidate = 300): Promise<MatchDetail> {
+  const data = await fetchFootball<MatchDetail>(`/matches/${id}`, revalidate);
   return {
     ...data,
     homeTeam: normalizeTeam(data.homeTeam),
@@ -408,14 +408,11 @@ export async function getMatch(id: number): Promise<MatchDetail> {
 }
 
 /**
- * 指定したホーム/アウェイのチームIDで次の試合を検索し、詳細（venue を含む）を返す。
- * SCHEDULED・TIMED ステータスの試合を対象に探索する。
+ * 指定したホーム/アウェイのチームIDで試合を検索し、詳細（venue を含む）を返す。
+ * SCHEDULED・TIMED・IN_PLAY・PAUSED ステータスの試合を対象に探索する。
  * 見つからない場合は null を返す。
  *
- * SCHEDULED/TIMED の fetch は getUpcomingMatches() と同じURLのため、
- * Next.js のリクエストメモ化により同一レンダリング内では実際のHTTPリクエストは発生しない。
- *
- * ISR キャッシュ: 1800秒（SCHEDULED/TIMED）+ 300秒（match detail）
+ * ISR キャッシュ: 1800秒（SCHEDULED/TIMED）、60秒（IN_PLAY/PAUSED）+ match detail
  *
  * @param homeTeamId - ホームチームの football-data.org チームID
  * @param awayTeamId - アウェイチームの football-data.org チームID
@@ -424,15 +421,23 @@ export async function getFeaturedMatchDetail(
   homeTeamId: number,
   awayTeamId: number,
 ): Promise<MatchDetail | null> {
-  const [scheduledData, timedData] = await Promise.all([
+  const [scheduledData, timedData, inPlayData, pausedData] = await Promise.all([
     fetchFootball<MatchesResponse>(`/competitions/${PL_ID}/matches`, 1800, { status: "SCHEDULED" }),
     fetchFootball<MatchesResponse>(`/competitions/${PL_ID}/matches`, 1800, { status: "TIMED" }),
+    fetchFootball<MatchesResponse>(`/competitions/${PL_ID}/matches`, 60, { status: "IN_PLAY" }),
+    fetchFootball<MatchesResponse>(`/competitions/${PL_ID}/matches`, 60, { status: "PAUSED" }),
   ]);
 
-  const all = [
+  // IN_PLAY/PAUSED を優先的に検索し、なければ SCHEDULED/TIMED を探す
+  const liveMatches = [
+    ...(inPlayData.matches ?? []),
+    ...(pausedData.matches ?? []),
+  ];
+  const preMatches = [
     ...(scheduledData.matches ?? []),
     ...(timedData.matches ?? []),
   ];
+  const all = [...liveMatches, ...preMatches];
 
   const match = all.find(
     (m) => m.homeTeam.id === homeTeamId && m.awayTeam.id === awayTeamId,
@@ -440,5 +445,7 @@ export async function getFeaturedMatchDetail(
 
   if (!match) return null;
 
-  return getMatch(match.id);
+  // ライブ中は短いキャッシュで詳細取得
+  const isLive = match.status === "IN_PLAY" || match.status === "PAUSED";
+  return getMatch(match.id, isLive ? 60 : 300);
 }

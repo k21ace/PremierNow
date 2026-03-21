@@ -100,6 +100,7 @@ export default async function Home() {
     awayRecentMatches = buildRecentMatches(awayId, allFinished);
 
     featuredMatch = {
+      apiMatchId: featuredMatchDetail.id,
       matchId: FEATURED_MATCH_CONFIG.quizSlug,
       homeTeam: {
         ...featuredMatchDetail.homeTeam,
@@ -112,6 +113,9 @@ export default async function Home() {
       utcDate: featuredMatchDetail.utcDate,
       matchday: featuredMatchDetail.matchday,
       venue: featuredMatchDetail.venue ?? "エバートン・スタジアム",
+      status: featuredMatchDetail.status,
+      liveScore: featuredMatchDetail.score,
+      goals: featuredMatchDetail.goals ?? [],
       quizSlug: FEATURED_MATCH_CONFIG.quizSlug,
       previewArticleSlug: FEATURED_MATCH_CONFIG.previewArticleSlug,
       scorePrediction: FEATURED_MATCH_CONFIG.scorePrediction,

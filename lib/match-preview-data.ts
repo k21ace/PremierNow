@@ -1,3 +1,5 @@
+import type { Goal, MatchStatus, Score } from "@/types/football";
+
 /**
  * 注目カード — 静的設定ファイル
  *
@@ -43,6 +45,8 @@ export type InjuryInfo = {
 
 /** football-data.org API から取得した試合データと injuries をマージした型（FeaturedMatchCard の Props） */
 export type FeaturedMatchConfig = {
+  /** football-data.org の数値試合ID（ライブポーリング用） */
+  apiMatchId: number;
   /** URL パラメータ用 ID（例: "brighton-vs-liverpool"） */
   matchId: string;
   homeTeam: {
@@ -64,6 +68,12 @@ export type FeaturedMatchConfig = {
   utcDate: string;
   matchday: number;
   venue: string;
+  /** 試合ステータス */
+  status: MatchStatus;
+  /** 試合中・終了後のスコア情報 */
+  liveScore?: Score;
+  /** 得点リスト（試合中・終了後） */
+  goals?: Goal[];
   /** /quiz/[slug] の slug に対応 */
   quizSlug: string;
   /** /articles/[slug] のマッチプレビュー記事スラッグ */

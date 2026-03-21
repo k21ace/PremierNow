@@ -4,6 +4,7 @@ import { convertToJSTMedium } from "@/lib/utils";
 import type { FeaturedMatchConfig, InjuryInfo, ScorePrediction } from "@/lib/match-preview-data";
 import { quizzes } from "@/lib/quiz-data";
 import type { Match } from "@/types/football";
+import LiveScore from "@/components/LiveScore";
 
 type Props = {
   config: FeaturedMatchConfig;
@@ -222,8 +223,12 @@ export default function FeaturedMatchCard({
   homeRecentMatches,
   awayRecentMatches,
 }: Props) {
-  const { homeTeam, awayTeam, utcDate, matchday, venue, quizSlug, previewArticleSlug } = config;
+  const { homeTeam, awayTeam, utcDate, matchday, venue, quizSlug, previewArticleSlug, status, liveScore, goals } = config;
   const quizQuestionCount = quizzes.find((q) => q.slug === quizSlug)?.questions.length ?? 0;
+
+  const isLive = status === "IN_PLAY" || status === "PAUSED";
+  const isFinished = status === "FINISHED";
+  const showLiveSection = isLive || isFinished;
 
   return (
     <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
@@ -232,6 +237,15 @@ export default function FeaturedMatchCard({
         <div className="flex items-center gap-2">
           <span className="w-1 h-5 bg-violet-600 rounded inline-block" />
           <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">注目カード</p>
+          {isLive && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-red-600 dark:text-red-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-red-600" />
+              </span>
+              LIVE
+            </span>
+          )}
         </div>
         <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded font-mono tabular-nums">
           第{matchday}節
@@ -274,13 +288,22 @@ export default function FeaturedMatchCard({
           </Link>
         </div>
 
-        {/* ── スコア予想 ── */}
-        {config.scorePrediction && (
-          <ScorePredictionSection
-            prediction={config.scorePrediction}
-            homeShortName={homeTeam.shortName}
-            awayShortName={awayTeam.shortName}
+        {/* ── ライブスコア / 試合結果 ── */}
+        {showLiveSection && liveScore ? (
+          <LiveScore
+            initialData={{ status, score: liveScore, goals: goals ?? [] }}
+            homeTeam={{ id: homeTeam.id, shortName: homeTeam.shortName }}
+            awayTeam={{ id: awayTeam.id, shortName: awayTeam.shortName }}
           />
+        ) : (
+          /* ── スコア予想（試合前のみ表示） ── */
+          config.scorePrediction && (
+            <ScorePredictionSection
+              prediction={config.scorePrediction}
+              homeShortName={homeTeam.shortName}
+              awayShortName={awayTeam.shortName}
+            />
+          )
         )}
 
         {/* ── フォーム比較 ── */}
