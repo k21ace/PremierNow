@@ -168,10 +168,10 @@ export default function XgClient({ teamStats, players }: Props) {
             <BarChart
               layout="vertical"
               data={barData}
-              margin={{ top: 4, right: 16, left: 80, bottom: 4 }}
+              margin={{ top: 4, right: 16, left: 0, bottom: 4 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 10, fill: axisColor }} />
+              <XAxis type="number" domain={[0, "auto"]} tick={{ fontSize: 10, fill: axisColor }} />
               <YAxis
                 type="category"
                 dataKey="name"

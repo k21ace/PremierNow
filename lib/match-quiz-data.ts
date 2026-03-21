@@ -10,6 +10,7 @@ export type MatchQuiz = {
   title: string;
   description: string;
   questions: QuizQuestion[];
+  relatedArticleSlug?: string;
 };
 
 export const matchQuizzes: MatchQuiz[] = [
@@ -18,6 +19,7 @@ export const matchQuizzes: MatchQuiz[] = [
     title: "リバプール vs ブライトン 直前クイズ",
     description:
       "アンフィールドの一戦を前に、両チームの歴史・選手・対戦成績をチェック！全5問に挑戦。",
+    relatedArticleSlug: "matchpreview-matchday31-brighton-liverpool",
     questions: [
       {
         id: 1,

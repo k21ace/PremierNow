@@ -65,7 +65,7 @@ export default async function MatchQuizPage({ params }: Props) {
         </h1>
         <p className="text-sm text-gray-500 mb-6">{quiz.description}</p>
 
-        <QuizClient quiz={quiz} />
+        <QuizClient quiz={quiz} relatedArticleSlug={matchQuiz.relatedArticleSlug} />
       </div>
     </main>
   );

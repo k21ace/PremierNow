@@ -16,7 +16,7 @@ function ScoreMessage({ score, total }: { score: number; total: number }) {
   return <p className="text-gray-600 dark:text-gray-300">もっとPLを勉強しましょう！</p>;
 }
 
-export default function QuizClient({ quiz }: { quiz: Quiz }) {
+export default function QuizClient({ quiz, relatedArticleSlug }: { quiz: Quiz; relatedArticleSlug?: string }) {
   const total = quiz.questions.length;
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -177,6 +177,18 @@ export default function QuizClient({ quiz }: { quiz: Quiz }) {
               他のクイズへ
             </Link>
           </div>
+          {relatedArticleSlug && (
+            <Link
+              href={`/articles/${relatedArticleSlug}`}
+              className="flex items-center justify-between bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded px-5 py-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <div>
+                <p className="text-xs text-gray-400 font-medium mb-0.5">マッチプレビュー</p>
+                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">記事を読む</p>
+              </div>
+              <span className="text-gray-400 text-lg">→</span>
+            </Link>
+          )}
         </div>
       </div>
     );

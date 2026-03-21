@@ -36,12 +36,17 @@ export const quizzes: Quiz[] = [
       },
       {
         id: 2,
-        question: "三苫薫の今シーズン（2025-26）のプレミアリーグ公式戦アシスト数は1ですが、xA（アシスト期待値）はいくつでしょう？（第30節時点）",
+        question: "ブライトンの現在の監督名は？",
         type: "choice",
-        options: ["0.7", "1.5", "2.2", "3.1"],
-        correctAnswer: "2",
+        options: [
+          "Fabian Hürzeler",
+          "Roberto De Zerbi",
+          "Graham Potter",
+          "Chris Hughton",
+        ],
+        correctAnswer: "0",
         explanation:
-          "三苫薫は今シーズンのxA（アシスト期待値）は2.20となっています。",
+          "ファビアン・ヒュルツェラーが2024-25シーズンからブライトンの監督を務めています。",
       },
       {
         id: 3,
@@ -82,17 +87,12 @@ export const quizzes: Quiz[] = [
       },
       {
         id: 6,
-        question: "ブライトンの現在の監督名は？",
+        question: "三苫薫の今シーズン（2025-26）のプレミアリーグ公式戦アシスト数は1ですが、xA（アシスト期待値）はいくつでしょう？（第30節時点）",
         type: "choice",
-        options: [
-          "Fabian Hürzeler",
-          "Roberto De Zerbi",
-          "Graham Potter",
-          "Chris Hughton",
-        ],
-        correctAnswer: "0",
+        options: ["0.7", "1.5", "2.2", "3.1"],
+        correctAnswer: "2",
         explanation:
-          "ファビアン・ヒュルツェラーが2024-25シーズンからブライトンの監督を務めています。",
+          "三苫薫は今シーズンのxA（アシスト期待値）は2.20となっています。",
       },
     ],
   },

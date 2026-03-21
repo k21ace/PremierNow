@@ -120,6 +120,28 @@ function CharacterComment({ children }: CharacterCommentProps) {
   );
 }
 
+type QuizLinkProps = {
+  href: string;
+  label: string;
+};
+
+function QuizLink({ href, label }: QuizLinkProps) {
+  return (
+    <div className="my-8">
+      <Link
+        href={href}
+        className="flex items-center justify-between bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-700 rounded px-5 py-4 hover:bg-violet-100 dark:hover:bg-violet-950/50 transition-colors"
+      >
+        <div>
+          <p className="text-xs text-violet-500 dark:text-violet-400 font-medium mb-0.5">クイズ</p>
+          <p className="text-sm font-semibold text-violet-800 dark:text-violet-200">{label}</p>
+        </div>
+        <span className="text-violet-400 dark:text-violet-500 text-lg">→</span>
+      </Link>
+    </div>
+  );
+}
+
 // ─── MDX コンポーネントマップ ──────────────────────────────
 
 const mdxComponents: MDXComponents = {
@@ -187,6 +209,7 @@ const mdxComponents: MDXComponents = {
   PlayerCard,
   ScorePrediction,
   CharacterComment,
+  QuizLink,
 };
 
 export default mdxComponents;
