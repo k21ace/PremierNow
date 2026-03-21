@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import Link from "next/link";
 import type { Match, TeamTimeline } from "@/types/football";
 import { calcDramaticEvents, calcProbabilities } from "@/lib/chart-utils";
 import {
@@ -14,7 +15,7 @@ import RaceChartSP from "@/components/charts/RaceChartSP";
 
 const TAB_CONFIG: { key: Group; labelFull: string; labelShort: string; probLabel: string }[] = [
   { key: "title",      labelFull: "優勝争い（上位3チーム）", labelShort: "優勝争い",  probLabel: "優勝確率" },
-  { key: "cl",         labelFull: "CL圏争い（3位〜7位）",    labelShort: "CL圏争い",  probLabel: "CL権獲得確率" },
+  { key: "cl",         labelFull: "CL圏争い（3位〜10位）",   labelShort: "CL圏争い",  probLabel: "CL権獲得確率" },
   { key: "relegation", labelFull: "残留争い（16位〜20位）",  labelShort: "残留争い",  probLabel: "残留確率" },
 ];
 
@@ -70,9 +71,17 @@ function ProbabilityBar({ entries, label }: { entries: ProbEntry[]; label: strin
   const sorted = [...entries].sort((a, b) => b.prob - a.prob);
   return (
     <div className="mb-4">
-      <div className="flex items-center gap-1.5 mb-2">
-        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{label}</span>
-        <InfoTooltip />
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{label}</span>
+          <InfoTooltip />
+        </div>
+        <Link
+          href="/standings"
+          className="text-xs text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+        >
+          順位表 →
+        </Link>
       </div>
       <div className="flex flex-wrap gap-2">
         {sorted.map((e) => (

@@ -121,97 +121,97 @@ export type FeaturedMatchStaticConfig = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const FEATURED_MATCH_CONFIG: FeaturedMatchStaticConfig = {
-  homeTeamId: 397, // Brighton & Hove Albion
-  awayTeamId: 64,  // Liverpool FC
-  quizSlug: "brighton-vs-liverpool",
-  previewArticleSlug: "matchpreview-matchday31-brighton-liverpool",
+  homeTeamId: 62,  // Everton FC
+  awayTeamId: 61,  // Chelsea FC
+  quizSlug: "everton-vs-chelsea",
+  previewArticleSlug: "matchpreview-matchday32-everton-chelsea",
   homeInjuries: [
     {
-      playerName: "三苫 薫",
-      reason: "足首の負傷",
+      playerName: "タイリク・ジョージ",
+      reason: "出場停止",
+      status: "suspension",
+      returnDate: "次節復帰予定",
+      playerId: undefined, // Tyrique George
+    },
+    {
+      playerName: "ジェームズ・タルコウスキー",
+      reason: "軽い外傷",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // Kaoru Mitoma
+      playerId: undefined, // James Tarkowski
     },
     {
-      playerName: "アダム・ウェブスター",
-      reason: "膝の負傷",
+      playerName: "ジャラッド・ブランスウェイト",
+      reason: "軽い外傷",
       status: "injury",
-      returnDate: "4月上旬",
-      playerId: undefined, // Adam Webster
+      returnDate: "未定",
+      playerId: undefined, // Jarrad Branthwaite
     },
     {
-      playerName: "ステファノス・ツィマス",
-      reason: "十字靭帯の負傷",
+      playerName: "チャーリー・アルカラス",
+      reason: "軽い外傷",
       status: "injury",
-      returnDate: "8月上旬",
-      playerId: undefined, // Stefanos Tzimas
+      returnDate: "4月中旬",
+      playerId: undefined, // Charly Alcaraz
+    },
+    {
+      playerName: "ジャック・グリーリッシュ",
+      reason: "足の骨折",
+      status: "injury",
+      returnDate: "6月上旬",
+      playerId: undefined, // Jack Grealish
     },
   ],
   awayInjuries: [
     {
-      playerName: "ジョー・ゴメス",
-      reason: "軽い外傷",
+      playerName: "ブノワ・バディアシル",
+      reason: "病気",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // Joe Gomez
+      playerId: undefined, // Benoît Badiashile
     },
     {
-      playerName: "アリソン・ベッカー",
-      reason: "筋肉損傷",
-      status: "injury",
-      returnDate: "4月上旬",
-      playerId: undefined, // Alisson Becker
-    },
-    {
-      playerName: "コナー・ブラッドリー",
-      reason: "膝の負傷",
-      status: "injury",
-      returnDate: "今季復帰なし",
-      playerId: undefined, // Conor Bradley
-    },
-    {
-      playerName: "ジョバンニ・レオーニ",
-      reason: "十字靭帯の負傷",
-      status: "injury",
-      returnDate: "8月上旬",
-      playerId: undefined, // Giovanni Leoni
-    },
-    {
-      playerName: "ステファン・バイチェティッチ",
+      playerName: "ジェイミー・バイノー=ギッテンス",
       reason: "ハムストリング損傷",
       status: "injury",
-      returnDate: "5月上旬",
-      playerId: undefined, // Stefan Bajcetic
+      returnDate: "未定",
+      playerId: undefined, // Jamie Bynoe-Gittens
     },
     {
-      playerName: "遠藤 航",
-      reason: "足首の骨折",
-      status: "injury",
-      returnDate: "5月上旬",
-      playerId: undefined, // Wataru Endo
-    },
-    {
-      playerName: "アレクサンダー・イサク",
-      reason: "脚の骨折",
+      playerName: "フィリップ・ヨルゲンセン",
+      reason: "鼠径部の負傷",
       status: "injury",
       returnDate: "4月中旬",
-      playerId: undefined, // Alexander Isak
+      playerId: undefined, // Filip Jörgensen
     },
     {
-      playerName: "モハメド・サラー",
-      reason: "筋肉損傷",
+      playerName: "レヴィ・コルウィル",
+      reason: "十字靭帯の負傷",
       status: "injury",
-      returnDate: "4月下旬",
-      playerId: undefined, // Mohamed Salah
+      returnDate: "5月下旬",
+      playerId: undefined, // Levi Colwill
+    },
+    {
+      playerName: "リース・ジェームズ",
+      reason: "ハムストリング損傷",
+      status: "injury",
+      returnDate: "4月中旬",
+      playerId: undefined, // Reece James
+    },
+    {
+      playerName: "トレヴォ・チャロバー",
+      reason: "足首の負傷",
+      status: "injury",
+      returnDate: "5月上旬",
+      playerId: undefined, // Trevoh Chalobah
     },
   ],
   scorePrediction: {
     homeGoals: 1,
     awayGoals: 2,
     homeWinPct: 25,
-    drawPct: 25,
-    awayWinPct: 50,
-    comment: "首位リバプールが敵地でも組織的な守備とサラーの個人技で勝点3を狙う。ブライトンも三苫の突破力で対抗するが、総合力の差が出る。",
+    drawPct: 30,
+    awayWinPct: 45,
+    comment: "チェルシーがコール・パーマーの創造性を軸に敵地エバートンに乗り込む。エバートンは堅守速攻で対抗するが、チェルシーの攻撃力が上回る見込み。",
   },
 };
