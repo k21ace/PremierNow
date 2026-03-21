@@ -43,14 +43,14 @@ function InfoTooltip() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-gray-400 hover:text-gray-600 hover:border-gray-400 transition-colors text-[10px] font-semibold leading-none"
+        className="flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-400 transition-colors text-[10px] font-semibold leading-none"
         aria-label="確率の計算方法"
       >
         i
       </button>
       {open && (
-        <div className="absolute left-0 top-6 z-20 w-72 bg-white border border-gray-200 rounded shadow-sm p-3 text-xs text-gray-600 leading-relaxed">
-          <p className="font-semibold text-gray-800 mb-1">確率の計算方法</p>
+        <div className="absolute left-0 top-6 z-20 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-3 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">確率の計算方法</p>
           <p>{PROB_TOOLTIP_TEXT}</p>
         </div>
       )}
@@ -71,18 +71,18 @@ function ProbabilityBar({ entries, label }: { entries: ProbEntry[]; label: strin
   return (
     <div className="mb-4">
       <div className="flex items-center gap-1.5 mb-2">
-        <span className="text-xs text-gray-500 font-medium">{label}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{label}</span>
         <InfoTooltip />
       </div>
       <div className="flex flex-wrap gap-2">
         {sorted.map((e) => (
           <div
             key={e.teamId}
-            className="flex items-center gap-1.5 bg-white border border-gray-200 rounded px-2.5 py-1.5 shadow-sm"
+            className="flex items-center gap-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded px-2.5 py-1.5 shadow-sm"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={e.crestUrl} alt="" width={18} height={18} className="object-contain shrink-0" />
-            <span className="text-xs font-medium text-gray-700">{e.teamShortName}</span>
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{e.teamShortName}</span>
             <span
               className="text-xs font-mono tabular-nums font-semibold"
               style={{ color: e.color }}
@@ -189,7 +189,7 @@ export default function RaceChart({
             className={`flex-1 py-1.5 text-sm rounded border transition-colors ${
               group === key
                 ? "bg-pn-navy text-white border-pn-navy"
-                : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                : "bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
             }`}
           >
             <span className="hidden md:inline">{labelFull}</span>
@@ -199,7 +199,7 @@ export default function RaceChart({
       </div>
 
       {/* グラフ本体 */}
-      <div className="bg-white border border-gray-200 rounded shadow-sm p-4">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4">
         {/* 確率表示 */}
         <ProbabilityBar entries={probEntries} label={currentTabConfig.probLabel} />
         {/* PC版 */}

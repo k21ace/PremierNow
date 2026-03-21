@@ -37,16 +37,16 @@ const PLATFORM_LABEL: Record<PlayerSNS["sns"][number]["platform"], string> = {
 
 function MetricCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-white border border-gray-200 rounded p-4 text-center">
-      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{label}</p>
-      <p className="text-2xl font-mono tabular-nums font-semibold text-gray-900">{value}</p>
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 text-center">
+      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{label}</p>
+      <p className="text-2xl font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">{value}</p>
     </div>
   );
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-base font-semibold text-gray-900 mb-4">{children}</h2>
+    <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">{children}</h2>
   );
 }
 
@@ -91,18 +91,18 @@ export default function PlayerDetailClient({
   return (
     <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
       {/* パンくず */}
-      <nav className="text-sm text-gray-500">
+      <nav className="text-sm text-gray-500 dark:text-gray-400">
         <Link href="/players" className="hover:text-pn-blue transition-colors">
           Player
         </Link>
         <span className="mx-1.5">›</span>
-        <span className="text-gray-900">
+        <span className="text-gray-900 dark:text-gray-100">
           {getPlayerNameJa(player.name) ?? player.name}
         </span>
       </nav>
 
       {/* ─── セクション1: ヘッダー ─────────────────────── */}
-      <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-6">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-5 py-6">
         <div className="flex items-start gap-5">
           {/* イニシャルアバター */}
           <div className="w-20 h-20 rounded-full bg-pn-blue-light text-pn-navy flex items-center justify-center text-2xl font-bold shrink-0 select-none">
@@ -111,7 +111,7 @@ export default function PlayerDetailClient({
 
           {/* 選手情報 */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-3xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
               {getPlayerNameJa(player.name) ?? player.name}
             </h1>
             {getPlayerNameJa(player.name) && (
@@ -120,7 +120,7 @@ export default function PlayerDetailClient({
 
             {/* 国籍 */}
             {player.nationality && (
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 <span className="mr-1.5">{getFlagEmoji(player.nationality)}</span>
                 {player.nationality}
               </p>
@@ -140,7 +140,7 @@ export default function PlayerDetailClient({
                   {getTeamNameJa(player.currentTeam.id) && (
                     <span className="text-xs text-gray-400 block">{getTeamNameJa(player.currentTeam.id)}</span>
                   )}
-                  <span className="text-sm font-medium text-gray-800">{player.currentTeam.name}</span>
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{player.currentTeam.name}</span>
                 </div>
               </div>
             ) : (
@@ -150,13 +150,13 @@ export default function PlayerDetailClient({
             {/* ポジション・生年月日・年齢 */}
             <div className="flex flex-wrap gap-x-5 gap-y-1 mt-3">
               {player.position && (
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   <span className="text-gray-400 text-xs mr-1">POS</span>
                   {player.position}
                 </span>
               )}
               {birthDate && (
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   <span className="text-gray-400 text-xs mr-1">生年月日</span>
                   {birthDate}
                   {age !== null && (
@@ -172,12 +172,12 @@ export default function PlayerDetailClient({
       {/* ─── セクション2: 今シーズンスタッツ ────────────── */}
       <section className="pt-2">
         <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-base font-semibold text-gray-900">スタッツ</h2>
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">スタッツ</h2>
           {/* シーズン選択 */}
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(Number(e.target.value))}
-            className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue"
+            className="text-sm border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-pn-blue"
           >
             {SEASONS.map((s) => (
               <option key={s.year} value={s.year}>
@@ -199,7 +199,7 @@ export default function PlayerDetailClient({
             />
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-4 text-sm text-gray-500 mb-4">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-5 py-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
             このシーズンの得点スタッツデータはありません。
           </div>
         )}
@@ -208,19 +208,19 @@ export default function PlayerDetailClient({
         {detailStats ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* シュート */}
-            <div className="bg-white border border-gray-200 rounded p-4">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                 シュート
               </p>
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                     {detailStats.shots}
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">シュート</p>
                 </div>
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                     {detailStats.shotsOnTarget}
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">枠内</p>
@@ -235,8 +235,8 @@ export default function PlayerDetailClient({
             </div>
 
             {/* パス */}
-            <div className="bg-white border border-gray-200 rounded p-4">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                 パス
               </p>
               <div className="grid grid-cols-2 gap-2 text-center">
@@ -247,7 +247,7 @@ export default function PlayerDetailClient({
                   <p className="text-xs text-gray-400 mt-0.5">パス精度</p>
                 </div>
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                     {detailStats.keyPasses}
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">キーパス</p>
@@ -256,19 +256,19 @@ export default function PlayerDetailClient({
             </div>
 
             {/* ドリブル・守備 */}
-            <div className="bg-white border border-gray-200 rounded p-4">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                 ドリブル・守備
               </p>
               <div className="grid grid-cols-2 gap-2 text-center">
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                     {detailStats.dribbles}
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">ドリブル</p>
                 </div>
                 <div>
-                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900">
+                  <p className="text-lg font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                     {detailStats.tackles}
                   </p>
                   <p className="text-xs text-gray-400 mt-0.5">タックル</p>
@@ -277,8 +277,8 @@ export default function PlayerDetailClient({
             </div>
 
             {/* カード */}
-            <div className="bg-white border border-gray-200 rounded p-4">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                 カード
               </p>
               <div className="grid grid-cols-2 gap-2 text-center">
@@ -298,19 +298,19 @@ export default function PlayerDetailClient({
             </div>
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-4 text-sm text-gray-500">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
             このシーズンの詳細スタッツは準備中です。
           </div>
         )}
       </section>
 
       {/* ─── セクション3: 過去シーズン成績 ──────────────── */}
-      <section className="border-t border-gray-100 pt-6">
+      <section className="border-t border-gray-100 dark:border-gray-800 pt-6">
         <SectionTitle>シーズン成績</SectionTitle>
-        <div className="bg-white border border-gray-200 rounded shadow-sm overflow-x-auto">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider">
+              <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">
                 <th className="px-4 py-2 text-left">シーズン</th>
                 <th className="px-4 py-2 text-left">クラブ</th>
                 <th className="px-4 py-2 text-center">得点</th>
@@ -324,11 +324,11 @@ export default function PlayerDetailClient({
                 return (
                   <tr
                     key={s.year}
-                    className={`border-b border-gray-100 ${
-                      s.year === selectedSeason ? "bg-pn-blue-light" : "hover:bg-gray-50"
+                    className={`border-b border-gray-100 dark:border-gray-800 ${
+                      s.year === selectedSeason ? "bg-pn-blue-light dark:bg-blue-950/30" : "hover:bg-gray-50 dark:hover:bg-gray-800"
                     } transition-colors`}
                   >
-                    <td className="px-4 py-3 font-medium text-gray-900">
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">
                       {s.label}
                       {s.year === selectedSeason && (
                         <span className="ml-2 text-xs text-pn-blue font-normal">
@@ -350,20 +350,20 @@ export default function PlayerDetailClient({
                             {getTeamShortNameJa(entry.team.id) && (
                               <span className="text-xs text-gray-400 block">{getTeamShortNameJa(entry.team.id)}</span>
                             )}
-                            <span className="text-gray-700">{entry.team.shortName}</span>
+                            <span className="text-gray-700 dark:text-gray-300">{entry.team.shortName}</span>
                           </div>
                         </div>
                       ) : (
                         <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-center font-mono tabular-nums font-semibold text-gray-900">
+                    <td className="px-4 py-3 text-center font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
                       {entry?.goals ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-center font-mono tabular-nums text-gray-700">
+                    <td className="px-4 py-3 text-center font-mono tabular-nums text-gray-700 dark:text-gray-300">
                       {entry?.assists ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-center font-mono tabular-nums text-gray-600">
+                    <td className="px-4 py-3 text-center font-mono tabular-nums text-gray-600 dark:text-gray-400">
                       {entry?.playedMatches ?? "—"}
                     </td>
                   </tr>
@@ -375,24 +375,24 @@ export default function PlayerDetailClient({
       </section>
 
       {/* ─── セクション4: SNSリンク ───────────────────────── */}
-      <section className="border-t border-gray-100 pt-6">
+      <section className="border-t border-gray-100 dark:border-gray-800 pt-6">
         <SectionTitle>SNS</SectionTitle>
         {snsData ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {snsData.sns.map((s) => (
               <div
                 key={s.platform}
-                className="bg-white border border-gray-200 rounded shadow-sm px-4 py-3 flex items-center justify-between"
+                className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3 flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500">
+                  <span className="text-gray-500 dark:text-gray-400">
                     <SNSIcon platform={s.platform} />
                   </span>
                   <div>
                     <p className="text-xs text-gray-400 uppercase tracking-wide">
                       {PLATFORM_LABEL[s.platform]}
                     </p>
-                    <p className="text-sm font-medium text-gray-900">{s.handle}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{s.handle}</p>
                   </div>
                 </div>
                 <a
@@ -408,14 +408,14 @@ export default function PlayerDetailClient({
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-4 text-sm text-gray-500">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
             SNS情報は準備中です。
           </div>
         )}
       </section>
 
       {/* ─── セクション5: キャリア履歴 ───────────────────── */}
-      <section className="border-t border-gray-100 pt-6 pb-2">
+      <section className="border-t border-gray-100 dark:border-gray-800 pt-6 pb-2">
         <SectionTitle>クラブキャリア</SectionTitle>
         {career ? (
           <div className="space-y-0">
@@ -428,12 +428,12 @@ export default function PlayerDetailClient({
                 <div className="flex flex-col items-center">
                   <div className="w-2 h-2 rounded-full bg-pn-blue mt-5 shrink-0 z-10" />
                   {i < career.career.length - 1 && (
-                    <div className="w-px flex-1 bg-gray-200 mt-1" />
+                    <div className="w-px flex-1 bg-gray-200 dark:bg-gray-700 mt-1" />
                   )}
                 </div>
 
                 {/* カード */}
-                <div className="flex-1 bg-white border border-gray-200 rounded shadow-sm px-4 py-3 mb-2">
+                <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3 mb-2">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div className="flex items-center gap-2.5">
                       {entry.crestUrl && (
@@ -446,7 +446,7 @@ export default function PlayerDetailClient({
                         />
                       )}
                       <div>
-                        <p className="text-sm font-medium text-gray-900 leading-tight">
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-tight">
                           {entry.club}
                           {entry.note && (
                             <span className="ml-2 text-xs text-gray-400 font-normal">
@@ -458,17 +458,17 @@ export default function PlayerDetailClient({
                       </div>
                     </div>
                     <div className="flex items-center gap-4 text-sm font-mono tabular-nums">
-                      <span className="text-gray-500">
+                      <span className="text-gray-500 dark:text-gray-400">
                         <span className="text-gray-400 text-xs mr-0.5">G</span>
-                        <span className="font-semibold text-gray-900">{entry.goals}</span>
+                        <span className="font-semibold text-gray-900 dark:text-gray-100">{entry.goals}</span>
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-gray-500 dark:text-gray-400">
                         <span className="text-gray-400 text-xs mr-0.5">A</span>
-                        <span className="font-semibold text-gray-900">{entry.assists}</span>
+                        <span className="font-semibold text-gray-900 dark:text-gray-100">{entry.assists}</span>
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-gray-500 dark:text-gray-400">
                         <span className="text-gray-400 text-xs mr-0.5">出</span>
-                        <span className="font-semibold text-gray-900">{entry.appearances}</span>
+                        <span className="font-semibold text-gray-900 dark:text-gray-100">{entry.appearances}</span>
                       </span>
                     </div>
                   </div>
@@ -477,7 +477,7 @@ export default function PlayerDetailClient({
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded shadow-sm px-5 py-4 text-sm text-gray-500">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
             キャリアデータは準備中です。
           </div>
         )}

@@ -66,7 +66,7 @@ export default async function PlayerDetailPage({ params }: Props) {
   const career = getPlayerCareer(playerId);
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",

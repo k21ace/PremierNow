@@ -51,16 +51,16 @@ export default function TitleRaceChart({ timelines }: TitleRaceChartProps) {
 
   if (teams.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded p-4">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
         <p className="text-xs text-gray-400">データを読み込み中...</p>
       </div>
     );
   }
 
   return (
-    <div ref={ref} className="bg-white border border-gray-200 rounded p-4 space-y-4">
+    <div ref={ref} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-500">📊 今シーズンの優勝確率</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">📊 今シーズンの優勝確率</p>
         <Link href="/charts/race" className="text-xs text-[#00a8e8] hover:underline">
           詳細を見る →
         </Link>
@@ -71,7 +71,7 @@ export default function TitleRaceChart({ timelines }: TitleRaceChartProps) {
             <div className="flex items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={team.crest} alt={team.shortName} className="w-5 h-5 object-contain" />
-              <span className="text-sm font-medium text-gray-800">{team.shortName}</span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{team.shortName}</span>
             </div>
             <span
               className="text-sm font-bold font-mono tabular-nums"
@@ -80,7 +80,7 @@ export default function TitleRaceChart({ timelines }: TitleRaceChartProps) {
               {started ? team.probability : 0}%
             </span>
           </div>
-          <div className="relative h-3 bg-gray-100 rounded overflow-hidden">
+          <div className="relative h-3 bg-gray-100 dark:bg-gray-800 rounded overflow-hidden">
             <div
               className="absolute inset-y-0 left-0 rounded"
               style={{

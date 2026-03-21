@@ -77,7 +77,7 @@ export default async function AnalysisPage() {
   }
 
   return (
-    <main className="min-h-screen bg-pn-bg py-6 space-y-12">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950 py-6 space-y-12">
 
       {/* ── レースチャート ── */}
       <section className="max-w-5xl mx-auto px-4">
@@ -91,17 +91,17 @@ export default async function AnalysisPage() {
 
       {/* ── xG分析 ── */}
       <section className="max-w-5xl mx-auto px-4">
-        <h2 className="text-xl font-semibold tracking-tight text-gray-900 mb-1">
+        <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-1">
           xG 分析
           <span className="ml-2 text-sm font-normal text-gray-500">2025-26</span>
         </h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
           Understat のデータをもとにした期待得点（xG）分析。
         </p>
         {xgTeamStats && xgPlayers ? (
           <XgClient teamStats={xgTeamStats} players={xgPlayers} />
         ) : (
-          <div className="bg-white border border-gray-200 rounded p-8 text-center text-sm text-gray-500">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-8 text-center text-sm text-gray-500 dark:text-gray-400">
             データを取得できませんでした。しばらく経ってからアクセスしてください。
           </div>
         )}
@@ -109,16 +109,16 @@ export default async function AnalysisPage() {
 
       {/* ── スタイル分析 ── */}
       <section className="max-w-5xl mx-auto px-4">
-        <h2 className="text-xl font-semibold tracking-tight text-gray-900 mb-1">
+        <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-1">
           攻撃スタイル分析
           {seasonLabel && (
             <span className="ml-2 text-sm font-normal text-gray-500">{seasonLabel}</span>
           )}
         </h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
           右上ほど得点力・守備力ともに優れたチーム。中央の点線は全チームの平均値。
         </p>
-        <div className="bg-white border border-gray-200 rounded shadow-sm p-2">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-2">
           <div className="hidden md:block">
             <StyleChartPC teamStyles={teamStyles} />
           </div>
@@ -132,10 +132,10 @@ export default async function AnalysisPage() {
       {/* HomeAwayClient は内部で max-w-5xl mx-auto px-4 を持つためセクションヘッダのみ別途配置 */}
       <section>
         <div className="max-w-5xl mx-auto px-4 mb-0">
-          <h2 className="text-xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             ホーム vs アウェイ 成績比較
           </h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             ホームとアウェイで成績に差があるチームを分析します。
             差が大きいチームほどホームの雰囲気に影響されやすい傾向があります。
           </p>
@@ -147,7 +147,7 @@ export default async function AnalysisPage() {
       {/* SimulatorClient は内部でレイアウトを管理するためヘッダのみ別途配置 */}
       <section>
         <div className="max-w-5xl mx-auto px-4 mb-4">
-          <h2 className="text-xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             順位予測シミュレーター
           </h2>
         </div>

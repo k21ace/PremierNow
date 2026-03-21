@@ -21,9 +21,9 @@ function StandingRow({ standing }: { standing: Standing }) {
   const { position, team, playedGames, won, draw, lost, goalsFor, goalsAgainst, goalDifference, points, form } = standing;
 
   return (
-    <tr className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${getZoneBorder(position)}`}>
+    <tr className={`border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${getZoneBorder(position)}`}>
       {/* 順位 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-gray-500 w-8 text-center">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-gray-500 dark:text-gray-400 w-8 text-center">
         {position}
       </td>
       {/* クラブ */}
@@ -38,40 +38,40 @@ function StandingRow({ standing }: { standing: Standing }) {
           />
           <div className="leading-tight">
             <span className="text-xs text-gray-400 block">{getTeamNameJa(team.id) ?? team.name}</span>
-            <span className="text-sm font-medium text-gray-900 whitespace-nowrap">{team.name}</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{team.name}</span>
           </div>
         </div>
       </td>
       {/* 試合数 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {playedGames}
       </td>
       {/* 勝 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {won}
       </td>
       {/* 分 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {draw}
       </td>
       {/* 負 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {lost}
       </td>
       {/* 得 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {goalsFor}
       </td>
       {/* 失 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {goalsAgainst}
       </td>
       {/* 差 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
         {formatGD(goalDifference)}
       </td>
       {/* 勝点 */}
-      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center font-semibold text-gray-900">
+      <td className="px-3 py-2.5 text-sm font-mono tabular-nums text-center font-semibold text-gray-900 dark:text-gray-100">
         {points}
       </td>
       {/* 直近5試合 */}
@@ -88,11 +88,11 @@ function StandingCard({ standing }: { standing: Standing }) {
   const { position, team, playedGames, won, draw, lost, goalsFor, goalsAgainst, goalDifference, points, form } = standing;
 
   return (
-    <div className={`bg-white border-b border-gray-200 py-3 px-4 ${getZoneBorder(position)}`}>
+    <div className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 py-3 px-4 ${getZoneBorder(position)}`}>
       {/* 1行目: 順位 + エンブレム + チーム名 ／ 勝点 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="w-6 text-center text-sm font-mono tabular-nums text-gray-500">
+          <span className="w-6 text-center text-sm font-mono tabular-nums text-gray-500 dark:text-gray-400">
             {position}
           </span>
           <Image
@@ -104,16 +104,16 @@ function StandingCard({ standing }: { standing: Standing }) {
           />
           <div className="leading-tight">
             <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id) ?? team.shortName}</span>
-            <span className="text-sm font-medium text-gray-900">{team.shortName}</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{team.shortName}</span>
           </div>
         </div>
-        <span className="text-lg font-bold font-mono tabular-nums text-gray-900">
+        <span className="text-lg font-bold font-mono tabular-nums text-gray-900 dark:text-gray-100">
           {points}
         </span>
       </div>
 
       {/* 2行目: 成績数字 */}
-      <div className="flex gap-3 text-xs text-gray-500 mt-1 ml-12 font-mono tabular-nums">
+      <div className="flex gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1 ml-12 font-mono tabular-nums">
         <span>{playedGames}試</span>
         <span>{won}勝</span>
         <span>{draw}分</span>
@@ -139,7 +139,7 @@ export default async function StandingsPage() {
   const table = data.standings.find((s) => s.type === "TOTAL")?.table ?? [];
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -152,25 +152,25 @@ export default async function StandingsPage() {
       />
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* ページ見出し */}
-        <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-4">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-4">
           プレミアリーグ 順位表
-          <span className="ml-2 text-sm font-normal text-gray-500">
+          <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
             {data.season.startDate.slice(0, 4)}–{data.season.endDate.slice(2, 4)}
           </span>
         </h1>
 
         {/* スマホ: カードリスト（md未満） */}
-        <div className="md:hidden bg-white border border-gray-200 rounded shadow-sm overflow-hidden">
+        <div className="md:hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
           {table.map((standing) => (
             <StandingCard key={standing.team.id} standing={standing} />
           ))}
         </div>
 
         {/* PC: テーブル（md以上） */}
-        <div className="hidden md:block bg-white border border-gray-200 rounded shadow-sm overflow-x-auto">
+        <div className="hidden md:block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider">
+              <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">
                 <th className="px-3 py-2 text-center w-8">#</th>
                 <th className="px-3 py-2 text-left">クラブ</th>
                 <th className="px-3 py-2 text-center">試</th>
@@ -193,7 +193,7 @@ export default async function StandingsPage() {
         </div>
 
         {/* 凡例 */}
-        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-gray-500">
+        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-gray-500 dark:text-gray-400">
           <li className="flex items-center gap-1.5">
             <span className="inline-block w-3 h-3 rounded-sm bg-blue-500" />
             UEFAチャンピオンズリーグ出場圏

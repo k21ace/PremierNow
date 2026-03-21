@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ── ダークモード: classベース ──────────────────────────────── */
+@custom-variant dark (&:is(.dark *));
+
 /* ── PremierInsight カラーパレット ─────────────────────────── */
 :root {
   /* ページ・カード */
@@ -59,6 +62,16 @@
   90% {
     transform: translateY(0) scaleX(1.25) scaleY(0.75);
   }
+}
+
+/* ── ダークモード CSS 変数 ───────────────────────────────── */
+.dark {
+  --color-bg-page:   #0f1117;
+  --color-bg-card:   #1a1d27;
+  --color-bg-hover:  #1e2130;
+  --color-border:    #2d3142;
+  --color-text-primary:   #f1f5f9;
+  --color-text-secondary: #94a3b8;
 }
 
 body {

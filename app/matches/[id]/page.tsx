@@ -137,7 +137,7 @@ function EventIcon({ type }: { type: EventType }) {
     case "yellow_red":
       return <span className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-red-200 text-xs">🟥</span>;
     case "sub":
-      return <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 text-xs">🔄</span>;
+      return <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-800 text-xs">🔄</span>;
   }
 }
 
@@ -209,8 +209,8 @@ export default async function MatchDetailPage({
   const homeScore = score.fullTime.home ?? 0;
   const awayScore = score.fullTime.away ?? 0;
 
-  const homeScoreClass = homeScore > awayScore ? "text-[#2d0a4e]" : homeScore < awayScore ? "text-gray-400" : "text-gray-700";
-  const awayScoreClass = awayScore > homeScore ? "text-[#2d0a4e]" : awayScore < homeScore ? "text-gray-400" : "text-gray-700";
+  const homeScoreClass = homeScore > awayScore ? "text-[#2d0a4e] dark:text-white" : homeScore < awayScore ? "text-gray-400" : "text-gray-700 dark:text-gray-300";
+  const awayScoreClass = awayScore > homeScore ? "text-[#2d0a4e] dark:text-white" : awayScore < homeScore ? "text-gray-400" : "text-gray-700 dark:text-gray-300";
 
   const timeline = buildTimeline(match);
   const homeGoals = goalsForTeam(match.goals, homeTeam.id, awayTeam.id);
@@ -251,19 +251,19 @@ export default async function MatchDetailPage({
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
         {/* 戻るリンク */}
         <Link
           href="/matches"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
         >
           ← 試合一覧に戻る
         </Link>
 
         {/* ─── セクション1: ヘッダー ─── */}
-        <section className="bg-white border border-gray-200 rounded shadow-sm p-6">
-          <p className="text-center text-xs text-gray-500 mb-4">
+        <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-6">
+          <p className="text-center text-xs text-gray-500 dark:text-gray-400 mb-4">
             第<span className="font-mono tabular-nums">{matchday}</span>節 &nbsp;
             {formatMatchDate(utcDate)} &nbsp;
             {formatMatchTime(utcDate)} JST
@@ -273,7 +273,7 @@ export default async function MatchDetailPage({
             {/* ホーム */}
             <div className="flex flex-col items-center gap-2 w-28">
               <Image src={homeTeam.crest} alt={homeTeam.name} width={56} height={56} className="object-contain" />
-              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">{homeTeam.shortName}</span>
+              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">{homeTeam.shortName}</span>
             </div>
 
             {/* スコア */}
@@ -285,7 +285,7 @@ export default async function MatchDetailPage({
                   <span className={`text-5xl font-bold font-mono tabular-nums ${awayScoreClass}`}>{awayScore}</span>
                 </div>
               ) : (
-                <p className="text-lg font-semibold text-gray-600">{formatDateShort(utcDate)}</p>
+                <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">{formatDateShort(utcDate)}</p>
               )}
               {(isFinished || isLive) && (
                 <p className="text-xs text-gray-400 mt-1 font-mono tabular-nums">
@@ -297,7 +297,7 @@ export default async function MatchDetailPage({
             {/* アウェイ */}
             <div className="flex flex-col items-center gap-2 w-28">
               <Image src={awayTeam.crest} alt={awayTeam.name} width={56} height={56} className="object-contain" />
-              <span className="text-sm font-semibold text-gray-900 text-center leading-tight">{awayTeam.shortName}</span>
+              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">{awayTeam.shortName}</span>
             </div>
           </div>
 
@@ -307,8 +307,8 @@ export default async function MatchDetailPage({
         </section>
 
         {/* ─── セクション2: 試合サマリー ─── */}
-        <section className="bg-white border border-gray-200 rounded shadow-sm p-4">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">試合サマリー</h2>
+        <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">試合サマリー</h2>
 
           {isScheduled ? (
             <p className="text-sm text-gray-400 text-center py-4">試合前のため詳細データはありません</p>
@@ -318,7 +318,7 @@ export default async function MatchDetailPage({
               {summary.length > 0 && (
                 <ul className="space-y-2 mb-4">
                   {summary.map((point, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                       <span className="text-[#00a8e8] mt-0.5 shrink-0">▶</span>
                       {point}
                     </li>
@@ -328,14 +328,14 @@ export default async function MatchDetailPage({
 
               {/* タイムライン（有料プランで取得できた場合のみ） */}
               {match.goals != null && timeline.length > 0 && (
-                <div className="border-t border-gray-100 pt-3 mt-3 space-y-1">
-                  <p className="text-xs font-medium text-gray-500 mb-2">得点・カード・交代</p>
+                <div className="border-t border-gray-100 dark:border-gray-800 pt-3 mt-3 space-y-1">
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">得点・カード・交代</p>
                   {timeline.map((ev, i) => (
                     <div key={i} className="flex items-center gap-2 text-xs">
                       <div className="flex-1 flex items-center justify-end gap-1 text-right min-w-0">
                         {ev.side === "home" && (
                           <>
-                            <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
+                            <span className="text-gray-700 dark:text-gray-300 truncate">{eventLabel(ev)}</span>
                             <EventIcon type={ev.type} />
                           </>
                         )}
@@ -347,7 +347,7 @@ export default async function MatchDetailPage({
                         {ev.side === "away" && (
                           <>
                             <EventIcon type={ev.type} />
-                            <span className="text-gray-700 truncate">{eventLabel(ev)}</span>
+                            <span className="text-gray-700 dark:text-gray-300 truncate">{eventLabel(ev)}</span>
                           </>
                         )}
                       </div>
@@ -358,8 +358,8 @@ export default async function MatchDetailPage({
 
               {/* ② 同節の他の試合結果 */}
               {sameMatchdayGames.length > 1 && (
-                <div className="border-t border-gray-100 pt-3 mt-3">
-                  <p className="text-xs font-medium text-gray-500 mb-2">
+                <div className="border-t border-gray-100 dark:border-gray-800 pt-3 mt-3">
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
                     第<span className="font-mono tabular-nums">{matchday}</span>節 他の試合
                   </p>
                   <div className="space-y-1">
@@ -367,14 +367,14 @@ export default async function MatchDetailPage({
                       .filter((m) => m.id !== match.id)
                       .map((m) => (
                         <Link href={`/matches/${m.id}`} key={m.id}>
-                          <div className="flex items-center justify-between text-xs py-1.5 px-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-colors">
-                            <span className="text-gray-600 w-24 truncate text-right">{m.homeTeam.shortName}</span>
-                            <span className="font-mono font-bold text-gray-900 mx-2 shrink-0">
+                          <div className="flex items-center justify-between text-xs py-1.5 px-2 rounded hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
+                            <span className="text-gray-600 dark:text-gray-400 w-24 truncate text-right">{m.homeTeam.shortName}</span>
+                            <span className="font-mono font-bold text-gray-900 dark:text-gray-100 mx-2 shrink-0">
                               {m.status === "FINISHED"
                                 ? `${m.score.fullTime.home} - ${m.score.fullTime.away}`
                                 : "vs"}
                             </span>
-                            <span className="text-gray-600 w-24 truncate">{m.awayTeam.shortName}</span>
+                            <span className="text-gray-600 dark:text-gray-400 w-24 truncate">{m.awayTeam.shortName}</span>
                           </div>
                         </Link>
                       ))}
@@ -387,15 +387,15 @@ export default async function MatchDetailPage({
 
         {/* ─── セクション3: チームスタッツ ─── */}
         {(isFinished || isLive) && (
-          <section className="bg-white border border-gray-200 rounded shadow-sm p-4">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">スタッツ</h2>
+          <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4">
+            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">スタッツ</h2>
             <table className="w-full text-xs">
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {statsRows.map(({ label, home, away }) => (
                   <tr key={label}>
-                    <td className="py-1.5 text-right font-mono tabular-nums text-gray-900 w-16 pr-2">{home}</td>
-                    <td className="py-1.5 text-center text-gray-500 px-2">{label}</td>
-                    <td className="py-1.5 text-left font-mono tabular-nums text-gray-900 w-16 pl-2">{away}</td>
+                    <td className="py-1.5 text-right font-mono tabular-nums text-gray-900 dark:text-gray-100 w-16 pr-2">{home}</td>
+                    <td className="py-1.5 text-center text-gray-500 dark:text-gray-400 px-2">{label}</td>
+                    <td className="py-1.5 text-left font-mono tabular-nums text-gray-900 dark:text-gray-100 w-16 pl-2">{away}</td>
                   </tr>
                 ))}
               </tbody>
@@ -405,9 +405,9 @@ export default async function MatchDetailPage({
 
         {/* ─── セクション4: 得点者詳細 ─── */}
         {(isFinished || isLive) && (homeGoals.length > 0 || awayGoals.length > 0) && (
-          <section className="bg-white border border-gray-200 rounded shadow-sm p-4">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">得点者</h2>
-            <ul className="space-y-1 text-xs text-gray-700">
+          <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4">
+            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">得点者</h2>
+            <ul className="space-y-1 text-xs text-gray-700 dark:text-gray-300">
               {[...homeGoals.map((g) => ({ ...g, teamShort: homeTeam.shortName })),
                 ...awayGoals.map((g) => ({ ...g, teamShort: awayTeam.shortName }))]
                 .sort((a, b) => (a.minute ?? 0) - (b.minute ?? 0))
@@ -431,9 +431,9 @@ export default async function MatchDetailPage({
 
         {/* ─── セクション5: 審判 ─── */}
         {mainReferee && (
-          <section className="bg-white border border-gray-200 rounded shadow-sm px-4 py-3">
-            <p className="text-xs text-gray-500">
-              主審: <span className="text-gray-700 font-medium">{mainReferee.name}</span>
+          <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              主審: <span className="text-gray-700 dark:text-gray-300 font-medium">{mainReferee.name}</span>
             </p>
           </section>
         )}

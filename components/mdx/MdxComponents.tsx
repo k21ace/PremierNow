@@ -14,14 +14,14 @@ type MatchInfoProps = {
 
 function MatchInfo({ home, away, date, stadium, matchday }: MatchInfoProps) {
   return (
-    <div className="bg-gray-50 border border-gray-200 rounded p-4 my-6">
-      <p className="text-xl font-bold text-center text-gray-900 mb-3">
+    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 my-6">
+      <p className="text-xl font-bold text-center text-gray-900 dark:text-gray-100 mb-3">
         {home} <span className="text-gray-400 font-normal">vs</span> {away}
       </p>
-      <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-gray-500">
+      <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
         <span>📅 {date}</span>
         <span>🏟 {stadium}</span>
-        <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded font-mono">
+        <span className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded font-mono">
           第{matchday}節
         </span>
       </div>
@@ -35,9 +35,9 @@ type HighlightProps = {
 };
 
 const highlightStyles = {
-  info: "bg-blue-50 border-l-4 border-blue-500 text-blue-900",
-  warning: "bg-orange-50 border-l-4 border-orange-500 text-orange-900",
-  tip: "bg-pn-blue-light border-l-4 border-pn-navy text-pn-navy",
+  info: "bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-500 text-blue-900 dark:text-blue-200",
+  warning: "bg-orange-50 dark:bg-orange-950/30 border-l-4 border-orange-500 text-orange-900 dark:text-orange-200",
+  tip: "bg-pn-blue-light dark:bg-blue-950/30 border-l-4 border-pn-navy dark:border-blue-500 text-pn-navy dark:text-blue-200",
 };
 
 function Highlight({ type, children }: HighlightProps) {
@@ -62,17 +62,17 @@ const teamBorderColor: Record<string, string> = {
 };
 
 function PlayerCard({ name, team, point, children }: PlayerCardProps) {
-  const borderClass = teamBorderColor[team] ?? "border-l-4 border-gray-300";
+  const borderClass = teamBorderColor[team] ?? "border-l-4 border-gray-300 dark:border-gray-600";
   return (
-    <div className={`bg-white border border-gray-200 rounded p-4 mb-4 ${borderClass}`}>
+    <div className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 mb-4 ${borderClass}`}>
       <div className="flex items-baseline gap-2 mb-1">
-        <span className="font-bold text-gray-900">{name}</span>
-        <span className="text-gray-500 text-sm">{team}</span>
+        <span className="font-bold text-gray-900 dark:text-gray-100">{name}</span>
+        <span className="text-gray-500 dark:text-gray-400 text-sm">{team}</span>
       </div>
-      <span className="inline-block bg-yellow-50 text-yellow-800 text-xs px-2 py-1 rounded mt-1 mb-2">
+      <span className="inline-block bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs px-2 py-1 rounded mt-1 mb-2">
         {point}
       </span>
-      <div className="text-sm text-gray-700 leading-relaxed">{children}</div>
+      <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{children}</div>
     </div>
   );
 }
@@ -110,10 +110,10 @@ type CharacterCommentProps = {
 function CharacterComment({ children }: CharacterCommentProps) {
   return (
     <div className="flex items-start gap-3 my-4">
-      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-xs shrink-0">
+      <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs shrink-0">
         レオ
       </div>
-      <div className="bg-white border border-gray-200 rounded-lg p-3 text-sm text-gray-700 leading-relaxed relative">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm text-gray-700 dark:text-gray-300 leading-relaxed relative">
         {children}
       </div>
     </div>
@@ -125,26 +125,26 @@ function CharacterComment({ children }: CharacterCommentProps) {
 const mdxComponents: MDXComponents = {
   // 見出し
   h2: ({ children }) => (
-    <h2 className="text-xl font-semibold text-gray-900 mt-8 mb-4 border-b border-gray-200 pb-2">
+    <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-lg font-medium text-gray-900 mt-6 mb-3">{children}</h3>
+    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mt-6 mb-3">{children}</h3>
   ),
   // テキスト
   p: ({ children }) => (
-    <p className="text-gray-700 leading-relaxed mb-4">{children}</p>
+    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{children}</p>
   ),
   strong: ({ children }) => (
-    <strong className="font-semibold text-gray-900">{children}</strong>
+    <strong className="font-semibold text-gray-900 dark:text-gray-100">{children}</strong>
   ),
   // リスト
   ul: ({ children }) => (
-    <ul className="text-gray-700 leading-relaxed mb-4 pl-6 list-disc">{children}</ul>
+    <ul className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 pl-6 list-disc">{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol className="text-gray-700 leading-relaxed mb-4 pl-6 list-decimal">{children}</ol>
+    <ol className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 pl-6 list-decimal">{children}</ol>
   ),
   // テーブル（remark-gfm）
   table: ({ children }) => (
@@ -153,21 +153,21 @@ const mdxComponents: MDXComponents = {
     </div>
   ),
   thead: ({ children }) => (
-    <thead className="bg-gray-100 text-gray-600">{children}</thead>
+    <thead className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">{children}</thead>
   ),
   tbody: ({ children }) => (
-    <tbody className="divide-y divide-gray-100">{children}</tbody>
+    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">{children}</tbody>
   ),
   tr: ({ children }) => <tr>{children}</tr>,
   th: ({ children }) => (
-    <th className="text-left px-3 py-2 font-medium border-b border-gray-200">{children}</th>
+    <th className="text-left px-3 py-2 font-medium border-b border-gray-200 dark:border-gray-700">{children}</th>
   ),
   td: ({ children }) => (
-    <td className="px-3 py-2 text-gray-700">{children}</td>
+    <td className="px-3 py-2 text-gray-700 dark:text-gray-300">{children}</td>
   ),
   // その他
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-pn-blue pl-4 text-gray-600 italic my-4">
+    <blockquote className="border-l-4 border-pn-blue pl-4 text-gray-600 dark:text-gray-400 italic my-4">
       {children}
     </blockquote>
   ),

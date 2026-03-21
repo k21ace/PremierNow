@@ -26,7 +26,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
             className={`px-3 py-1 text-xs rounded border transition-colors ${
               activeTag === null
                 ? "bg-pn-navy text-white border-pn-navy"
-                : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"
+                : "bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             すべて
@@ -38,7 +38,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
               className={`px-3 py-1 text-xs rounded border transition-colors ${
                 activeTag === tag
                   ? "bg-pn-navy text-white border-pn-navy"
-                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"
+                  : "bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200"
               }`}
             >
               {tag}
@@ -49,24 +49,24 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
 
       {/* 記事一覧 */}
       {filtered.length === 0 ? (
-        <p className="text-sm text-gray-500">記事が見つかりませんでした。</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">記事が見つかりませんでした。</p>
       ) : (
         <div className="space-y-4">
           {filtered.map((article) => (
             <div
               key={article.slug}
-              className="bg-white border border-gray-200 rounded shadow-sm p-4"
+              className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4"
             >
               <Link href={`/articles/${article.slug}`} className="group">
-                <h2 className="font-medium text-gray-900 group-hover:text-pn-blue transition-colors mb-1">
+                <h2 className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-pn-blue transition-colors mb-1">
                   {article.title}
                 </h2>
               </Link>
-              <p className="text-sm text-gray-500 line-clamp-2 mb-3">
+              <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
                 {article.description}
               </p>
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3 text-xs text-gray-400">
+                <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500">
                   <span>{article.publishedAt}</span>
                   <span>{article.readingTime}</span>
                   {article.matchday && <span>第{article.matchday}節</span>}
@@ -75,7 +75,7 @@ export default function ArticlesView({ articles, allTags }: ArticlesViewProps) {
                   {article.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 text-xs bg-gray-100 text-gray-500 rounded"
+                      className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded"
                     >
                       {tag}
                     </span>

@@ -66,7 +66,7 @@ function InjuryTable({ injuries }: { injuries: InjuryInfo[] }) {
             }`}
           />
           <div className="flex-1 min-w-0">
-            <span className="font-medium text-gray-900">{inj.playerName}</span>
+            <span className="font-medium text-gray-900 dark:text-gray-100">{inj.playerName}</span>
             <span className="text-gray-400 ml-1">
               {inj.reason}
               {inj.returnDate ? `（${inj.returnDate}）` : ""}
@@ -112,9 +112,9 @@ function RecentMatchList({ rows }: { rows: RecentMatchRow[] }) {
           <span className="text-gray-400 flex-shrink-0">
             {row.isHome ? "H" : "A"}
           </span>
-          <span className="text-gray-700 truncate flex-1">{row.opponent}</span>
+          <span className="text-gray-700 dark:text-gray-300 truncate flex-1">{row.opponent}</span>
           {/* スコア */}
-          <span className="font-mono tabular-nums text-gray-900 flex-shrink-0">
+          <span className="font-mono tabular-nums text-gray-900 dark:text-gray-100 flex-shrink-0">
             {row.score}
           </span>
         </div>
@@ -133,14 +133,14 @@ export default function FeaturedMatchCard({
   const { homeTeam, awayTeam, utcDate, matchday, venue, quizSlug } = config;
 
   return (
-    <section className="bg-white border border-gray-200 rounded shadow-sm overflow-hidden">
+    <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
       {/* ── ヘッダー ── */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-2">
           <span className="w-1 h-5 bg-violet-600 rounded inline-block" />
-          <p className="text-sm font-semibold text-gray-900">次の注目カード</p>
+          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">次の注目カード</p>
         </div>
-        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-mono tabular-nums">
+        <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded font-mono tabular-nums">
           第{matchday}節
         </span>
       </div>
@@ -161,7 +161,7 @@ export default function FeaturedMatchCard({
               alt={homeTeam.shortName}
               className="w-10 h-10 object-contain"
             />
-            <span className="text-xs font-semibold text-gray-900 text-center leading-tight">
+            <span className="text-xs font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">
               {homeTeam.shortName}
             </span>
           </div>
@@ -175,7 +175,7 @@ export default function FeaturedMatchCard({
               alt={awayTeam.shortName}
               className="w-10 h-10 object-contain"
             />
-            <span className="text-xs font-semibold text-gray-900 text-center leading-tight">
+            <span className="text-xs font-semibold text-gray-900 dark:text-gray-100 text-center leading-tight">
               {awayTeam.shortName}
             </span>
           </div>
@@ -183,7 +183,7 @@ export default function FeaturedMatchCard({
 
         {/* ── フォーム比較 ── */}
         <div className="mb-5">
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
             直近5試合フォーム
           </p>
           <div className="flex items-center justify-between gap-2">
@@ -215,7 +215,7 @@ export default function FeaturedMatchCard({
         </div>
 
         {/* ── けが人・出場停止（2列） ── */}
-        <div className="grid grid-cols-2 gap-4 mb-5 pt-4 border-t border-gray-100">
+        <div className="grid grid-cols-2 gap-4 mb-5 pt-4 border-t border-gray-100 dark:border-gray-800">
           <div>
             <div className="flex items-center gap-1.5 mb-2">
               <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
@@ -249,13 +249,13 @@ export default function FeaturedMatchCard({
         {/* ── クイズリンク ── */}
         <Link
           href={`/quiz/${quizSlug}`}
-          className="flex items-center justify-between w-full bg-violet-50 border border-violet-200 rounded px-4 py-3 hover:bg-violet-100 transition-colors group"
+          className="flex items-center justify-between w-full bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-700/50 rounded px-4 py-3 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors group"
         >
           <div>
-            <p className="text-sm font-semibold text-violet-700">
+            <p className="text-sm font-semibold text-violet-700 dark:text-violet-300">
               この試合のクイズに挑戦 →
             </p>
-            <p className="text-xs text-violet-500 mt-0.5">
+            <p className="text-xs text-violet-500 dark:text-violet-400 mt-0.5">
               対戦成績・三苫・歴史　全5問
             </p>
           </div>

@@ -80,11 +80,11 @@ function MatchCard({ match }: { match: Match }) {
 
   return (
     <Link href={`/matches/${match.id}`}>
-      <div className="flex items-center bg-white border border-gray-100 rounded px-3 py-2 hover:border-[#00a8e8] transition-colors gap-2">
+      <div className="flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-[#00a8e8] dark:hover:border-[#00a8e8] transition-colors gap-2">
         {/* ホーム（固定幅・右寄せ） */}
         <div className="flex items-center justify-end gap-1 w-[90px] flex-shrink-0">
           <div className="text-right leading-tight">
-            <span className="text-xs font-medium text-gray-900 truncate block">
+            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
               {getTeamShortNameJa(homeTeam.id) ?? homeTeam.shortName}
             </span>
             <span className="text-[10px] text-gray-400 truncate block">{homeTeam.shortName}</span>
@@ -95,7 +95,7 @@ function MatchCard({ match }: { match: Match }) {
         {/* スコア（固定幅・中央） */}
         <div className="w-[44px] text-center flex-shrink-0">
           {isFinished || isLive ? (
-            <span className="font-mono font-bold text-sm text-gray-900 tabular-nums">
+            <span className="font-mono font-bold text-sm text-gray-900 dark:text-gray-100 tabular-nums">
               {score.fullTime.home ?? "—"}-{score.fullTime.away ?? "—"}
             </span>
           ) : (
@@ -107,7 +107,7 @@ function MatchCard({ match }: { match: Match }) {
         <div className="flex items-center justify-start gap-1 w-[90px] flex-shrink-0">
           <Image src={awayTeam.crest} alt={awayTeam.name} width={16} height={16} className="object-contain flex-shrink-0" />
           <div className="leading-tight">
-            <span className="text-xs font-medium text-gray-900 truncate block">
+            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate block">
               {getTeamShortNameJa(awayTeam.id) ?? awayTeam.shortName}
             </span>
             <span className="text-[10px] text-gray-400 truncate block">{awayTeam.shortName}</span>
@@ -146,16 +146,16 @@ export default function MatchesView({ matches }: MatchesViewProps) {
         return (
           <section key={matchday} id={`matchday-${matchday}`}>
             {/* 節ヘッダー */}
-            <h2 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+            <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
               <span className="font-mono tabular-nums">第{matchday}節</span>
-              <span className="flex-1 border-t border-gray-200" />
+              <span className="flex-1 border-t border-gray-200 dark:border-gray-700" />
             </h2>
 
             {/* 日付ごとにグルーピング */}
             <div className="space-y-4">
               {groupedByDate.map(([dateKey, dayMatches]) => (
                 <div key={dateKey}>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 pb-1 border-b border-gray-100">
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 pb-1 border-b border-gray-100 dark:border-gray-800">
                     {formatDateHeader(dayMatches[0].utcDate)}
                   </p>
                   <div className="space-y-2">

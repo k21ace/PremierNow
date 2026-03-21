@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const primaryNavLinks = [
@@ -19,17 +22,39 @@ const leagueNavLinks = [
 
 const leaguePrefixes = ["/standings", "/matches", "/players", "/teams"];
 
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className="w-8 h-8" />;
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="text-[#7a8fc0] hover:text-white transition-colors p-1.5 rounded"
+      aria-label="テーマを切り替える"
+    >
+      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  );
+}
+
 export default function Header() {
   const pathname = usePathname();
   const isLeagueActive = leaguePrefixes.some((p) => pathname.startsWith(p));
 
   return (
     <header className="overflow-x-hidden sticky top-0 z-50" style={{ backgroundColor: "#2d0a4e" }}>
-      {/* 1行目: ロゴ */}
-      <div className="max-w-5xl mx-auto px-4 pt-2 pb-1">
+      {/* 1行目: ロゴ + テーマ切り替え */}
+      <div className="max-w-5xl mx-auto px-4 pt-2 pb-1 flex items-center justify-between">
         <Link href="/" aria-label="PremierNow ホームへ">
           <Logo />
         </Link>
+        <ThemeToggle />
       </div>
       {/* 2行目: 第一階層ナビ */}
       <nav

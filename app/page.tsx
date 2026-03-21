@@ -99,7 +99,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -117,7 +117,7 @@ export default async function Home() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="w-1 h-5 bg-[#00a8e8] rounded inline-block" />
-              <p className="text-sm font-semibold text-[#2d0a4e]">注目のデータ</p>
+              <p className="text-sm font-semibold text-[#2d0a4e] dark:text-gray-100">注目のデータ</p>
             </div>
             <Link href="/standings" className="text-xs text-[#00a8e8] hover:underline">
               順位表を見る →
@@ -141,11 +141,11 @@ export default async function Home() {
         <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
 
           {/* 左：ピックアップクイズ */}
-          <section className="bg-[#e6f6fd] border border-[#00a8e8] rounded p-4">
+          <section className="bg-[#e6f6fd] dark:bg-blue-950/30 border border-[#00a8e8] dark:border-blue-500/50 rounded p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <span className="w-1 h-5 bg-[#00a8e8] rounded inline-block" />
-                <p className="text-sm font-semibold text-[#2d0a4e]">クイズに挑戦</p>
+                <p className="text-sm font-semibold text-[#2d0a4e] dark:text-gray-100">クイズに挑戦</p>
               </div>
               <Link href="/articles/quiz" className="text-xs text-[#00a8e8] hover:underline">
                 すべて見る →
@@ -154,18 +154,18 @@ export default async function Home() {
             {quizzes[0] && (
               <Link
                 href={`/articles/quiz/${quizzes[0].slug}`}
-                className="block bg-white border border-[#00a8e8] rounded p-4 hover:bg-[#f0faff] transition-colors"
+                className="block bg-white dark:bg-gray-900 border border-[#00a8e8] dark:border-blue-500/60 rounded p-4 hover:bg-[#f0faff] dark:hover:bg-gray-800 transition-colors"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-medium bg-pn-blue-light text-pn-navy px-2 py-0.5 rounded">
+                  <span className="text-xs font-medium bg-pn-blue-light dark:bg-blue-900/50 text-pn-navy dark:text-blue-300 px-2 py-0.5 rounded">
                     クイズ
                   </span>
                   <span className="text-xs text-gray-400">全{quizzes[0].questions.length}問</span>
                 </div>
-                <p className="text-sm font-medium text-gray-900 leading-snug">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-snug">
                   {quizzes[0].title}
                 </p>
-                <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
                   {quizzes[0].description}
                 </p>
                 <p className="text-[#00a8e8] font-medium text-sm mt-2">挑戦する →</p>
@@ -178,7 +178,7 @@ export default async function Home() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <span className="w-1 h-5 bg-[#00a8e8] rounded inline-block" />
-                <p className="text-sm font-semibold text-[#2d0a4e]">ピックアップ記事</p>
+                <p className="text-sm font-semibold text-[#2d0a4e] dark:text-gray-100">ピックアップ記事</p>
               </div>
               <Link href="/articles" className="text-xs text-[#00a8e8] hover:underline">
                 すべて見る →
@@ -192,12 +192,12 @@ export default async function Home() {
                   <Link
                     key={article.slug}
                     href={`/articles/${article.slug}`}
-                    className="block bg-white border border-gray-200 rounded p-3 hover:border-pn-blue transition-colors cursor-pointer"
+                    className="block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-3 hover:border-pn-blue dark:hover:border-blue-500 transition-colors cursor-pointer"
                   >
-                    <p className="font-medium text-gray-900 text-sm hover:text-pn-blue leading-snug">
+                    <p className="font-medium text-gray-900 dark:text-gray-100 text-sm hover:text-pn-blue leading-snug">
                       {article.title}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">{article.description}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{article.description}</p>
                     <div className="flex items-center flex-wrap gap-2 mt-2 text-xs text-gray-400">
                       <span>{article.publishedAt}</span>
                       <span>{article.readingTime}</span>
@@ -216,7 +216,7 @@ export default async function Home() {
           {/* 次の試合（SP: 上、PC: 右） */}
           <section className="order-first md:order-last">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 次の試合
               </p>
               <Link href="/matches" className="text-xs text-pn-blue hover:underline">
@@ -228,18 +228,18 @@ export default async function Home() {
             ) : (
               <div className="space-y-2">
                 {upcomingMatches.map((match) => (
-                  <div key={match.id} className="bg-white border border-gray-100 rounded px-3 py-2">
+                  <div key={match.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {convertToJSTMedium(match.utcDate)}
                       </span>
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-mono tabular-nums">
+                      <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded font-mono tabular-nums">
                         第{match.matchday}節
                       </span>
                     </div>
                     <div className="flex items-center justify-center gap-0 w-full">
                       <div className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0">
-                        <span className="text-xs font-medium text-gray-900 truncate text-right">
+                        <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate text-right">
                           {match.homeTeam.shortName}
                         </span>
                         {match.homeTeam.crest && (
@@ -253,7 +253,7 @@ export default async function Home() {
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
-                        <span className="text-xs font-medium text-gray-900 truncate">
+                        <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
                           {match.awayTeam.shortName}
                         </span>
                       </div>
@@ -267,7 +267,7 @@ export default async function Home() {
           {/* 直近の結果（SP: 下、PC: 左） */}
           <section className="order-last md:order-first">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 直近の結果
               </p>
               <Link href="/matches" className="text-xs text-pn-blue hover:underline">
@@ -279,18 +279,18 @@ export default async function Home() {
             ) : (
               <div className="space-y-2">
                 {recentMatches.map((match) => (
-                  <Link key={match.id} href={`/matches/${match.id}`} className="block bg-white border border-gray-100 rounded px-3 py-2 hover:border-gray-300 transition-colors">
+                  <Link key={match.id} href={`/matches/${match.id}`} className="block bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {convertToJSTMedium(match.utcDate)}
                       </span>
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-mono tabular-nums">
+                      <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded font-mono tabular-nums">
                         第{match.matchday}節
                       </span>
                     </div>
                     <div className="flex items-center justify-center gap-0 w-full">
                       <div className="flex items-center justify-end gap-1.5 w-[120px] flex-shrink-0">
-                        <span className="text-xs font-medium text-gray-900 truncate text-right">
+                        <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate text-right">
                           {match.homeTeam.shortName}
                         </span>
                         {match.homeTeam.crest && (
@@ -298,7 +298,7 @@ export default async function Home() {
                         )}
                       </div>
                       <div className="w-[56px] text-center flex-shrink-0">
-                        <span className="font-mono font-bold text-sm text-gray-900">
+                        <span className="font-mono font-bold text-sm text-gray-900 dark:text-gray-100">
                           {match.score.fullTime.home} - {match.score.fullTime.away}
                         </span>
                       </div>
@@ -306,7 +306,7 @@ export default async function Home() {
                         {match.awayTeam.crest && (
                           <img src={match.awayTeam.crest} alt="" className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         )}
-                        <span className="text-xs font-medium text-gray-900 truncate">
+                        <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
                           {match.awayTeam.shortName}
                         </span>
                       </div>

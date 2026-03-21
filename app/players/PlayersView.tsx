@@ -81,7 +81,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
           value={selectedSeason}
           onChange={(e) => handleSeasonChange(Number(e.target.value))}
           disabled={isLoading}
-          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue disabled:opacity-50"
+          className="text-sm border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-pn-blue disabled:opacity-50"
         >
           {SEASONS.map((s) => (
             <option key={s.year} value={s.year}>
@@ -95,7 +95,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           disabled={isLoading}
-          className="text-sm border border-gray-200 rounded px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-pn-blue disabled:opacity-50"
+          className="text-sm border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-pn-blue disabled:opacity-50"
         >
           <option value="all">全チーム</option>
           {teams.map((t) => (
@@ -106,7 +106,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
         </select>
 
         {/* ソート切り替え */}
-        <div className="flex border border-gray-200 rounded overflow-hidden">
+        <div className="flex border border-gray-200 dark:border-gray-700 rounded overflow-hidden">
           {SORT_OPTIONS.map(({ key, label }) => (
             <button
               key={key}
@@ -115,7 +115,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
               className={`px-3 py-1.5 text-xs transition-colors disabled:opacity-50 ${
                 sortKey === key
                   ? "bg-pn-navy text-white font-medium"
-                  : "bg-white text-gray-500 hover:bg-gray-50"
+                  : "bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
               }`}
             >
               {label}
@@ -128,15 +128,15 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
       <div className="relative">
         {/* ローディングオーバーレイ */}
         {isLoading && (
-          <div className="absolute inset-0 z-10 bg-white/70 flex items-center justify-center rounded">
-            <span className="text-sm text-gray-500">読み込み中...</span>
+          <div className="absolute inset-0 z-10 bg-white/70 dark:bg-gray-900/70 flex items-center justify-center rounded">
+            <span className="text-sm text-gray-500 dark:text-gray-400">読み込み中...</span>
           </div>
         )}
 
-        <div className="bg-white border border-gray-200 rounded shadow-sm overflow-x-auto">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider">
+              <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">
                 <th className="px-3 py-2 text-center w-10">#</th>
                 <th className="px-3 py-2 text-left">選手</th>
                 <th className="px-3 py-2 text-left">クラブ</th>
@@ -159,7 +159,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                 return (
                   <tr
                     key={player.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                    className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     {/* 順位 */}
                     <td className="px-3 py-3 w-10 text-center">
@@ -189,7 +189,7 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                           {getPlayerNameJa(player.name) && (
                             <span className="text-xs text-gray-400 block">{getPlayerNameJa(player.name)}</span>
                           )}
-                          <span className="text-sm font-medium text-gray-900 group-hover:text-pn-blue whitespace-nowrap transition-colors">
+                          <span className="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-pn-blue whitespace-nowrap transition-colors">
                             {player.name}
                           </span>
                         </div>
@@ -210,33 +210,33 @@ export default function PlayersView({ initialScorers, snsMap }: Props) {
                           {getTeamShortNameJa(team.id) && (
                             <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id)}</span>
                           )}
-                          <span className="text-sm text-gray-700 whitespace-nowrap">{team.shortName}</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{team.shortName}</span>
                         </div>
                       </div>
                     </td>
 
                     {/* 国籍 */}
-                    <td className="hidden md:table-cell px-3 py-3 text-sm text-gray-600 whitespace-nowrap">
+                    <td className="hidden md:table-cell px-3 py-3 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
                       {player.nationality}
                     </td>
 
                     {/* 得点 */}
-                    <td className="px-3 py-3 text-sm font-mono tabular-nums text-center font-semibold text-gray-900">
+                    <td className="px-3 py-3 text-sm font-mono tabular-nums text-center font-semibold text-gray-900 dark:text-gray-100">
                       {goals}
                     </td>
 
                     {/* アシスト */}
-                    <td className="px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-700">
+                    <td className="px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
                       {assists ?? "—"}
                     </td>
 
                     {/* 出場 */}
-                    <td className="hidden md:table-cell px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-600">
+                    <td className="hidden md:table-cell px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-600 dark:text-gray-400">
                       {playedMatches}
                     </td>
 
                     {/* 得点+A */}
-                    <td className="hidden md:table-cell px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-700">
+                    <td className="hidden md:table-cell px-3 py-3 text-sm font-mono tabular-nums text-center text-gray-700 dark:text-gray-300">
                       {goalsPlusAssists}
                     </td>
 

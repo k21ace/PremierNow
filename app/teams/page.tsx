@@ -18,7 +18,7 @@ export default async function TeamsPage() {
   const table = data.standings.find((s) => s.type === "TOTAL")?.table ?? [];
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -40,9 +40,9 @@ export default async function TeamsPage() {
         }}
       />
       <div className="max-w-5xl mx-auto px-4 py-6">
-        <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-4">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-4">
           チーム一覧
-          <span className="ml-2 text-sm font-normal text-gray-500">
+          <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
             {data.season.startDate.slice(0, 4)}–{data.season.endDate.slice(2, 4)}
           </span>
         </h1>
@@ -51,7 +51,7 @@ export default async function TeamsPage() {
           {table.map(({ position, team, points, won, draw, lost }) => (
             <Link key={team.id} href={`/teams/${team.id}`}>
               <div
-                className={`bg-white border border-gray-200 rounded shadow-sm p-4 flex flex-col items-center gap-2 hover:border-pn-blue hover:shadow transition-all ${getZoneBorder(position)}`}
+                className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-4 flex flex-col items-center gap-2 hover:border-pn-blue dark:hover:border-pn-blue hover:shadow transition-all ${getZoneBorder(position)}`}
               >
                 <Image
                   src={team.crest}
@@ -64,11 +64,11 @@ export default async function TeamsPage() {
                   {getTeamShortNameJa(team.id) && (
                     <span className="text-xs text-gray-400 block">{getTeamShortNameJa(team.id)}</span>
                   )}
-                  <span className="text-xs font-medium text-gray-900">{team.shortName}</span>
+                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">{team.shortName}</span>
                 </div>
                 <div className="flex flex-col items-center gap-0.5">
                   <span className="text-xs text-gray-400">{position}位</span>
-                  <span className="font-mono tabular-nums font-bold text-gray-900 text-sm">
+                  <span className="font-mono tabular-nums font-bold text-gray-900 dark:text-gray-100 text-sm">
                     {points}pt
                   </span>
                   <span className="text-xs text-gray-400 font-mono tabular-nums">
@@ -81,7 +81,7 @@ export default async function TeamsPage() {
         </div>
 
         {/* 凡例 */}
-        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-gray-500">
+        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-gray-500 dark:text-gray-400">
           <li className="flex items-center gap-1.5">
             <span className="inline-block w-3 h-3 rounded-sm bg-blue-500" />
             UEFAチャンピオンズリーグ出場圏

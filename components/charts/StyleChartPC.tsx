@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import {
   ScatterChart,
   Scatter,
@@ -24,23 +25,23 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-gray-200 rounded shadow-sm p-3 text-xs min-w-[160px]">
-      <p className="font-semibold text-gray-900 mb-2">{d.teamName}</p>
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-3 text-xs min-w-[160px]">
+      <p className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{d.teamName}</p>
       <div className="space-y-0.5">
         <div className="flex justify-between gap-4">
-          <span className="text-gray-500">得点</span>
+          <span className="text-gray-500 dark:text-gray-400">得点</span>
           <span className="font-mono tabular-nums font-semibold">{d.goalsFor}点</span>
         </div>
         <div className="flex justify-between gap-4">
-          <span className="text-gray-500">失点</span>
+          <span className="text-gray-500 dark:text-gray-400">失点</span>
           <span className="font-mono tabular-nums font-semibold">{d.goalsAgainst}点</span>
         </div>
         <div className="flex justify-between gap-4">
-          <span className="text-gray-500">勝点</span>
+          <span className="text-gray-500 dark:text-gray-400">勝点</span>
           <span className="font-mono tabular-nums font-semibold">{d.points}pt</span>
         </div>
         <div className="flex justify-between gap-4">
-          <span className="text-gray-500">平均勝点</span>
+          <span className="text-gray-500 dark:text-gray-400">平均勝点</span>
           <span className="font-mono tabular-nums font-semibold">{d.ppg.toFixed(2)} pt/試合</span>
         </div>
       </div>
@@ -97,6 +98,12 @@ interface StyleChartPCProps {
 const MARGIN = { top: 0, right: 20, bottom: 30, left: 0 };
 
 export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const gridColor = isDark ? "#374151" : "#f0f0f0";
+  const refLineColor = isDark ? "#4b5563" : "#e5e7eb";
+  const axisColor = isDark ? "#9ca3af" : "#6b7280";
+
   if (teamStyles.length === 0) return null;
 
   const gfValues = teamStyles.map((t) => t.goalsFor);
@@ -108,25 +115,25 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
 
   return (
     <div>
-      <p className="text-xs text-gray-500 mb-1">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
         ※ 縦軸は上に行くほど失点が少ない（守備が良い）
       </p>
       <div style={{ height: 500 }}>
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={MARGIN}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
             <XAxis
               type="number"
               dataKey="goalsFor"
               domain={[Math.max(0, minGF - 5), maxGF + 5]}
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: axisColor }}
               height={28}
               label={{
                 value: "得点",
                 position: "insideBottom",
                 dy: 10,
                 fontSize: 11,
-                fill: "#6b7280",
+                fill: axisColor,
               }}
             />
             <YAxis
@@ -134,7 +141,7 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
               dataKey="goalsAgainst"
               reversed
               domain={['dataMin - 3', 'dataMax + 3']}
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: axisColor }}
               width={28}
               label={{
                 value: "失点",
@@ -142,12 +149,12 @@ export default function StyleChartPC({ teamStyles }: StyleChartPCProps) {
                 position: "insideLeft",
                 dx: 12,
                 fontSize: 11,
-                fill: "#6b7280",
+                fill: axisColor,
               }}
             />
             {/* 象限を分ける平均線 */}
-            <ReferenceLine x={avgGF} stroke="#e5e7eb" strokeDasharray="4 4" />
-            <ReferenceLine y={avgGA} stroke="#e5e7eb" strokeDasharray="4 4" />
+            <ReferenceLine x={avgGF} stroke={refLineColor} strokeDasharray="4 4" />
+            <ReferenceLine y={avgGA} stroke={refLineColor} strokeDasharray="4 4" />
             <Tooltip
               content={(props) => (
                 <CustomTooltip

@@ -105,13 +105,13 @@ export function CustomTooltip({
     .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
   return (
-    <div className="bg-white border border-gray-200 rounded shadow-sm p-3 text-xs min-w-[140px]">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm p-3 text-xs min-w-[140px]">
       {drama && (
         <p className="text-pn-blue font-medium mb-1.5 text-[11px]">
           {drama.isHeadToHead ? "⚔" : "⚡"} {drama.description}
         </p>
       )}
-      <p className="font-semibold text-gray-700 mb-2">第{label}節</p>
+      <p className="font-semibold text-gray-700 dark:text-gray-300 mb-2">第{label}節</p>
       {actual.map((entry) => (
         <div
           key={String(entry.dataKey)}
@@ -122,16 +122,16 @@ export function CustomTooltip({
               className="inline-block w-2 h-2 rounded-full shrink-0"
               style={{ background: entry.color }}
             />
-            <span className="text-gray-600">{String(entry.dataKey)}</span>
+            <span className="text-gray-600 dark:text-gray-400">{String(entry.dataKey)}</span>
           </span>
-          <span className="font-mono tabular-nums font-semibold text-gray-900">
+          <span className="font-mono tabular-nums font-semibold text-gray-900 dark:text-gray-100">
             {entry.value}pt
           </span>
         </div>
       ))}
       {predicted.length > 0 && (
         <>
-          {actual.length > 0 && <hr className="border-gray-100 my-1.5" />}
+          {actual.length > 0 && <hr className="border-gray-100 dark:border-gray-800 my-1.5" />}
           <p className="text-[10px] text-gray-400 mb-1">予測</p>
           {predicted.map((entry) => (
             <div

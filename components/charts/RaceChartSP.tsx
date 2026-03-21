@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import {
   LineChart,
   Line,
@@ -28,9 +29,11 @@ interface LegendEntry {
 function SpLegend({
   payload,
   crestMap,
+  isDark,
 }: {
   payload?: LegendEntry[];
   crestMap: Record<string, string>;
+  isDark?: boolean;
 }) {
   return (
     <div
@@ -50,7 +53,7 @@ function SpLegend({
             alignItems: "center",
             gap: 4,
             fontSize: 11,
-            color: "#555",
+            color: isDark ? "#9ca3af" : "#555",
           }}
         >
           {entry.value && crestMap[entry.value] && (
@@ -86,6 +89,12 @@ export default function RaceChartSP({
   activeTimelines,
   dramaticMoments,
 }: ChartPanelProps) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const gridColor = isDark ? "#374151" : "#f0f0f0";
+  const axisLabelColor = isDark ? "#9ca3af" : "#6b7280";
+  const tickColor = isDark ? "#9ca3af" : undefined;
+
   // activeTimelines から TLA → crestUrl のマップを構築
   const crestMap: Record<string, string> = {};
   activeTimelines.forEach((tl) => {
@@ -99,18 +108,18 @@ export default function RaceChartSP({
           data={chartData}
           margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="matchday"
             ticks={SP_TICKS}
-            tick={{ fontSize: 10 }}
+            tick={{ fontSize: 10, fill: tickColor }}
             tickFormatter={(v: number) => String(v)}
             label={{
               value: "節",
               position: "insideBottomRight",
               offset: -4,
               fontSize: 10,
-              fill: "#6b7280",
+              fill: axisLabelColor,
             }}
           />
           <YAxis
@@ -134,6 +143,7 @@ export default function RaceChartSP({
               <SpLegend
                 payload={props.payload as LegendEntry[]}
                 crestMap={crestMap}
+                isDark={isDark}
               />
             )}
           />

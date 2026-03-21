@@ -22,7 +22,7 @@ export default async function PlayersPage() {
   }
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -44,9 +44,9 @@ export default async function PlayersPage() {
         }}
       />
       <div className="max-w-5xl mx-auto px-4 py-6">
-        <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-6">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-6">
           選手スタッツ
-          <span className="ml-2 text-sm font-normal text-gray-500">
+          <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
             {data.season.startDate.slice(0, 4)}–{data.season.endDate.slice(2, 4)}
           </span>
         </h1>

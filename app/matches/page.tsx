@@ -14,7 +14,7 @@ export default async function MatchesPage() {
   const data = await getMatches();
 
   return (
-    <main className="min-h-screen bg-pn-bg">
+    <main className="min-h-screen bg-pn-bg dark:bg-gray-950">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -26,9 +26,9 @@ export default async function MatchesPage() {
         }}
       />
       <div className="max-w-3xl mx-auto px-4 py-6">
-        <h1 className="text-xl font-semibold tracking-tight text-gray-900 mb-6">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 mb-6">
           試合結果・日程
-          <span className="ml-2 text-sm font-normal text-gray-500">
+          <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
             {data.resultSet.first.slice(0, 4)}–{data.resultSet.last.slice(2, 4)}
           </span>
         </h1>

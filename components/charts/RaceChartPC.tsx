@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import {
   LineChart,
   Line,
@@ -33,7 +34,7 @@ function ChartLegend({ payload }: { payload?: LegendPayloadItem[] }) {
       {items.map((entry) => (
         <span
           key={String(entry.dataKey)}
-          className="flex items-center gap-1.5 text-xs text-gray-600"
+          className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400"
         >
           <svg width={14} height={4}>
             <line x1={0} y1={2} x2={14} y2={2} stroke={entry.color} strokeWidth={2} />
@@ -121,6 +122,12 @@ export default function RaceChartPC({
   leaderFinalPoints,
   safeZoneFinalPoints,
 }: ChartPanelProps) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const gridColor = isDark ? "#374151" : "#f0f0f0";
+  const axisLabelColor = isDark ? "#9ca3af" : "#6b7280";
+  const tickColor = isDark ? "#9ca3af" : undefined;
+
   return (
     <div style={{ height: 500 }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -128,21 +135,21 @@ export default function RaceChartPC({
           data={chartData}
           margin={{ top: 20, right: 140, left: 20, bottom: 20 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="matchday"
-            tick={{ fontSize: 11 }}
+            tick={{ fontSize: 11, fill: tickColor }}
             tickFormatter={(v: number) => String(v)}
             label={{
               value: "節",
               position: "insideBottomRight",
               offset: -8,
               fontSize: 11,
-              fill: "#6b7280",
+              fill: axisLabelColor,
             }}
           />
           <YAxis
-            tick={{ fontSize: 11 }}
+            tick={{ fontSize: 11, fill: tickColor }}
             width={40}
             domain={[0, (dataMax: number) => Math.ceil(dataMax / 10) * 10 + 5]}
             label={{
@@ -151,7 +158,7 @@ export default function RaceChartPC({
               position: "insideLeft",
               offset: 8,
               fontSize: 11,
-              fill: "#6b7280",
+              fill: axisLabelColor,
             }}
           />
           <Tooltip
