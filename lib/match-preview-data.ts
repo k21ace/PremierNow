@@ -17,6 +17,10 @@ export type InjuryInfo = {
   status: "injury" | "suspension";
   /** 復帰予定（例: "4月上旬"・"未定"・"シーズン終了"） */
   returnDate?: string;
+  /** true の場合、この試合で復帰予定 */
+  returning?: boolean;
+  /** 情報ソースの URL */
+  sourceUrl?: string;
 };
 
 /** football-data.org API から取得した試合データと injuries をマージした型（FeaturedMatchCard の Props） */
@@ -70,6 +74,14 @@ export const FEATURED_MATCH_CONFIG: FeaturedMatchStaticConfig = {
   awayTeamId: 64,  // Liverpool FC
   quizSlug: "brighton-vs-liverpool",
   homeInjuries: [
+    {
+      playerName: "三苫薫",
+      reason: "負傷",
+      status: "injury",
+      returning: true,
+      returnDate: "この試合から復帰予定",
+      sourceUrl: "https://www.sponichi.co.jp/soccer/news/2026/03/21/articles/20260321s00002021032000c.html",
+    },
     {
       playerName: "アダム・ウェブスター",
       reason: "膝の負傷",
@@ -130,7 +142,8 @@ export const FEATURED_MATCH_CONFIG: FeaturedMatchStaticConfig = {
       playerName: "モハメド・サラー",
       reason: "筋肉損傷",
       status: "injury",
-      returnDate: "4月下旬",
+      returnDate: "この試合は欠場",
+      sourceUrl: "https://lscj.seesaa.net/article/520252219.html",
     },
   ],
 };

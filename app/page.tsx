@@ -93,7 +93,7 @@ export default async function Home() {
       },
       utcDate: featuredMatchDetail.utcDate,
       matchday: featuredMatchDetail.matchday,
-      venue: featuredMatchDetail.venue ?? "未定",
+      venue: featuredMatchDetail.venue ?? "アメックス・スタジアム",
       quizSlug: FEATURED_MATCH_CONFIG.quizSlug,
     };
   }

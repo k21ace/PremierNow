@@ -62,7 +62,11 @@ function InjuryTable({ injuries }: { injuries: InjuryInfo[] }) {
         <div key={i} className="flex items-start gap-2 text-xs">
           <span
             className={`mt-0.5 inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-              inj.status === "suspension" ? "bg-yellow-500" : "bg-red-500"
+              inj.returning
+                ? "bg-green-500"
+                : inj.status === "suspension"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
             }`}
           />
           <div className="flex-1 min-w-0">
@@ -71,6 +75,16 @@ function InjuryTable({ injuries }: { injuries: InjuryInfo[] }) {
               {inj.reason}
               {inj.returnDate ? `（${inj.returnDate}）` : ""}
             </span>
+            {inj.sourceUrl && (
+              <a
+                href={inj.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-1 text-[10px] text-blue-400 hover:text-blue-500 hover:underline"
+              >
+                [出典]
+              </a>
+            )}
           </div>
         </div>
       ))}
@@ -244,25 +258,47 @@ export default function FeaturedMatchCard({
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-yellow-500" />
             出場停止
           </span>
+          <span className="flex items-center gap-1">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
+            復帰予定
+          </span>
         </div>
 
-        {/* ── クイズリンク ── */}
-        <Link
-          href={`/articles/quiz/${quizSlug}`}
-          className="flex items-center justify-between w-full bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-700/50 rounded px-4 py-3 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors group"
-        >
-          <div>
-            <p className="text-sm font-semibold text-violet-700 dark:text-violet-300">
-              この試合のクイズに挑戦 →
-            </p>
-            <p className="text-xs text-violet-500 dark:text-violet-400 mt-0.5">
-              過去の対戦成績・データなど　全6問
-            </p>
-          </div>
-          <span className="text-violet-400 text-xl group-hover:translate-x-0.5 transition-transform">
-            ❓
-          </span>
-        </Link>
+        {/* ── クイズ・プレビュー記事リンク ── */}
+        <div className="flex gap-2">
+          <Link
+            href={`/articles/quiz/${quizSlug}`}
+            className="flex items-center justify-between flex-1 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-700/50 rounded px-3 py-3 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors group"
+          >
+            <div>
+              <p className="text-sm font-semibold text-violet-700 dark:text-violet-300">
+                クイズに挑戦 →
+              </p>
+              <p className="text-xs text-violet-500 dark:text-violet-400 mt-0.5">
+                全6問
+              </p>
+            </div>
+            <span className="text-violet-400 text-xl group-hover:translate-x-0.5 transition-transform">
+              ❓
+            </span>
+          </Link>
+          <Link
+            href="/articles/matchpreview-matchday31-brighton-liverpool"
+            className="flex items-center justify-between flex-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded px-3 py-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors group"
+          >
+            <div>
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                マッチプレビュー →
+              </p>
+              <p className="text-xs text-gray-400 mt-0.5">
+                試合展望・分析
+              </p>
+            </div>
+            <span className="text-gray-400 text-xl group-hover:translate-x-0.5 transition-transform">
+              📋
+            </span>
+          </Link>
+        </div>
       </div>
     </section>
   );
