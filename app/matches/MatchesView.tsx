@@ -70,17 +70,9 @@ function MatchCard({ match }: { match: Match }) {
   const isFinished = status === "FINISHED";
   const isLive = status === "IN_PLAY" || status === "LIVE" || status === "PAUSED";
 
-  const statusLabel =
-    isFinished ? "終了" :
-    status === "POSTPONED" ? "延期" : "予定";
-  const statusClass =
-    isFinished ? "text-gray-400" :
-    status === "POSTPONED" ? "text-orange-500" : "text-[#00a8e8]";
-  const linkLabel = isFinished ? "レポート →" : "プレビュー →";
-
   return (
     <Link href={`/matches/${match.id}`}>
-      <div className="flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-[#00a8e8] dark:hover:border-[#00a8e8] transition-colors gap-2">
+      <div className="flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded px-3 py-2 hover:border-[#00a8e8] dark:hover:border-[#00a8e8] transition-colors gap-2">
         {/* ホーム（固定幅・右寄せ） */}
         <div className="flex items-center justify-end gap-1 w-[90px] flex-shrink-0">
           <div className="text-right leading-tight">
@@ -112,12 +104,6 @@ function MatchCard({ match }: { match: Match }) {
             </span>
             <span className="text-[10px] text-gray-400 truncate block">{awayTeam.shortName}</span>
           </div>
-        </div>
-
-        {/* 右端：ステータス＋リンク */}
-        <div className="flex items-center justify-end gap-2 flex-1 min-w-0">
-          <span className={`text-xs flex-shrink-0 ${statusClass}`}>{statusLabel}</span>
-          <span className="text-xs text-[#00a8e8] flex-shrink-0">{linkLabel}</span>
         </div>
       </div>
     </Link>
