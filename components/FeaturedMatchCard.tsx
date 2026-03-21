@@ -138,7 +138,7 @@ export default function FeaturedMatchCard({
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-2">
           <span className="w-1 h-5 bg-violet-600 rounded inline-block" />
-          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">次の注目カード</p>
+          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">注目カード</p>
         </div>
         <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded font-mono tabular-nums">
           第{matchday}節

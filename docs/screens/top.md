@@ -13,7 +13,7 @@
 - ピックアップ記事（`featured: true`）を最大3件確認し、記事詳細へ遷移
 - 直近3試合の結果（チーム名・スコア・日時）を確認
 - 「すべての試合を見る →」から `/matches` へ遷移
-- 次の注目カードで両チームの直近5試合フォーム・けが人・出場停止を確認（試合情報はAPIから自動取得）
+- 注目カードで両チームの直近5試合フォーム・けが人・出場停止を確認（試合情報はAPIから自動取得）
 - 注目カードのクイズリンクから `/quiz/[matchId]` へ遷移
 
 ---
@@ -23,7 +23,7 @@
 | コンポーネント名 | ファイルパス | 役割 |
 |----------------|------------|------|
 | `Home`（page） | `app/page.tsx` | Server Component。データ取得・レイアウト制御 |
-| `FeaturedMatchCard` | `components/FeaturedMatchCard.tsx` | 次の注目カード（フォーム比較・けが人・クイズリンク） |
+| `FeaturedMatchCard` | `components/FeaturedMatchCard.tsx` | 注目カード（フォーム比較・けが人・クイズリンク） |
 | `FormBadges` | `components/ui/ResultBadge.tsx` | 直近5試合 W/D/L バッジ列 |
 | `Link` | Next.js 組み込み | 記事カード・試合結果セクションのリンク |
 
@@ -34,7 +34,7 @@
 | 関数名 | エンドポイント | revalidate | 用途 |
 |--------|--------------|-----------|------|
 | `getFeaturedArticles()` | ファイルシステム（`content/articles/*.mdx`） | — | `featured: true` の記事を最大3件取得 |
-| `getMatches({ status: "FINISHED" })` | `GET /competitions/PL/matches?status=FINISHED` | 1800秒 | 終了済み試合一覧を取得し、最新3件・次の注目カードのフォームを表示 |
+| `getMatches({ status: "FINISHED" })` | `GET /competitions/PL/matches?status=FINISHED` | 1800秒 | 終了済み試合一覧を取得し、最新3件・注目カードのフォームを表示 |
 | `getUpcomingMatches(3)` | `GET /competitions/PL/matches?status=SCHEDULED\|TIMED` | 1800秒 | 直近3件の予定試合を取得 |
 | `getFeaturedMatchDetail(homeTeamId, awayTeamId)` | `GET /competitions/PL/matches?status=SCHEDULED\|TIMED` + `GET /matches/{id}` | 1800秒 + 300秒 | 注目カードの試合詳細（utcDate・venue・チーム名）を自動取得。SCHEDULED/TIMED fetch は getUpcomingMatches と同一URLのためリクエストメモ化により重複なし |
 

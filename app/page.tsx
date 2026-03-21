@@ -40,7 +40,7 @@ export default async function Home() {
   const recentIds = new Set(recentMatches.map((m) => m.id));
   const upcomingMatches = upcomingRaw.filter((m) => !recentIds.has(m.id));
 
-  // 次の注目カード: API データと injuries をマージ
+  // 注目カード: API データと injuries をマージ
   const allFinished = matchesData.matches ?? [];
   let featuredMatch: FeaturedMatchConfig | null = null;
   let homeForm: string[] = [];
@@ -112,12 +112,12 @@ export default async function Home() {
       />
       <div className="max-w-3xl mx-auto px-4 py-4 space-y-4">
 
-        {/* 1. 注目のデータ */}
+        {/* 1. 注目データ */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="w-1 h-5 bg-[#00a8e8] rounded inline-block" />
-              <p className="text-sm font-semibold text-[#2d0a4e] dark:text-gray-100">注目のデータ</p>
+              <p className="text-sm font-semibold text-[#2d0a4e] dark:text-gray-100">注目データ</p>
             </div>
             <Link href="/standings" className="text-xs text-[#00a8e8] hover:underline">
               順位表を見る →
@@ -126,7 +126,7 @@ export default async function Home() {
           <TitleRaceChart timelines={timelines} />
         </section>
 
-        {/* 2. 次の注目カード */}
+        {/* 2. 注目カード */}
         {featuredMatch && (
           <FeaturedMatchCard
             config={featuredMatch}
