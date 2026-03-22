@@ -121,97 +121,97 @@ export type FeaturedMatchStaticConfig = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const FEATURED_MATCH_CONFIG: FeaturedMatchStaticConfig = {
-  homeTeamId: 62,  // Everton FC
-  awayTeamId: 61,  // Chelsea FC
-  quizSlug: "everton-vs-chelsea",
-  previewArticleSlug: "matchpreview-matchday32-everton-chelsea",
+  homeTeamId: 67,  // Newcastle United FC
+  awayTeamId: 71,  // Sunderland AFC
+  quizSlug: "newcastle-vs-sunderland",
+  previewArticleSlug: "matchpreview-matchday31-newcastle-sunderland",
   homeInjuries: [
     {
-      playerName: "タイリク・ジョージ",
-      reason: "出場停止",
-      status: "suspension",
-      returnDate: "次節復帰予定",
-      playerId: undefined, // Tyrique George
-    },
-    {
-      playerName: "ジェームズ・タルコウスキー",
-      reason: "軽い外傷",
+      playerName: "サンドロ・トナーリ",
+      reason: "大腿部の負傷",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // James Tarkowski
+      playerId: undefined, // Sandro Tonali
     },
     {
-      playerName: "ジャラッド・ブランスウェイト",
-      reason: "軽い外傷",
+      playerName: "エミル・クラフト",
+      reason: "膝の負傷",
       status: "injury",
-      returnDate: "未定",
-      playerId: undefined, // Jarrad Branthwaite
+      returnDate: "2026年6月上旬",
+      playerId: undefined, // Emil Krafth
     },
     {
-      playerName: "チャーリー・アルカラス",
-      reason: "軽い外傷",
+      playerName: "ファビアン・シェア",
+      reason: "足首の負傷",
       status: "injury",
-      returnDate: "4月中旬",
-      playerId: undefined, // Charly Alcaraz
+      returnDate: "2026年4月中旬",
+      playerId: undefined, // Fabian Schär
     },
     {
-      playerName: "ジャック・グリーリッシュ",
-      reason: "足の骨折",
+      playerName: "ブルーノ・ギマランイス",
+      reason: "筋肉損傷",
       status: "injury",
-      returnDate: "6月上旬",
-      playerId: undefined, // Jack Grealish
+      returnDate: "2026年4月中旬",
+      playerId: undefined, // Bruno Guimarães
+    },
+    {
+      playerName: "ルイス・マイリー",
+      reason: "膝の負傷",
+      status: "injury",
+      returnDate: "2026年4月上旬",
+      playerId: undefined, // Lewis Miley
     },
   ],
   awayInjuries: [
     {
-      playerName: "ブノワ・バディアシル",
-      reason: "病気",
-      status: "injury",
-      returnDate: "未定",
-      playerId: undefined, // Benoît Badiashile
-    },
-    {
-      playerName: "ジェイミー・バイノー=ギッテンス",
+      playerName: "ロビン・ルーフス",
       reason: "ハムストリング損傷",
       status: "injury",
       returnDate: "未定",
-      playerId: undefined, // Jamie Bynoe-Gittens
+      playerId: undefined, // Robin Roefs
     },
     {
-      playerName: "フィリップ・ヨルゲンセン",
-      reason: "鼠径部の負傷",
-      status: "injury",
-      returnDate: "4月中旬",
-      playerId: undefined, // Filip Jörgensen
-    },
-    {
-      playerName: "レヴィ・コルウィル",
-      reason: "十字靭帯の負傷",
-      status: "injury",
-      returnDate: "5月下旬",
-      playerId: undefined, // Levi Colwill
-    },
-    {
-      playerName: "リース・ジェームズ",
+      playerName: "ダニエル・バラード",
       reason: "ハムストリング損傷",
       status: "injury",
-      returnDate: "4月中旬",
-      playerId: undefined, // Reece James
+      returnDate: "未定",
+      playerId: undefined, // Daniel Ballard
     },
     {
-      playerName: "トレヴォ・チャロバー",
-      reason: "足首の負傷",
+      playerName: "ベルトラン・トラオレ",
+      reason: "膝の負傷",
       status: "injury",
-      returnDate: "5月上旬",
-      playerId: undefined, // Trevoh Chalobah
+      returnDate: "2026年5月上旬",
+      playerId: undefined, // Bertrand Traoré
+    },
+    {
+      playerName: "ジョスラン・タ・ビ",
+      reason: "軽い外傷",
+      status: "injury",
+      returnDate: "2026年4月中旬",
+      playerId: undefined, // Jocelin Ta Bi
+    },
+    {
+      playerName: "ニルソン・アンギュロ",
+      reason: "筋肉損傷",
+      status: "injury",
+      returnDate: "2026年4月下旬",
+      playerId: undefined, // Nilson Angulo
+    },
+    {
+      playerName: "ロメイン・マンドル",
+      reason: "ハムストリング損傷",
+      status: "injury",
+      returnDate: "2026年5月下旬",
+      playerId: undefined, // Romaine Mundle
     },
   ],
   scorePrediction: {
-    homeGoals: 1,
-    awayGoals: 2,
-    homeWinPct: 25,
-    drawPct: 30,
-    awayWinPct: 45,
-    comment: "リバプールが勝ち点を落とした今、CL圏獲得に向けチェルシーは意地でも勝利が欲しい一戦。対するエバートンも勝てばCL圏争いが現実的になる。ホームで勝ち点を積み重ねたい。",
+    homeGoals: 2,
+    awayGoals: 1,
+    homeWinPct: 48,
+    drawPct: 27,
+    awayWinPct: 25,
+    comment: "セント・ジェームズ・パークの熱狂的なサポーターを背に、ニューカッスルがタインウェアダービーをホームで制すると予想。ただし勝ち点差2の僅差で、サンダーランドも一発逆転の力を秘めている。",
   },
 };

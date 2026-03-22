@@ -14,9 +14,9 @@ const TEAM_COLORS: Record<number, string> = {
   67:   "#241F20", // Newcastle United
   73:   "#132257", // Tottenham Hotspur
   76:   "#FDB913", // Wolverhampton Wanderers
-  338:  "#003090", // Leicester City
-  340:  "#D71920", // Southampton FC
-  349:  "#3A64A3", // Ipswich Town
+  71:   "#EB172B", // Sunderland AFC
+  328:  "#6AACE6", // Burnley FC
+  341:  "#FFCD00", // Leeds United FC
   351:  "#DD0000", // Nottingham Forest
   354:  "#1B458F", // Crystal Palace
   397:  "#0057B8", // Brighton & Hove Albion
