@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getFeaturedArticles } from "@/lib/articles";
 import { quizzes } from "@/lib/quiz-data";
-import { getMatches, getUpcomingMatches, getFeaturedMatchDetail, getTransferredPlayerIds } from "@/lib/football-api";
+import { getMatches, getUpcomingMatches, getFeaturedMatchDetail, getTransferredPlayerIds, getStandings, getScorers } from "@/lib/football-api";
 import { convertToJSTMedium } from "@/lib/utils";
 import { calcPointsTimeline } from "@/lib/chart-utils";
 import { JsonLd } from "@/components/JsonLd";
@@ -31,7 +31,7 @@ export default async function Home() {
     .map((i) => i.playerId)
     .filter((id): id is number => id !== undefined);
 
-  const [featuredArticles, matchesData, upcomingRaw, featuredMatchDetail, homeTransferred, awayTransferred] =
+  const [featuredArticles, matchesData, upcomingRaw, featuredMatchDetail, homeTransferred, awayTransferred, standingsData, scorersData] =
     await Promise.all([
       Promise.resolve(getFeaturedArticles()),
       getMatches({ status: "FINISHED" }).catch(() => ({ matches: [] as import("@/types/football").Match[] })),
@@ -42,6 +42,8 @@ export default async function Home() {
       ).catch(() => null),
       getTransferredPlayerIds(homePlayerIds, FEATURED_MATCH_CONFIG.homeTeamId).catch(() => new Set<number>()),
       getTransferredPlayerIds(awayPlayerIds, FEATURED_MATCH_CONFIG.awayTeamId).catch(() => new Set<number>()),
+      getStandings().catch(() => null),
+      getScorers().catch(() => null),
     ]);
 
   // 移籍済み選手を除外した負傷者リスト
@@ -49,6 +51,10 @@ export default async function Home() {
     .filter((i) => !i.playerId || !homeTransferred.has(i.playerId));
   const awayInjuries = FEATURED_MATCH_CONFIG.awayInjuries
     .filter((i) => !i.playerId || !awayTransferred.has(i.playerId));
+
+  const standingsTable = standingsData?.standings[0]?.table ?? [];
+  const topScorer = scorersData?.scorers[0] ?? null;
+  const titleGap = standingsTable.length >= 2 ? standingsTable[0].points - standingsTable[1].points : 0;
 
   const timelines = calcPointsTimeline(matchesData.matches ?? []);
 
@@ -140,7 +146,117 @@ export default async function Home() {
       />
       <div className="max-w-3xl mx-auto px-4 py-4 space-y-4">
 
-        {/* 1. 注目データ */}
+        {/* 1. ミニ順位表（案3）左 + Hero Stats（案4）右 */}
+        {standingsTable.length > 0 && (
+          <div className="grid grid-cols-11 gap-3 items-stretch">
+
+            {/* 左6/11: ミニ順位表 */}
+            <section className="col-span-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1 h-4 bg-violet-600 rounded inline-block" />
+                  <p className="text-xs font-semibold text-gray-900 dark:text-gray-100">順位</p>
+                </div>
+                <Link href="/standings" className="text-[10px] text-pn-blue hover:underline whitespace-nowrap">
+                  全20 →
+                </Link>
+              </div>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="py-1.5 w-7 text-center font-medium">#</th>
+                    <th className="py-1.5 text-left font-medium pl-1">クラブ</th>
+                    <th className="pr-2 py-1.5 text-right font-medium w-7">P</th>
+                    <th className="pr-2 py-1.5 text-right font-medium w-9">Pts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {standingsTable.slice(0, 5).map((s, idx) => (
+                    <tr
+                      key={s.team.id}
+                      className="border-t border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                    >
+                      <td className="py-2 w-7">
+                        <div className="flex items-center justify-center gap-1">
+                          <span className={`w-0.5 h-3.5 rounded flex-shrink-0 ${idx < 4 ? "bg-blue-500" : "bg-orange-400"}`} />
+                          <span className="font-mono tabular-nums text-gray-500 dark:text-gray-400">{s.position}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 pl-1">
+                        <Link href={`/teams/${s.team.id}`} className="flex items-center gap-1 hover:opacity-75 transition-opacity">
+                          {s.team.crest && (
+                            <img src={s.team.crest} alt="" className="w-3.5 h-3.5 object-contain flex-shrink-0" />
+                          )}
+                          <span className="font-medium text-gray-900 dark:text-gray-100 truncate">{s.team.shortName}</span>
+                        </Link>
+                      </td>
+                      <td className="pr-2 py-2 text-right font-mono tabular-nums text-gray-500 dark:text-gray-400">{s.playedGames}</td>
+                      <td className="pr-2 py-2 text-right font-mono tabular-nums font-bold text-gray-900 dark:text-gray-100">{s.points}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+
+            {/* 右5/11: Hero Stats（縦3枚） */}
+            <div className="col-span-5 flex flex-col gap-2 h-full">
+
+              {/* 首位 */}
+              <Link href="/standings" className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3 flex items-center justify-between hover:border-violet-300 dark:hover:border-violet-700 transition-colors">
+                <div>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">首位</p>
+                  <div className="flex items-center gap-1.5">
+                    {standingsTable[0]?.team.crest && (
+                      <img src={standingsTable[0].team.crest} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
+                    )}
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate max-w-[100px]">
+                      {standingsTable[0]?.team.shortName}
+                    </span>
+                  </div>
+                </div>
+                <p className="font-mono tabular-nums text-xl font-bold text-violet-600">
+                  {standingsTable[0]?.points}
+                  <span className="text-[11px] font-normal text-gray-400 ml-0.5">pt</span>
+                </p>
+              </Link>
+
+              {/* 得点王 */}
+              <Link href="/players" className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3 flex items-center justify-between hover:border-violet-300 dark:hover:border-violet-700 transition-colors">
+                <div>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">得点王</p>
+                  <div className="flex items-center gap-1.5">
+                    {topScorer?.team.crest && (
+                      <img src={topScorer.team.crest} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
+                    )}
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate max-w-[100px]">
+                      {topScorer ? topScorer.player.name.split(" ").slice(-1)[0] : "—"}
+                    </span>
+                  </div>
+                </div>
+                <p className="font-mono tabular-nums text-xl font-bold text-violet-600">
+                  {topScorer?.goals ?? "—"}
+                  {topScorer && <span className="text-[11px] font-normal text-gray-400 ml-0.5">G</span>}
+                </p>
+              </Link>
+
+              {/* 首位-2位差 */}
+              <Link href="/charts/race" className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm px-4 py-3 flex items-center justify-between hover:border-violet-300 dark:hover:border-violet-700 transition-colors">
+                <div>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">首位-2位</p>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500">タイトルレース</p>
+                </div>
+                <p className="font-mono tabular-nums text-xl font-bold text-violet-600">
+                  {titleGap === 0 ? "同点" : `+${titleGap}`}
+                  {titleGap > 0 && <span className="text-[11px] font-normal text-gray-400 ml-0.5">pt</span>}
+                </p>
+              </Link>
+
+            </div>
+
+          </div>
+        )}
+
+        {/* 3. 注目データ */}
         <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-2">
@@ -156,7 +272,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 2. 注目カード */}
+        {/* 4. 注目カード */}
         {featuredMatch && (
           <FeaturedMatchCard
             config={featuredMatch}
@@ -167,7 +283,7 @@ export default async function Home() {
           />
         )}
 
-        {/* 3. クイズ ＋ 記事（横2列） */}
+        {/* 5. クイズ ＋ 記事（横2列） */}
         <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
 
           {/* 左：ピックアップクイズ */}
@@ -240,7 +356,7 @@ export default async function Home() {
 
         </div>
 
-        {/* 4. 試合情報 2カラム */}
+        {/* 6. 試合情報 2カラム */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
 
           {/* 次の試合（SP: 上、PC: 右） */}

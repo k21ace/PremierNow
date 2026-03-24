@@ -11,7 +11,7 @@ interface TickerBarProps {
 
 // アイテム1個あたりの想定幅(px)。この値でアニメーション時間を決定し速度を一定に保つ
 const PX_PER_ITEM = 160;
-const SPEED_PX_PER_SEC = 60;
+const SPEED_PX_PER_SEC = 26;
 
 export default function TickerBar({ matches }: TickerBarProps) {
   if (matches.length === 0) return null;

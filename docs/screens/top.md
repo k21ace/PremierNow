@@ -24,6 +24,8 @@
 |----------------|------------|------|
 | `Home`（page） | `app/page.tsx` | Server Component。データ取得・レイアウト制御 |
 | `TickerBar` | `components/ui/TickerBar.tsx` | 直近10試合のスコアを横スクロールするティッカーバー。ヘッダー直下に全幅表示。Client Component |
+| Hero Stats（inline） | `app/page.tsx` | 首位・得点王・タイトルレース差を3列カードで表示。順位表/選手/チャートへの誘導リンク付き |
+| ミニ順位表（inline） | `app/page.tsx` | 上位5チームの順位・クラブ・試合数・GD・勝点をコンパクトに表示。CL/EL圏を色帯で識別 |
 | `TitleRaceChart` | `components/TitleRaceChart.tsx` | 優勝確率・CL圏確率・残留確率の3列コンパクト表示（モンテカルロシミュレーション）。`/charts/race` への詳細リンク付き |
 | `FeaturedMatchCard` | `components/FeaturedMatchCard.tsx` | 注目カード（フォーム比較・けが人・クイズリンク） |
 | `FormBadges` | `components/ui/ResultBadge.tsx` | 直近5試合 W/D/L バッジ列 |
@@ -39,6 +41,8 @@
 | `getMatches({ status: "FINISHED" })` | `GET /competitions/PL/matches?status=FINISHED` | 1800秒 | 終了済み試合一覧を取得し、最新3件・注目カードのフォームを表示 |
 | `getUpcomingMatches(3)` | `GET /competitions/PL/matches?status=SCHEDULED\|TIMED` | 1800秒 | 直近3件の予定試合を取得 |
 | `getFeaturedMatchDetail(homeTeamId, awayTeamId)` | `GET /competitions/PL/matches?status=SCHEDULED\|TIMED` + `GET /matches/{id}` | 1800秒 + 300秒 | 注目カードの試合詳細（utcDate・venue・チーム名）を自動取得。SCHEDULED/TIMED fetch は getUpcomingMatches と同一URLのためリクエストメモ化により重複なし |
+| `getStandings()` | `GET /competitions/PL/standings` | 3600秒 | Hero Stats（首位・2位差）とミニ順位表（上位5）に使用 |
+| `getScorers()` | `GET /competitions/PL/scorers` | 21600秒 | Hero Stats の得点王カードに使用 |
 
 注目カードの **けが人・出場停止情報・クイズスラッグ・プレビュー記事スラッグ・スコア予想のみ** `lib/match-preview-data.ts` の `FEATURED_MATCH_CONFIG` で静的管理（football-data.org 無料プランでは負傷者情報なし）。
 utcDate・venue・homeTeam・awayTeam は API から自動取得するため、手動での入力ミスは発生しない。
