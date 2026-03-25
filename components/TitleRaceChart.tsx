@@ -24,40 +24,68 @@ interface SectionProps {
   link?: string;
 }
 
+const BUBBLE_MIN = 28;
+const BUBBLE_MAX = 64;
+
 function ProbSection({ label, teams, started, link }: SectionProps) {
+  const maxProb = teams[0]?.probability ?? 1;
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-1.5">
         <p className="text-xs font-bold text-gray-700 dark:text-gray-200">{label}</p>
         {link && <Link href={link} className="text-xs text-[#00a8e8] hover:underline">詳細を見る →</Link>}
       </div>
-      {teams.map((team) => (
-        <div key={team.teamId} className="space-y-1">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={team.crest} alt={team.shortName} className="w-4 h-4 object-contain flex-shrink-0" />
-              <span className="text-xs text-gray-700 dark:text-gray-300">{team.shortName}</span>
-            </div>
-            <span
-              className="text-xs font-bold font-mono tabular-nums"
-              style={{ color: team.color }}
-            >
-              {started ? team.probability : 0}%
-            </span>
-          </div>
-          <div className="relative h-2 bg-gray-100 dark:bg-gray-800 rounded overflow-hidden">
+      <div className="flex items-end gap-4 flex-wrap">
+        {teams.map((team, index) => {
+          const size = BUBBLE_MIN + (team.probability / maxProb) * (BUBBLE_MAX - BUBBLE_MIN);
+          return (
             <div
-              className="absolute inset-y-0 left-0 rounded"
+              key={team.teamId}
+              className="flex flex-col items-center gap-1"
               style={{
-                width: started ? `${team.probability}%` : "0%",
-                backgroundColor: team.color,
-                transition: started ? "width 1.2s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+                opacity: started ? 1 : 0,
+                transition: started ? `opacity 0.3s ease ${index * 0.07}s` : "none",
               }}
-            />
-          </div>
-        </div>
-      ))}
+            >
+              {/* バブル */}
+              <div
+                className="rounded-full border-2 flex items-center justify-center bg-white dark:bg-gray-900 overflow-hidden"
+                style={{
+                  width: started ? size : 0,
+                  height: started ? size : 0,
+                  borderColor: team.color,
+                  transition: started
+                    ? `width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.07}s, height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.07}s`
+                    : "none",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={team.crest}
+                  alt={team.shortName}
+                  style={{ width: "62%", height: "62%" }}
+                  className="object-contain"
+                />
+              </div>
+              {/* 確率 */}
+              <span
+                className="text-xs font-bold font-mono tabular-nums leading-none"
+                style={{ color: team.color }}
+              >
+                {started ? team.probability : 0}%
+              </span>
+              {/* チーム名 */}
+              <span
+                className="text-[10px] text-gray-500 dark:text-gray-400 text-center leading-tight"
+                style={{ maxWidth: BUBBLE_MAX }}
+              >
+                {team.shortName}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

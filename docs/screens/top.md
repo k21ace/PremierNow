@@ -26,7 +26,7 @@
 | `TickerBar` | `components/ui/TickerBar.tsx` | 直近10試合のスコアを横スクロールするティッカーバー。ヘッダー直下に全幅表示。Client Component |
 | Hero Stats（inline） | `app/page.tsx` | 首位・得点王・タイトルレース差を3列カードで表示。順位表/選手/チャートへの誘導リンク付き |
 | ミニ順位表（inline） | `app/page.tsx` | 上位5チームの順位・クラブ・試合数・GD・勝点をコンパクトに表示。CL/EL圏を色帯で識別 |
-| `TitleRaceChart` | `components/TitleRaceChart.tsx` | 優勝確率・CL圏確率・残留確率の3列コンパクト表示（モンテカルロシミュレーション）。`/charts/race` への詳細リンク付き |
+| `TitleRaceChart` | `components/TitleRaceChart.tsx` | 優勝確率・CL圏確率・残留確率をバブルグリッド形式で表示（モンテカルロシミュレーション）。確率に比例したサイズの円形バブル（チームカラーのボーダー付き）内にクレストを配置し、下部に確率値とチーム名を表示。バブルサイズは最小28px〜最大64px。スクロール到達時にスプリングアニメーションでポップ表示（`cubic-bezier(0.34, 1.56, 0.64, 1)`）。`/charts/race` への詳細リンク付き。確率は整数表示（`Math.round`）だが、シーズン未確定時（残り試合あり）は最大99%にキャップ（`prob < 1.0` の場合に `Math.min(99, ...)` を適用）。100%は `remaining === 0` の確定ケースのみ表示 |
 | `FeaturedMatchCard` | `components/FeaturedMatchCard.tsx` | 注目カード（フォーム比較・けが人・クイズリンク） |
 | `FormBadges` | `components/ui/ResultBadge.tsx` | 直近5試合 W/D/L バッジ列 |
 | `Link` | Next.js 組み込み | 記事カード・試合結果セクションのリンク |
