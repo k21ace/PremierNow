@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans_JP, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import Header from "@/components/ui/Header";
 import NavigationProgress from "@/components/ui/NavigationProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -30,6 +31,9 @@ export const metadata: Metadata = {
   ),
   title: "PremierNow",
   description: "プレミアリーグの今をデータで届ける。プレなうで最新情報をチェック。",
+  other: {
+    "google-adsense-account": "ca-pub-4965490964891443",
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -64,6 +68,12 @@ export default function RootLayout({
           {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_GA_ID && (
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           )}
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4965490964891443"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
         </ThemeProvider>
       </body>
     </html>
